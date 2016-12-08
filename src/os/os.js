@@ -1,12 +1,17 @@
 const winston = require('winston');
+const fs = require('fs-extra');
+const path = require('path');
+
 const Slack = require('./media/slack/slack');
 const Ai = require('./ai');
 const db = require('./db');
 
 const User = require('./models/user')(db);
 
-// use .env file config
-require('dotenv').config();
+if (fs.ensureFileSync(path.join(__dirname, '../../.env'))) {
+    // use .env file config
+    require('dotenv').config();
+}
 
 var ai = new Ai();
 
