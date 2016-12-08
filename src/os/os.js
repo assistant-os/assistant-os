@@ -8,19 +8,18 @@ const db = require('./db');
 
 const User = require('./models/user')(db);
 
-if (fs.ensureFileSync(path.join(__dirname, '../../.env'))) {
+try {
+    fs.accessSync(path.join(__dirname, '../../.env'), fs.R_OK);
     // use .env file config
     require('dotenv').config();
-}
+} catch (e) {}
 
 var ai = new Ai();
 
 var slack = new Slack(winston);
 
-var defaultUser = { name: 'friedrit' };
-
 slack.on('ready', function () {
-    ai.say( defaultUser, 'hello' );
+    // ai.say( defaultUser, 'hello' );
 });
 
 ai.on('say', function (user, message) {
@@ -28,5 +27,6 @@ ai.on('say', function (user, message) {
 });
 
 slack.on('message', function (user, message) {
-    ai.processMessage( defaultUser, message);
+    // garantee : user has name, real_name, slackId
+    ai.processMessage(user, message);
 });

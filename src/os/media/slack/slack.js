@@ -6,23 +6,36 @@ function Slack (winston) {
     EventEmitter.call(this);
     var Slack = this;
 
-    var config = {
+    this.config = {
         token: process.env.SLACK_API_TOKEN, // Add a bot https://my.slack.com/services/new/bot and put the token
         name: process.env.NAME
     };
 
-    this.bot = new SlackBot(config);
+    console.log(Slack.config);
+    this.bot = new SlackBot(Slack.config);
 
     this.bot.on('start', function() {
-        winston.info('bot started', { config: config});
+        winston.info('bot started', { config: Slack.config});
         Slack.emit('ready');
     });
 
     this.bot.on('message', function (message) {
         // console.log(message.user, message.username);
-        if (message.username != config.name && message.type == 'message') {
+        if (message.username != Slack.config.name && message.type == 'message') {
             winston.info('message posted by user', {message: message});
-            Slack.emit('message', { name: message.user } , message.text);
+
+            Slack.bot.getUsers().then(function (slackUsers) {
+                slackUsers.members.forEach(function (slackUser) {
+                    if (slackUser.id == message.user) {
+                        var user = {
+                            slackId: slackUser.id,
+                            name: slackUser.name,
+                            real_name: slackUser.real_name
+                        };
+                        Slack.emit('message', user , message.text);
+                    }
+                });
+            });
         }
     });
 
@@ -38,7 +51,7 @@ function Slack (winston) {
             "icon_emoji": icon || ":smile:",
             "text": message,
             "mrkdwn": true,
-            "username": config.name,
+            "username": Slack.config.name,
             "attachments": []
         };
 
