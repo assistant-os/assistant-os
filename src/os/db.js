@@ -3,10 +3,10 @@ const path = require('path');
 const fs = require('fs-extra');
 
 var folders = {
-    tmp: path.join(__dirname, '../../tmp')
+    data: path.join(__dirname, '../../data')
 };
 
-fs.ensureDirSync(folders.tmp);
+fs.ensureDirSync(folders.data);
 
 var sequelize = new Sequelize('editor', 'username', 'password', {
   host: 'localhost',
@@ -19,7 +19,7 @@ var sequelize = new Sequelize('editor', 'username', 'password', {
   },
   logging: false,
   // SQLite only
-  storage: path.join(folders.tmp, 'data.sqlite')
+  storage: path.join(folders.data, 'data.sqlite')
 });
 
 module.exports = sequelize;

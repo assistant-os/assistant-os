@@ -6,6 +6,8 @@ const Slack = require('./media/slack/slack');
 const Ai = require('./ai');
 const db = require('./db');
 
+const introductionCommands = require('./commands/introduction');
+
 const User = require('./models/user')(db);
 
 try {
@@ -15,6 +17,8 @@ try {
 } catch (e) {}
 
 var ai = new Ai();
+
+introductionCommands(ai);
 
 var slack = new Slack(winston);
 

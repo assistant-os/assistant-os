@@ -11,7 +11,6 @@ function Slack (winston) {
         name: process.env.NAME
     };
 
-    console.log(Slack.config);
     this.bot = new SlackBot(Slack.config);
 
     this.bot.on('start', function() {
