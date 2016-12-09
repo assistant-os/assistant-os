@@ -1,7 +1,7 @@
 {
   "name": "assistant-os",
   "version": "0.1.0",
-  "description": "Artificial intelligence understanding natural intelligence to assist human beeings",
+  "description": "Artificial intelligence understanding natural intelligence to assist human beings",
   "main": "src/os/os.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
