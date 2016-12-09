@@ -6,7 +6,7 @@ const Slack = require('./media/slack/slack');
 const Ai = require('./ai');
 const db = require('./db');
 
-const introductionCommands = require('./commands/introduction');
+const commands = require('./commands');
 
 const User = require('./models/user')(db);
 
@@ -16,9 +16,21 @@ try {
     require('dotenv').config();
 } catch (e) {}
 
+if (!process.env.SLACK_API_TOKEN) {
+    throw new Error('process.env.SLACK_API_TOKEN not defined');
+}
+
+if (!process.env.COLOR) {
+    process.env.COLOR = '#3f51b5';
+}
+
+if (!process.env.NAME) {
+    process.env.NAME = 'assistant';
+}
+
 var ai = new Ai();
 
-introductionCommands(ai);
+commands(ai);
 
 var slack = new Slack(winston);
 

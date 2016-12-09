@@ -43,20 +43,6 @@ function Ai () {
         } else {
             Ai.say(user, 'Sorry I didn\'t understand your request.');
         }
-
-        /*
-        if (Ai.hasWords(words, Ai.name)) {
-            Ai.say(user, 'Yes?');
-        } else if (Ai.hasWords(words, 'help')) {
-            Ai.say(user, 'I am here to assist you in your recurrent tasks. If you forget something I will remind you.');
-        } else if (Ai.hasWords(words, 'version')) {
-            Ai.say(user, 'My version is '+Ai.setup.version+'.');
-        } else if (Ai.hasWords(words, 'name')) {
-            Ai.say(user, 'My name is '+Ai.name+'.');
-        } else if (Ai.hasWords(words, 'how are you')) {
-            Ai.say(user, 'I am '+Ai.status+'. Thanks for asking. And you?');
-        } else {
-        }*/
     };
 
     this.hasWord = function (words, index, string) {
