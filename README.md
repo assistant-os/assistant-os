@@ -1,6 +1,6 @@
 # assistant-os
 
-This project is a artificial intelligence to assist human beeings in the recurrent tasks.
+This project is an artificial intelligence to assist human beeings in the recurrent tasks.
 
 
 ## Getting started
