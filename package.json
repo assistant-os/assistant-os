@@ -25,9 +25,10 @@
   "homepage": "https://github.com/assistant-os/assistant-os#readme",
   "dependencies": {
     "dotenv": "^2.0.0",
-    "franc": "^2.0.0",
     "fs-extra": "^1.0.0",
+    "languagedetect": "^1.1.1",
     "natural": "^0.4.0",
+    "node-schedule": "^1.2.0",
     "sequelize": "^3.27.0",
     "slackbots": "^0.5.3",
     "sqlite3": "^3.1.8",

@@ -63,7 +63,7 @@ function Slack (winston) {
             });
         };
 
-        Slack.sendMessage(user, content, callback);
+        Slack.sendMessage(user, '', content, callback);
     };
 }
 

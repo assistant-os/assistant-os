@@ -5,7 +5,7 @@ This project is an artificial intelligence to assist human beings in the recurre
 
 ## Getting started
 
-Be sure to have the following constants in your environment variables: **SLACK_API_TOKEN**, **COLOR**, **NAME**.
+Be sure to have the following constants in your environment variables: **SLACK_API_TOKEN**, **COLOR**, **NAME**, **MODULES**, **MODULES_PATH**.
 
 Then start the artificial intelligence:
 

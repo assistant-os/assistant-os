@@ -16,10 +16,10 @@ function Ai () {
 
     this.tokenizer = new natural.WordTokenizer();
 
-    this.commands = [];
+    this.modules = [];
 
-    this.addCommand = function (command) {
-        this.commands.push(command);
+    this.addModule = function (module) {
+        this.modules.push(module);
     };
 
     this.processMessage = function (user, message) {
@@ -29,9 +29,17 @@ function Ai () {
         var words = this.tokenizer.tokenize(message);
 
         var commandFound = null;
-        this.commands.every(function (command, index) {
-            if (command.valid(user, message, words)) {
-                commandFound = command;
+        this.modules.every(function (module, index) {
+            module.commands.every(function (command, index) {
+                if (command.valid(user, message, words)) {
+                    commandFound = command;
+                    return false;
+                } else {
+                    return true;
+                }
+            });
+
+            if (commandFound) {
                 return false;
             } else {
                 return true;
@@ -46,7 +54,7 @@ function Ai () {
     };
 
     this.hasWord = function (words, index, string) {
-        if (words[index]) {
+        if (words.length > index) {
             return natural.JaroWinklerDistance(words[index], string) > 0.9;
         } else {
             return false;
@@ -69,6 +77,10 @@ function Ai () {
 
     this.say = function (user, message) {
         Ai.emit('say', user, message);
+    };
+
+    this.ready = function () {
+        Ai.emit('ready');
     };
 }
 

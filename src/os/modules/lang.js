@@ -21,21 +21,21 @@ function BadLanguage (ai) {
         console.log('language', langs);
         for (var i = 0 ; i < langs.length ; i++) {
             if (langs[i][0] == 'english' && langs[i][1] > 0.3) {
-                console.log('english');
+                // console.log('english');
                 return false;
             }
         }
 
         this.user = user;
         this.languageDetected = langs[0][0];
-        console.log(this.languageDetected);
+        // console.log(this.languageDetected);
 
         return true;
     };
 
     this.do = function () {
         console
-        if (this.user) {
+        if (this.user && this.languageDetected) {
             this.ai.say(this.user, 'Sorry I don\'t speak '+this.languageDetected+'. I only speak english.');
         }
         this.user = null;
@@ -44,9 +44,7 @@ function BadLanguage (ai) {
 }
 
 module.exports = function (ai) {
-    [
+    return [
         new BadLanguage(ai)
-    ].forEach(function (command) {
-        ai.addCommand(command);
-    });
+    ];
 };

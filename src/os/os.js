@@ -6,10 +6,9 @@ const Slack = require('./media/slack/slack');
 const Ai = require('./ai');
 const db = require('./db');
 
-const commands = require('./commands');
-
 const User = require('./models/user')(db);
 
+// check and setup environment variables
 try {
     fs.accessSync(path.join(__dirname, '../../.env'), fs.R_OK);
     // use .env file config
@@ -28,18 +27,36 @@ if (!process.env.NAME) {
     process.env.NAME = 'assistant';
 }
 
+if (!process.env.MODULES) {
+    process.env.MODULES = '';
+}
+
+if (!process.env.MODULES_PATH) {
+    process.env.MODULES_PATH = '.';
+}
+
+// find intern and extern modules
+var modules = [ require('./modules') ];
+process.env.MODULES.split(',').forEach(function (moduleName) {
+    modules.push( require('./../../'+process.env.MODULES_PATH+moduleName));
+});
+
 var ai = new Ai();
 
-commands(ai);
+// load modules into the ai
+modules.forEach(function (module) {
+    module(ai);
+});
 
 var slack = new Slack(winston);
 
 slack.on('ready', function () {
+    ai.ready();
     // ai.say( defaultUser, 'hello' );
 });
 
 ai.on('say', function (user, message) {
-    slack.sendMessage(user, message);
+    slack.sendPrettyMessage(user, message);
 });
 
 slack.on('message', function (user, message) {

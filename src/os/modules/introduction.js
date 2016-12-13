@@ -1,3 +1,26 @@
+function Hello (ai) {
+
+    this.ai = ai;
+    this.id = 'hello';
+    this.user = null;
+
+    this.valid = function (user, message, words) {
+        if (this.ai.hasWords(words, 'hello')){
+            this.user = user;
+            return true;
+        } else {
+            return false;
+        }
+    };
+
+    this.do = function () {
+        if (this.user) {
+            this.ai.say(this.user, 'Hello!');
+        }
+        this.user = null;
+    };
+}
+
 function Yes (ai) {
 
     this.ai = ai;
@@ -70,8 +93,10 @@ function Help (ai) {
     this.id = 'version';
     this.user = null;
 
+    this.type = null;
+
     this.valid = function (user, message, words) {
-        if (this.ai.hasWords(words, 'help')){
+        if (this.ai.hasWords(words, 'help') && words.length == 1){
             this.user = user;
             return true;
         } else {
@@ -81,7 +106,7 @@ function Help (ai) {
 
     this.do = function () {
         if (this.user) {
-            this.ai.say(this.user, 'I am here to assist you in your recurrent tasks. If you forget something I will remind you.');
+            this.ai.say(this.user, 'I am here to assist you in your recurrent tasks. If you forget something I will remind you.'); // For more help, use `help module <module-id>`, `help command <command-id>`'
         }
         this.user = null;
     };
@@ -90,12 +115,11 @@ function Help (ai) {
 
 module.exports = function (ai) {
 
-    [
+    return [
+        new Hello(ai),
         new Yes(ai),
         new Name(ai),
         new Version(ai),
         new Help(ai)
-    ].forEach(function (command) {
-        ai.addCommand(command);
-    });
+    ];
 };
