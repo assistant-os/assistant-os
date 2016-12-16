@@ -27,6 +27,10 @@ if (!process.env.NAME) {
     process.env.NAME = 'assistant';
 }
 
+if (!process.env.ICON_URL) {
+    process.env.ICON_URL = '';
+}
+
 if (!process.env.MODULES) {
     process.env.MODULES = '';
 }
@@ -38,7 +42,9 @@ if (!process.env.MODULES_PATH) {
 // find intern and extern modules
 var modules = [ require('./modules') ];
 process.env.MODULES.split(',').forEach(function (moduleName) {
-    modules.push( require('./../../'+process.env.MODULES_PATH+moduleName));
+    if( moduleName != '') {
+        modules.push( require('./../../'+process.env.MODULES_PATH+moduleName));
+    }
 });
 
 var ai = new Ai();

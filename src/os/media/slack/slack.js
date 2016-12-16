@@ -47,7 +47,8 @@ function Slack (winston) {
 
     this.sendPrettyMessage = function (user, message, help, icon, callback) {
         var content = {
-            "icon_emoji": icon || ":smile:",
+            //"icon_emoji": icon || ":smile:",
+            "icon_url": process.env.ICON_URL,
             "text": message,
             "mrkdwn": true,
             "username": Slack.config.name,
