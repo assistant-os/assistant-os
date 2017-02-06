@@ -15,7 +15,7 @@ const Reminder = db.define('reminder', {
 
 Reminder.belongsTo(User);
 
-// Reminder
-// .sync({force: true});
+Reminder
+.sync({force: false});
 
 module.exports = Reminder;
