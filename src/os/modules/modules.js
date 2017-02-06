@@ -2,26 +2,23 @@ function List (ai) {
 
     this.ai = ai;
     this.id = 'list-modules';
-    this.user = null;
 
     this.valid = function (user, message, words) {
         if (this.ai.hasWords(words, 'list modules')){
-            this.user = user;
             return true;
         } else {
             return false;
         }
     };
 
-    this.do = function () {
-        if (this.user) {
+    this.do = function (user, message, words) {
+        if (this.valid(user, message, words)) {
             var modules = [];
             this.ai.modules.forEach(function (module) {
                 modules.push(module.id);
             });
-            this.ai.say(this.user, 'The current modules are: '+modules.join(', '));
+            this.ai.say(user, 'The current modules are: '+modules.join(', '));
         }
-        this.user = null;
     };
 }
 
@@ -29,8 +26,6 @@ function ListCommands (ai) {
 
     this.ai = ai;
     this.id = 'list-commands';
-    this.user = null;
-    this.module = null;
 
     this.valid = function (user, message, words) {
         if (this.ai.hasWords(words, 'list commands in')){
@@ -38,10 +33,10 @@ function ListCommands (ai) {
             console.log('list commands');
             for(var i = 0 ; i < this.ai.modules.length ; i++) {
                 if (this.ai.hasWord(words, 3, this.ai.modules[i].id)) {
-                    this.module = this.ai.modules[i];
-                    this.user = user;
-                    console.log(this.module.id);
-                    return true;
+                    // this.module = this.ai.modules[i];
+                    // this.user = user;
+                    // console.log(this.module.id);
+                    return { module: this.ai.modules[i] };
                 }
             }
 
@@ -52,17 +47,17 @@ function ListCommands (ai) {
         }
     };
 
-    this.do = function () {
-        if (this.user && this.module) {
-            console.log('do');
+    this.do = function (user, message, words) {
+        var valid = this.valid(user, message, words);
+        if (valid) {
+            // console.log('do');
             var commands = [];
-            this.module.commands.forEach(function (command) {
+            valid.module.commands.forEach(function (command) {
                 commands.push(command.id);
             });
-            this.ai.say(this.user, 'The current modules are: '+commands.join(', '));
+            this.ai.say(user, 'The current modules are: '+commands.join(', '));
         }
-        this.user = null;
-        this.module = null;
+
     };
 }
 /*

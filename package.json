@@ -4,7 +4,7 @@
   "description": "Artificial intelligence understanding natural intelligence to assist human beings",
   "main": "src/os/os.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha test/test-parser.js",
     "start": "node src/os/os.js"
   },
   "repository": {
@@ -24,14 +24,20 @@
   },
   "homepage": "https://github.com/assistant-os/assistant-os#readme",
   "dependencies": {
+    "chrono-node": "^1.2.5",
     "dotenv": "^2.0.0",
     "fs-extra": "^1.0.0",
     "languagedetect": "^1.1.1",
     "natural": "^0.4.0",
+    "natural-script": "^0.4.0",
     "node-schedule": "^1.2.0",
     "sequelize": "^3.27.0",
     "slackbots": "^0.5.3",
     "sqlite3": "^3.1.8",
     "winston": "^2.3.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
   }
 }

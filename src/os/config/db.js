@@ -2,13 +2,11 @@ const Sequelize = require('sequelize');
 const path = require('path');
 const fs = require('fs-extra');
 
-var folders = {
-    data: path.join(__dirname, '../../data')
-};
+const directories = require('./directories');
 
-fs.ensureDirSync(folders.data);
+fs.ensureDirSync(directories.data);
 
-var sequelize = new Sequelize('editor', 'username', 'password', {
+var sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
   host: 'localhost',
   dialect: 'sqlite',
 
@@ -19,7 +17,7 @@ var sequelize = new Sequelize('editor', 'username', 'password', {
   },
   logging: false,
   // SQLite only
-  storage: path.join(folders.data, 'data.sqlite')
+  storage: path.join(directories.data, 'data.sqlite')
 });
 
 module.exports = sequelize;

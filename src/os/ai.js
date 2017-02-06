@@ -4,15 +4,17 @@ const natural = require('natural');
 
 const packageJson = require('./../../package.json');
 
-function Ai () {
+function Ai (os) {
 
     EventEmitter.call(this);
     var Ai = this;
 
+    this.os = os;
     this.name = process.env.NAME;
     this.status = 'fine';
     this.version = packageJson.version;
     this.setup = packageJson;
+    this.defaultUser = null;
 
     this.tokenizer = new natural.WordTokenizer();
 
@@ -29,10 +31,13 @@ function Ai () {
         var words = this.tokenizer.tokenize(message);
 
         var commandFound = null;
+        var resultFound = null;
         this.modules.every(function (module, index) {
             module.commands.every(function (command, index) {
-                if (command.valid(user, message, words)) {
+                var result = command.valid(user, message, words);
+                if (result) {
                     commandFound = command;
+                    resultFound = result;
                     return false;
                 } else {
                     return true;
@@ -47,7 +52,7 @@ function Ai () {
         });
 
         if (commandFound) {
-            commandFound.do();
+            commandFound.do(user, message, words, resultFound);
         } else {
             Ai.say(user, 'Sorry I didn\'t understand your request.');
         }
@@ -79,8 +84,19 @@ function Ai () {
         Ai.emit('say', user, message);
     };
 
-    this.ready = function () {
+    this.start = function () {
+
+        os.models.User.findAll({
+            where: {
+                master: true
+            }
+        }).then((users) => {
+            users.forEach(function (user) {
+                Ai.say(user, 'I am back online!');
+            });
+        });
         Ai.emit('ready');
+
     };
 }
 

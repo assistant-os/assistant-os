@@ -1,8 +1,12 @@
 const SlackBot = require('slackbots');
 const util = require('util');
 const EventEmitter = require('events');
+const winston = require('winston');
 
-function Slack (winston) {
+const db = require('../../config/db');
+const User = require('../../models/user');
+
+function Slack () {
     EventEmitter.call(this);
     var Slack = this;
 
@@ -23,29 +27,49 @@ function Slack (winston) {
         if (message.username != Slack.config.name && message.type == 'message') {
             winston.info('message posted by user', {message: message});
 
-            Slack.bot.getUsers().then(function (slackUsers) {
-                slackUsers.members.forEach(function (slackUser) {
-                    if (slackUser.id == message.user) {
-                        var user = {
-                            slackId: slackUser.id,
-                            name: slackUser.name,
-                            real_name: slackUser.real_name
-                        };
-                        Slack.emit('message', user , message.text);
-                    }
-                });
+
+            User.findOne({
+                where: {
+                    slackId: message.user
+                }
+            }).then((user) => {
+                // console.log(user);
+
+                if (user === null) {
+                    Slack.bot.getUsers().then(function (slackUsers) {
+                        slackUsers.members.forEach(function (slackUser) {
+                            if (slackUser.id == message.user) {
+                                User.create({
+                                    real_name: slackUser.real_name,
+                                    name: slackUser.name,
+                                    slackId: slackUser.id
+                                }).then(function (user) {
+                                    Slack.emit('message', user , message.text);
+                                });
+                            }
+                        });
+                    });
+                } else {
+                    Slack.emit('message', user , message.text);
+                }
             });
+
+
+
         }
     });
 
     this.sendMessage = function (user, message, help, callback) {
+        /*if (help === null || help === undefined) {
+            help = null;
+        }*/
         Slack.bot.postMessageToUser(user.name, message, help).always(function(data) {
             winston.info('message posted by bot to '+user.name, {data: data});
             callback && callback(data);
         });
     };
 
-    this.sendPrettyMessage = function (user, message, help, icon, callback) {
+    this.sendAdvancedMessage = function (user, message, help, icon, callback) {
         var content = {
             //"icon_emoji": icon || ":smile:",
             "icon_url": process.env.ICON_URL,

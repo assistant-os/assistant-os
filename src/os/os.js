@@ -2,44 +2,30 @@ const winston = require('winston');
 const fs = require('fs-extra');
 const path = require('path');
 
+require('./config/default'); // initialize default environment variables
+
+
 const Slack = require('./media/slack/slack');
 const Ai = require('./ai');
-const db = require('./db');
+const db = require('./config/db');
 
-const User = require('./models/user')(db);
+const Reminder = require('./models/reminder');
+const User = require('./models/user');
 
-// check and setup environment variables
-try {
-    fs.accessSync(path.join(__dirname, '../../.env'), fs.R_OK);
-    // use .env file config
-    require('dotenv').config();
-} catch (e) {}
+const humanReadable = require('./helpers/human-readable');
 
-if (!process.env.SLACK_API_TOKEN) {
-    throw new Error('process.env.SLACK_API_TOKEN not defined');
-}
+// const SlackUser = require('./media/slack/slack-user');
 
-if (!process.env.COLOR) {
-    process.env.COLOR = '#3f51b5';
-}
+var os = {
+    helpers: {
+        humanReadable: humanReadable
+    },
+    models: {
+        User: User
+    },
+    db: db
+};
 
-if (!process.env.NAME) {
-    process.env.NAME = 'assistant';
-}
-
-if (!process.env.ICON_URL) {
-    process.env.ICON_URL = '';
-}
-
-if (!process.env.MODULES) {
-    process.env.MODULES = '';
-}
-
-if (!process.env.MODULES_PATH) {
-    process.env.MODULES_PATH = '.';
-}
-
-// find intern and extern modules
 var modules = [ require('./modules') ];
 process.env.MODULES.split(',').forEach(function (moduleName) {
     if( moduleName != '') {
@@ -47,25 +33,38 @@ process.env.MODULES.split(',').forEach(function (moduleName) {
     }
 });
 
-var ai = new Ai();
+var media = new Slack();
 
-// load modules into the ai
+var ai = new Ai(os);
+
 modules.forEach(function (module) {
     module(ai);
 });
 
-var slack = new Slack(winston);
-
-slack.on('ready', function () {
-    ai.ready();
-    // ai.say( defaultUser, 'hello' );
+media.on('ready', () => {
+    ai.start();
 });
 
-ai.on('say', function (user, message) {
-    slack.sendPrettyMessage(user, message);
+ai.on('say', (user, message) => {
+    media.sendAdvancedMessage(user, message);
 });
 
-slack.on('message', function (user, message) {
+media.on('message', (user, message) => {
     // garantee : user has name, real_name, slackId
     ai.processMessage(user, message);
 });
+
+
+
+// find intern and extern modules
+
+
+// var defaultUser = {
+//     slackId: 'U2TS4D7NW',
+//     name: 'friedrit',
+//     real_name: 'Thibault Friedrich'
+// };
+
+// ai.defaultUser = defaultUser;
+
+// load modules into the ai

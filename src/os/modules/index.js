@@ -1,13 +1,15 @@
 const packageJson = require('./../../../package.json');
 
-const introduction = require('./introduction');
-const lang = require('./lang');
-const modules = require('./modules');
-
-
 module.exports = function (ai) {
+
     ai.addModule({
         id: packageJson.name,
-        commands: [].concat(introduction(ai))/*.concat(lang(ai))*/.concat(modules(ai))
+        commands: []
+            .concat(require('./initialize')(ai))
+            .concat(require('./introduction')(ai))
+            .concat(require('./reminder')(ai))
+            .concat(require('./wake-up')(ai))
+            .concat(require('./modules')(ai))
+            // .concat(require('./lang')(ai))
     });
 };
