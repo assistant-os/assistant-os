@@ -1,5 +1,6 @@
 const ns = require('natural-script');
 const later = require('later');
+later.date.localTime();
 
 const Reminder = require('../models/reminder');
 
