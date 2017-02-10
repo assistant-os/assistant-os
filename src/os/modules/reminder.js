@@ -1,13 +1,13 @@
-const ns = require('natural-script');
-const later = require('later');
+const ns = require('natural-script')
+const later = require('later')
 
-const User = require('../models/user');
-const Reminder = require('../models/reminder');
+const User = require('../models/user')
+const Reminder = require('../models/reminder')
 
 function ListReminders (ai) {
 
-    this.ai = ai;
-    this.id = 'list-reminders';
+    this.ai = ai
+    this.id = 'list-reminders'
 
     this.valid = function (user, message) {
         return ns.parse(message, 'list reminders');
@@ -73,10 +73,40 @@ function CancelReminder (ai) {
     };
 }
 
-module.exports = function (ai) {
+function HelpReminder (ai) {
 
+    this.ai = ai
+    this.id = 'help-reminder'
+
+    this.valid = (user, message) => {
+        return ns.parse(message, 'help reminder')
+    }
+
+    this.do = (user, message, words, result) => {
+        const help = [
+            {
+                command: 'list reminders',
+                description: 'list the active reminders available for you'
+            },
+            {
+                command: 'cancel reminder <id>',
+                description: 'desactivate a reminder. Be careful, you won\'t be able to reactivate it'
+            }
+        ]
+
+        let text = []
+
+        help.forEach( h => {
+            text.push(`*${h.command}*: ${h.description}`)
+        })
+        ai.say(user, text.join('\n'))
+    }
+}
+
+module.exports = ai => {
     return [
         new CancelReminder(ai),
-        new ListReminders(ai)
-    ];
-};
+        new ListReminders(ai),
+        new HelpReminder(ai)
+    ]
+}

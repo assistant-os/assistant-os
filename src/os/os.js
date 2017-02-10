@@ -4,7 +4,6 @@ const path = require('path');
 
 require('./config/default'); // initialize default environment variables
 
-
 const Slack = require('./media/slack/slack');
 const Ai = require('./ai');
 const db = require('./config/db');
@@ -33,9 +32,9 @@ process.env.MODULES.split(',').forEach(function (moduleName) {
     }
 });
 
-var media = new Slack();
+var media = new Slack()
 
-var ai = new Ai(os);
+var ai = new Ai(os)
 
 modules.forEach(function (module) {
     module(ai);
