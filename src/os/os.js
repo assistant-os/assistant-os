@@ -1,69 +1,43 @@
-const winston = require('winston');
-const fs = require('fs-extra');
-const path = require('path');
+import Middleware from './middleware'
 
-require('./config/default'); // initialize default environment variables
+class Os extends Middleware {
 
-const Slack = require('./media/slack/slack');
-const Ai = require('./ai');
-const db = require('./config/db');
+    constructor ({ parser, adapters, name }) {
+        super(parser)
+        this.adapters = adapters
+        this.name = name
 
-const Reminder = require('./models/reminder');
-const User = require('./models/user');
+        for (let i in this.adapters) {
+            let adapter = this.adapters[i]
+            adapter.on('message', (req) => {
 
-const humanReadable = require('./helpers/human-readable');
+                let reply = (message) => {
+                    var text = ''
+                    if (typeof message === 'string') {
+                        text = message
+                    } else if (typeof message === 'function') {
+                        text = message()
+                    }
+                    adapter.send(req.user, text)
+                }
 
-// const SlackUser = require('./media/slack/slack-user');
+                req.os = this
 
-var os = {
-    helpers: {
-        humanReadable: humanReadable
-    },
-    models: {
-        User: User
-    },
-    db: db
-};
-
-var modules = [ require('./modules') ];
-process.env.MODULES.split(',').forEach(function (moduleName) {
-    if( moduleName != '') {
-        modules.push( require('./../../'+process.env.MODULES_PATH+moduleName));
+                this.run(req, {
+                    reply: reply,
+                    replyRandomly: function (choices) {
+                        if (choices instanceof Array && choices.length > 0) {
+                            let random = Math.floor(Math.random() * 10 % choices.length)
+                            reply(choices[random])
+                        }
+                    },
+                    adapter: adapter
+                })
+            })
+        }
     }
-});
-
-var media = new Slack()
-
-var ai = new Ai(os)
-
-modules.forEach(function (module) {
-    module(ai);
-});
-
-media.on('ready', () => {
-    ai.start();
-});
-
-ai.on('say', (user, message) => {
-    media.sendAdvancedMessage(user, message);
-});
-
-media.on('message', (user, message) => {
-    // garantee : user has name, real_name, slackId
-    ai.processMessage(user, message);
-});
+}
 
 
 
-// find intern and extern modules
-
-
-// var defaultUser = {
-//     slackId: 'U2TS4D7NW',
-//     name: 'friedrit',
-//     real_name: 'Thibault Friedrich'
-// };
-
-// ai.defaultUser = defaultUser;
-
-// load modules into the ai
+export default Os

@@ -1,9 +1,9 @@
-const Sequelize = require('sequelize')
-const db = require('../config/db')
+import Sequelize from 'sequelize'
+import db from '../config/db'
 
-const Group = require('./group')
+// const Group = require('./group')
 
-const User = db.define('user', {
+let User = db.define('user', {
     real_name: { type: Sequelize.STRING, unique: false },
     slackId: { type: Sequelize.STRING, unique: true },
     name: { type:Sequelize.STRING, unique: true }
@@ -12,8 +12,8 @@ const User = db.define('user', {
 })
 
 User
-.sync({force: false})
+.sync({ force: false })
 
-User.hasMany(Group)
+// User.hasMany(Group)
 
-module.exports = User
+export default User
