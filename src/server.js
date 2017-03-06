@@ -41,8 +41,6 @@ os.use(debug)
 os.use(scheduler)
 
 os.hear('wake me up {{date:date}}', (req, res) => {
-    // console.log(req.parsed.date)
-    // res.reply('ok')
     scheduler.scheduleDateEvent(req.user, 'wake-up', req.parsed.date.start.date())
 })
 
