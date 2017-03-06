@@ -10,19 +10,22 @@ import User from '../models/user'
 
 class Slack extends Adapter {
 
-    constructor (token, name, color, icon) {
+    constructor (opts) {
         super()
-        this.config = { name: name, token: token }
-        this.name = name
-        this.color = color
-        this.icon = icon
+        if (!opts.token) {
+            throw 'missing token'
+        }
+        this.token = opts.token
     }
 
-    start () {
-        this.bot = new SlackBot(this.config)
+    start (config) {
+        this.config = config
+        this.config.token = this.token
+
+        this.bot = new SlackBot({ name: this.config.name, token: this.token })
         this.bot.on('start', () => this.emit('ready'))
         this.bot.on('message', (message) => {
-            if (message.username !== this.name && message.type === 'message') {
+            if (message.username !== this.config.name && message.type === 'message') {
                 User.findOne({
                     where: {
                         slackId: message.user
@@ -53,12 +56,14 @@ class Slack extends Adapter {
     send (user, message) {
         let content = {
             //"icon_emoji": icon || ":smile:",
-            "icon_url": this.icon,
+            "icon_url": this.config.icon_url,
             "text": message,
             "mrkdwn": true,
-            "username": this.name,
+            "username": this.config.name,
             "attachments": []
         }
+
+
 
         /*
         if (help) {

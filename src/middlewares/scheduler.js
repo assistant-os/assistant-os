@@ -4,115 +4,207 @@ import winston from 'winston'
 
 import Middleware from '../os/middleware'
 import User from '../models/user'
-import { default as Event, STATE as EventState, TYPE as EventType } from '../models/event'
+import { default as Event, STATE as EventState } from '../models/event'
+import DateEvent from '../models/date-event'
+import OccurrenceEvent from '../models/occurrence-event'
 
 later.date.localTime()
 
 let scheduler = new Middleware(ns.parse)
 
-function scheduleDateReminder (event, callback) {
+function scheduleDateReminder (dateEvent, callback) {
     winston.info('schedule date')
     // console.log(JSON.parse(event.date).start)
-    let diff = new Date(event.date) - new Date()
-    //console.log('diff', diff)
+    let diff = dateEvent.delay
+    console.log('diff', diff)
 
-    if (diff <= 0) {
-        event.update({
-            state: EventState.PASSED
-        })
+    if (diff < 0) {
+        dateEvent.event.pass()
         return
     }
 
 
     /*let timeout = */setTimeout(() => {
-
-        event.reload().then(() => {
-            if (event.state !== EventState.READY) {
+        console.log('start', dateEvent.event.name)
+        dateEvent.reload().then(() => {
+            if (!dateEvent.event.ready) {
                 return
             }
 
-            scheduler.emit('event.ready', event)
+            scheduler.emit('event.ready', { event: dateEvent })
         })
 
 
     }, diff)
 
-    scheduler.emit('event.scheduled', { diff: diff, event: event })
+    scheduler.emit('event.scheduled', { diff: diff, event: dateEvent })
 
     // return ai.os.helpers.humanReadable.delay(diff)
 }
 
+function scheduleOccurrenceReminder (occurrenceEvent, callback) {
+    winston.info('schedule occurrence')
+    // console.log(JSON.parse(event.date).start)
+
+    let occurrence = JSON.parse(occurrenceEvent.occurrence)
+
+    let interval = later.setInterval(() => {
+        console.log('start', occurrenceEvent.event.name)
+        occurrenceEvent.reload().then(() => {
+            if (!occurrenceEvent.event.ready) {
+                interval.clear()
+                return
+            }
+
+            scheduler.emit('event.done.several.times', { event: occurrenceEvent })
+        })
+    }, occurrence)
+
+    scheduler.emit('event.scheduled', { event: occurrenceEvent })
+}
+
 scheduler.hear('list event', (req, res) => {
     Event.findAll({
-        attributes: [ 'id', 'type', 'name', 'context', 'date' ],
+        attributes: [ 'id', 'name', 'context' ],
         where: {
-            state: EventState.READY,
             userId: req.user.id
         }
     }).then((events) => {
         // console.log(reminders
         let s = ''
         for (let i in events) {
-            let event = events[i]
-            s += `\n`
-            s += `\tid: ${event.id}\n`
-            s += `\ttype: ${event.type}\n`
-            s += `\tname: ${event.name}\n`
-            s += `\tcontext: ${event.context}\n`
-            s += `\tdate: ${event.date}\n`
+            s += events[i].toChat()
         }
 
         if (s === '') {
             res.reply('no event found')
         } else {
-            res.reply(`events: ${s}`)
+            res.reply(`events: \n ${s}`)
         }
 
     })
 })
 
-scheduler.schedule = (user, type, name, date, content = '', callback) => {
-    Event.create({
-        type: type,
-        name: name,
-        content: content,
+scheduler.hear('cancel all events', (req, res) => {
+    Event.update({
+        state: EventState.CANCELED
+    }, {
+        where: {
+            state: EventState.READY
+        }
+    })
+    .then(() => {
+        res.reply('all event canceled')
+    })
+    .catch((e) => {
+        res.reply('oups bug')
+        winston.error('error while cancelling all events', { error: e })
+    })
+})
+
+scheduler.hear('cancel event {{integer:id}}', (req, res) => {
+    // console.log('id', req.parsed.id)
+    Event.update({
+        state: EventState.CANCELED
+    }, {
+        where: {
+            id: req.parsed.id.integer,
+            state: EventState.READY
+        }
+    })
+    .spread((count) => {
+        console.log('ok', count)
+        if (count >= 1) {
+            res.reply('event canceled')
+        } else {
+            res.reply('no event canceled')
+        }
+    })
+    .catch((e) => {
+        res.reply('oups bug')
+        winston.error('error while cancelling an event', { error: e })
+    })
+})
+
+scheduler.scheduleDateEvent = (user, name, date, content = '', callback) => {
+    DateEvent.create({
         date: date,
-        state: EventState.READY
-    }).then((event) => {
-        if (event) {
-            // console.log('created')
-            event.setUser(user)
-            event.save().then(() => {
-                Event.findOne({
+        event: {
+            name: name,
+            content: content,
+        }
+    }, {
+        include: [ Event ]
+    }).then((dateEvent) => {
+        if (dateEvent) {
+            dateEvent.event.setUser(user)
+            dateEvent.save().then(() => {
+                DateEvent.findOne({
                     where: {
-                        id: event.id
+                        id: dateEvent.id
                     },
                     include: [ {
-                        model: User
+                        model: Event,
+                        include: [ User ]
                     } ]
-                }).then((event) => {
-                    scheduleDateReminder(event)
+                }).then((dateEvent) => {
+                    scheduleDateReminder(dateEvent)
                 })
-                // console.log(event.getUser())
             })
         }
     })
 }
 
+scheduler.scheduleOccurrenceEvent = (user, name, occurrence, content = '', callback) => {
+    OccurrenceEvent.create({
+        occurrence: JSON.stringify(occurrence),
+        event: {
+            name: name,
+            content: content,
+        }
+    }, {
+        include: [ Event ]
+    }).then((occurrenceEvent) => {
+        if (occurrenceEvent) {
+            occurrenceEvent.event.setUser(user)
+            occurrenceEvent.save().then(() => {
+                OccurrenceEvent.findOne({
+                    where: {
+                        id: occurrenceEvent.id
+                    },
+                    include: [ {
+                        model: Event,
+                        include: [ User ]
+                    } ]
+                }).then((occurrenceEvent) => {
+                    scheduleOccurrenceReminder(occurrenceEvent)
+                })
+            })
+        }
+    })
+}
+
+
 export default scheduler
 
-Event.findAll({
-    where: {
-        state: EventState.READY,
-        type: EventType.ONE_SHOT
-    },
+DateEvent.findAll({
     include: [ {
-        model: User
+        model: Event,
+        include: [ User ]
     } ]
 }).then((events) => {
-    console.log('events', events.length)
     events.forEach((event) => {
-        // console.log(event.user.name)
         scheduleDateReminder(event)
+    })
+})
+
+OccurrenceEvent.findAll({
+    include: [ {
+        model: Event,
+        include: [ User ]
+    } ]
+}).then((events) => {
+    events.forEach((event) => {
+        scheduleOccurrenceReminder(event)
     })
 })

@@ -1,14 +1,42 @@
+import ns from 'natural-script'
+
 import Middleware from './middleware'
+import profile from '../config/profile'
 
 class Os extends Middleware {
 
-    constructor ({ parser, adapters, name }) {
-        super(parser)
-        this.adapters = adapters
-        this.name = name
+    constructor (opts) {
+        super(opts.parser)
 
-        for (let i in this.adapters) {
-            let adapter = this.adapters[i]
+        if (!opts.parser) {
+            this.parser = ns.parse
+        }
+
+        if (!opts.adapters) {
+            throw 'adapters missing'
+        }
+
+        this.adapters = opts.adapters
+
+        this.name = opts.name || profile.name
+        this.color = opts.color || profile.color
+        this.icon_url = opts.icon_url || profile.icon_url
+
+
+
+
+    }
+
+    start () {
+
+        let config = {
+            name: this.name,
+            color: this.color,
+            icon_url: this.icon_url
+        }
+
+        for (let adapter of this.adapters) {
+            adapter.start(config)
             adapter.on('message', (req) => {
 
                 let reply = (message) => {
@@ -34,6 +62,15 @@ class Os extends Middleware {
                     adapter: adapter
                 })
             })
+        }
+
+        this.emit('ready')
+    }
+
+    speak (user, text, adapter = null) {
+
+        if (!adapter && this.adapters) {
+            this.adapters[0].send(user, text)
         }
     }
 }

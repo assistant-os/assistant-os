@@ -3,7 +3,7 @@ import EventEmitter from 'events'
 
 class Middleware extends EventEmitter {
 
-    constructor (parser) {
+    constructor (parser = null) {
         super()
         this.rules = []
         this.parser = parser
@@ -18,6 +18,9 @@ class Middleware extends EventEmitter {
 
     use (middleware) {
         this.rules.push(middleware)
+        if (middleware.parser === null) {
+            middleware.parser = this.parser
+        }
     }
 
     run (req, res) {
