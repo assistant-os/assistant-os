@@ -1,6 +1,6 @@
-var winston = require('winston')
+import winston from 'winston'
 
-var db = require('../src/config/db')
+import db from '../src/config/db'
 
 db.sync({ force: true })
 winston.info('synchronization done')
