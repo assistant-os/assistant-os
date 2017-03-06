@@ -1,3 +1,3 @@
 import path from 'path'
 
-export default { data: path.join(__dirname, '../../../data') }
+export default { data: path.join(__dirname, '../../data') }
