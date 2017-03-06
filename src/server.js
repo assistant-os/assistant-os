@@ -57,7 +57,7 @@ scheduler.on('event.scheduled', ({ diff, event }) => {
 
 scheduler.on('event.done.once', ({ event }) => {
     winston.info('event.done.once')
-    if (event.name === 'wake-up') {
+    if (event.event.name === 'wake-up') {
         os.speak(event.event.user, 'Wake up!')
     } else {
         os.speak(event.event.user, 'let\'s go')
@@ -67,7 +67,7 @@ scheduler.on('event.done.once', ({ event }) => {
 
 scheduler.on('event.done.several.times', ({ event }) => {
     winston.info('event.done.several.times')
-    if (event.name === 'wake-up') {
+    if (event.event.name === 'wake-up') {
         os.speak(event.event.user, 'Wake up!')
     } else {
         os.speak(event.event.user, 'let\'s go')
