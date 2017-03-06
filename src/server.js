@@ -57,13 +57,21 @@ scheduler.on('event.scheduled', ({ diff, event }) => {
 
 scheduler.on('event.done.once', ({ event }) => {
     winston.info('event.done.once')
-    os.speak(event.event.user, 'let\'s go')
+    if (event.name === 'wake-up') {
+        os.speak(event.event.user, 'Wake up!')
+    } else {
+        os.speak(event.event.user, 'let\'s go')
+    }
     event.event.finish()
 })
 
 scheduler.on('event.done.several.times', ({ event }) => {
     winston.info('event.done.several.times')
-    os.speak(event.event.user, 'let\'s go')
+    if (event.name === 'wake-up') {
+        os.speak(event.event.user, 'Wake up!')
+    } else {
+        os.speak(event.event.user, 'let\'s go')
+    }
 })
 
 os.hear('*', (req, res) => {
