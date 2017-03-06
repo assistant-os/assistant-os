@@ -1,6 +1,5 @@
 import EventEmitter from 'events'
 
-
 class Middleware extends EventEmitter {
 
     constructor (parser = null) {
