@@ -19,13 +19,27 @@ class Slack extends Adapter {
     }
 
     start (config) {
-        this.config = config
-        this.config.token = this.token
+        if (config) {
+            this.config = config
+            this.config.token = this.token
+        }
+
 
         this.bot = new SlackBot({ name: this.config.name, token: this.token })
         this.bot.on('start', () => this.emit('ready'))
         this.bot.on('message', (message) => {
             if (message.username !== this.config.name && message.type === 'message') {
+
+                let text = message.text.replace(/\<mailto\:(.+)\|.+\>/g, (match, p1) => {
+                    return p1
+                })
+
+                text = text.replace(/\<(.+)\|(.+)\>/g, (match, p1, p2) => {
+                    return p2
+                })
+
+                console.log(text)
+
                 User.findOne({
                     where: {
                         slackId: message.user
@@ -36,21 +50,29 @@ class Slack extends Adapter {
                             slackUsers.members.forEach((slackUser) => {
                                 if (slackUser.id === message.user) {
                                     User.create({
-                                        real_name: slackUser.real_name,
+                                        real_name: ''/*slackUser.real_name*/,
                                         name: slackUser.name,
                                         slackId: slackUser.id
                                     }).then((user) => {
-                                        this.emit('message', { user:user, text:message.text, date: new Date() })
+                                        this.emit('message', { user:user, text:text, date: new Date() })
                                     })
                                 }
                             })
                         })
                     } else {
-                        this.emit('message', { user:user, text:message.text, date: new Date() })
+                        this.emit('message', { user:user, text:text, date: new Date() })
                     }
                 })
             }
         })
+    }
+
+    keepAlive () {
+        setInterval(() => {
+            this.emit('restart')
+            delete this.bot
+            this.start()
+        }, 1000 * 60 * 60 * 24)
     }
 
     send (user, message) {

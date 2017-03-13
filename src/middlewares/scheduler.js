@@ -90,7 +90,8 @@ scheduler.hear('cancel all events', (req, res) => {
         state: EventState.CANCELED
     }, {
         where: {
-            state: EventState.READY
+            state: EventState.READY,
+            userId: req.user.id
         }
     })
     .then(() => {
@@ -109,7 +110,8 @@ scheduler.hear('cancel event {{integer:id}}', (req, res) => {
     }, {
         where: {
             id: req.parsed.id.integer,
-            state: EventState.READY
+            state: EventState.READY,
+            userId: req.user.id
         }
     })
     .spread((count) => {

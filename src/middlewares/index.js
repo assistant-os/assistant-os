@@ -1,5 +1,6 @@
-import debug from './debug'
+import admin from './admin'
 import scheduler from './scheduler'
 import welcome from './welcome'
+import safeKeeper from './safe-keeper'
 
-export { debug, scheduler, welcome }
+export { admin, scheduler, welcome, safeKeeper }

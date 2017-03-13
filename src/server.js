@@ -7,7 +7,7 @@ import path from 'path'
 import Os from './os/os'
 
 import { Slack } from './adapters'
-import { debug, scheduler, welcome } from './middlewares'
+import { admin, scheduler, welcome, safeKeeper } from './middlewares'
 
 try {
     fs.accessSync(path.join(__dirname, '../.env'), fs.R_OK)
@@ -21,6 +21,12 @@ let slack = new Slack({
     token: process.env.SLACK_API_TOKEN
 })
 
+slack.keepAlive()
+
+slack.on('restart', () => {
+    winston.info('slack restarting')
+})
+
 slack.on('ready', () => {
     winston.info('slack ready')
 })
@@ -29,7 +35,8 @@ let os = new Os({
     parser: ns.parse,
     adapters: [ slack ],
     name: process.env.NAME || 'jarvis',
-    icon_url: process.env.ICON_URL || 'https://avatars1.githubusercontent.com/u/24452749?v=3&s=200'
+    icon_url: process.env.ICON_URL || 'https://avatars1.githubusercontent.com/u/24452749?v=3&s=200',
+    response_time: 1000
 })
 
 os.on('ready', () => {
@@ -37,8 +44,9 @@ os.on('ready', () => {
 })
 
 os.use(welcome)
-os.use(debug)
+os.use(admin)
 os.use(scheduler)
+os.use(safeKeeper)
 
 os.hear('wake me up {{date:date}}', (req, res) => {
     scheduler.scheduleDateEvent(req.user, 'wake-up', req.parsed.date.start.date())

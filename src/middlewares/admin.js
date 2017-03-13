@@ -7,18 +7,20 @@ import Middleware from '../os/middleware'
 import Event from '../models/event'
 import User from '../models/user'
 import DateEvent from '../models/date-event'
+import SafeEmail from '../models/safe-email'
+import Hack from '../models/hack'
 
-let debug = new Middleware(ns.parse)
+let admin = new Middleware(ns.parse)
 
-debug.hear('version', (req, res) => {
+admin.hear('version', (req, res) => {
     res.reply(version)
 })
 
-debug.hear('name', (req, res) => {
+admin.hear('name', (req, res) => {
     res.reply(req.os.name)
 })
 
-debug.hear('reinitialize', (req, res) => {
+admin.hear('reinitialize', (req, res) => {
     User.sync({ force: true })
     .then(() => {
         return Event.sync({ force: true })
@@ -27,11 +29,17 @@ debug.hear('reinitialize', (req, res) => {
         return DateEvent.sync({ force: true })
     })
     .then(() => {
-        winston.info('retiniatialization done')
+        return SafeEmail.sync({ force: true })
+    })
+    .then(() => {
+        return Hack.sync({ force: true })
+    })
+    .then(() => {
+        winston.info('reiniatialization done')
     })
     .catch((e) => {
-        winston.error('retiniatialization error', { error:e })
+        winston.error('reiniatialization error', { error:e })
     })
 })
 
-export default debug
+export default admin

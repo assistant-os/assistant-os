@@ -62,8 +62,8 @@ Event.Instance.prototype.pass = function () {
 Event.Instance.prototype.toChat = function () {
     let s = ''
     s += `\tid: ${this.id}\n`
-    s += `\tname: ${this.name}\n`
-    s += `\tcontext: ${this.context}\n`
+    s += `\t\tname: ${this.name}\n`
+    s += `\t\tcontext: ${this.context}\n`
     return s
 }
 
