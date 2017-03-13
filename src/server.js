@@ -1,20 +1,14 @@
 import winston from 'winston'
 import ns from 'natural-script'
 import dotenv from 'dotenv'
-import fs from 'fs'
-import path from 'path'
 
 import Os from './os/os'
 
 import { Slack } from './adapters'
 import { admin, scheduler, welcome, safeKeeper } from './middlewares'
 
-try {
-    fs.accessSync(path.join(__dirname, '../.env'), fs.R_OK)
-    // use .env file config
+if ('production' !== process.env.NODE_ENV) {
     dotenv.config()
-} catch (e) {
-    console.log(e)
 }
 
 let slack = new Slack({
