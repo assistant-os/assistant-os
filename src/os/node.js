@@ -11,7 +11,7 @@ class Node extends EventEmitter {
     }
 
     isConnected () {
-        return this.status ==== 'connected'
+        return this.status === 'connected'
     }
 
     connect () {
