@@ -50,7 +50,7 @@ class Slack extends Adapter {
                             slackUsers.members.forEach((slackUser) => {
                                 if (slackUser.id === message.user) {
                                     User.create({
-                                        real_name: ''/*slackUser.real_name*/,
+                                        real_name: slackUser.real_name,
                                         name: slackUser.name,
                                         slackId: slackUser.id
                                     }).then((user) => {
