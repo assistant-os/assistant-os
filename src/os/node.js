@@ -3,6 +3,7 @@ import EventEmitter from 'events'
 class Node extends EventEmitter {
 
     constructor (opts) {
+        super()
         this.id = opts.id
         this.token = opts.token
         this.name = opts.name

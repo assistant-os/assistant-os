@@ -6,7 +6,9 @@ import profile from '../config/profile'
 class Os extends Middleware {
 
     constructor (opts) {
-        super(opts.parser)
+        super({
+            parser: opts.parser
+        })
 
         if (!opts.parser) {
             this.parser = ns.parse
@@ -45,10 +47,17 @@ class Os extends Middleware {
             let reply = this.buffer[0]
             // console.log(reply.text)
             reply.adapter.send(reply.req.user, reply.text)
+
+            let timeout = 0
+            if (typeof this.response_time === 'function') {
+                timeout = this.response_time(reply.text)
+            } else {
+                timeout = this.response_time
+            }
             setTimeout(() => {
                 this.buffer.shift()
                 this.processBuffer()
-            }, 1000)
+            }, timeout)
         }
     }
 
@@ -75,7 +84,7 @@ class Os extends Middleware {
                         req: req,
                         text: text
                     })
-                    console.log(text)
+                    // console.log(text)
 
                     if (this.buffer.length === 1) {
                         this.processBuffer()

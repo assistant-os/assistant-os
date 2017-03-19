@@ -38,7 +38,7 @@ class Slack extends Adapter {
                     return p2
                 })
 
-                console.log(text)
+                // console.log(text)
 
                 User.findOne({
                     where: {

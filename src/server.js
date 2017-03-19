@@ -30,17 +30,32 @@ let os = new Os({
     adapters: [ slack ],
     name: process.env.NAME || 'jarvis',
     icon_url: process.env.ICON_URL || 'https://avatars1.githubusercontent.com/u/24452749?v=3&s=200',
-    response_time: 1000
+    response_time: (text) => {
+        if (text) {
+            return text.length * 40
+        } else {
+            return 0
+        }
+    }
 })
 
 os.on('ready', () => {
     winston.info(`assistant ${os.name} ready`)
 })
 
+os.hear('*', (req, res, next) => {
+    if (req.text.toLowerCase() === 'help') {
+        res.reply(`My name is ${os.config().name} and I am here to help in repetitive tasks.`)
+    } else {
+        next()
+    }
+})
+
 os.use(welcome)
 os.use(admin)
 os.use(scheduler)
 os.use(safeKeeper)
+
 
 os.hear('wake me up {{date:date}}', (req, res) => {
     scheduler.scheduleDateEvent(req.user, 'wake-up', req.parsed.date.start.date())

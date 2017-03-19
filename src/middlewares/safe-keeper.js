@@ -11,7 +11,9 @@ import { default as Hack, STATE as HackState } from '../models/hack'
 
 later.date.localTime()
 
-let safeKeeper = new Middleware()
+let safeKeeper = new Middleware({
+    description: 'prevent account hackings'
+})
 
 let requestFormatted = request.defaults({
     headers: { 'User-Agent': 'Pwnage-Checker-For-Assistant-OS' }
@@ -81,8 +83,7 @@ function checkEmails (emails, index, silent, callback) {
 // })
 
 safeKeeper.hear([
-    'safekeeper add email {{email:email}}',
-    'notify me if my email {{email:email}} has been hacked'
+    'notify me if my email {{email:email}} is compromised'
 ], (req, res) => {
     SafeEmail.create({
         email: req.parsed.email
@@ -96,7 +97,7 @@ safeKeeper.hear([
                     },
                     include: [ User ]
                 }).then((email) => {
-                    res.reply(`Ok I will watch your email ${req.parsed.email}.`)
+                    res.reply(`Ok I will monitor your email ${req.parsed.email}.`)
                 })
             })
         }
@@ -104,8 +105,7 @@ safeKeeper.hear([
 })
 
 safeKeeper.hear([
-    'safekeeper remove email {{email:email}}',
-    'stop notifying me if my email {{email:email}} has been hacked'
+    'stop notifying me if my email {{email:email}} is compromised'
 ], (req, res) => {
     SafeEmail.destroy({
         where: {
@@ -115,7 +115,7 @@ safeKeeper.hear([
         truncate: true
     }).then((affectedRows) => {
         if (affectedRows > 0) {
-            res.reply(`Ok I won't keep your ${req.parsed.email} safe.`)
+            res.reply(`Ok I won't monitor your email ${req.parsed.email} anymore.`)
         } else {
             res.reply(`Sorry I didn't find your email ${req.parsed.email}.`)
         }
@@ -123,8 +123,7 @@ safeKeeper.hear([
 })
 
 safeKeeper.hear([
-    'safekeeper list email',
-    'list email checked against hacking'
+    'list email monitored'
 ], (req, res) => {
     SafeEmail.findAll({
         attributes: [ 'id', 'email' ],
@@ -148,8 +147,7 @@ safeKeeper.hear([
 })
 
 safeKeeper.hear([
-    'safekeeper check email',
-    'check if my emails have been hacked'
+    'check if my emails are compromised'
 ], (req, res) => {
     SafeEmail.findAll({
         attributes: [ 'id', 'email' ],
@@ -175,7 +173,7 @@ safeKeeper.hear([
     })
 })
 
-safeKeeper.hear('list all hacks', (req, res) => {
+safeKeeper.hear('list all breaches', (req, res) => {
     Hack.findAll({
         include: [ {
             model: SafeEmail,
@@ -195,14 +193,14 @@ safeKeeper.hear('list all hacks', (req, res) => {
         }
 
         if (s === '') {
-            res.reply('no hack found')
+            res.reply('no breach found')
         } else {
-            res.reply(`hacks: \n ${s}`)
+            res.reply(`breaches: \n ${s}`)
         }
     })
 })
 
-safeKeeper.hear('list unmanaged hacks', (req, res) => {
+safeKeeper.hear('list unmanaged breaches', (req, res) => {
     Hack.findAll({
         where: {
             state: HackState.UNMANAGED
@@ -225,14 +223,14 @@ safeKeeper.hear('list unmanaged hacks', (req, res) => {
         }
 
         if (s === '') {
-            res.reply('no unmanaged hack found')
+            res.reply('no unmanaged breach found')
         } else {
-            res.reply(`unmanaged hacks: \n ${s}`)
+            res.reply(`unmanaged breaches: \n ${s}`)
         }
     })
 })
 
-safeKeeper.hear('{{url:url}} hack with email {{email:email}} is managed', (req, res) => {
+safeKeeper.hear('breach at {{url:url}} for email {{email:email}} is managed', (req, res) => {
     Hack.update({
         state: HackState.MANAGED
     }, {
@@ -254,17 +252,17 @@ safeKeeper.hear('{{url:url}} hack with email {{email:email}} is managed', (req, 
         if (affectedCount > 0) {
             res.reply(`Ok I got it.`)
         } else {
-            res.reply(`Sorry I didn't find the hack you talk about. Maybe it was already managed?`)
+            res.reply(`Sorry I didn't find the breach you talk about. Maybe it was already managed?`)
         }
     })
 })
 
 safeKeeper.on('hack.detected', (hack) => {
-    safeKeeper.speak(hack.safeEmail.user, `I have detected a new hack for email ${hack.safeEmail.email}. It comes from website ${hack.domain} and the breach has been detected the ${hack.date}.`)
+    safeKeeper.speak(hack.safeEmail.user, `I have detected a new data breach for email ${hack.safeEmail.email}. It comes from website ${hack.domain} and the breach has been detected the ${hack.date}.`)
 })
 
 safeKeeper.on('hack.alive', (hack) => {
-    safeKeeper.speak(hack.safeEmail.user, `It seems you never managed hack about email ${hack.safeEmail.email}. It comes from website ${hack.domain} and the breach has been detected the ${hack.date}.`)
+    safeKeeper.speak(hack.safeEmail.user, `It seems you never managed data breach about email ${hack.safeEmail.email}. It comes from website ${hack.domain} and the breach has been detected the ${hack.date}.`)
 })
 
 safeKeeper.on('hack.overload', (safeEmail) => {
@@ -276,26 +274,25 @@ safeKeeper.on('hack.no', (safeEmail) => {
 })
 
 
-safeKeeper.hear([ 'safekeeper help', 'how to keep me safe' ], (req, res) => {
-    res.reply([
-        'I can keep your online existence safe by checking if your accounts have been hacked.',
-        '*Be careful! I checked only mass hacks.*',
-        'Add an email I will check periodically with `safekeeper add email <email>` or `notify me if my email <email> is hacked`.',
-        'I will notifiy you if a mass hacking concerns your account.',
-        'For more help, please use `safekeeper help more`'
-    ])
+safeKeeper.hear([ 'how to prevent account hackings' ], (req, res) => {
+    res.reply('I can keep your online existence safe by checking if your accounts have been compromised.')
+    res.reply('Give me your email and I will check periodically if it not appears in recent data breaches like yahoo or linkedin hacks')
+    res.reply('*Be careful! I checked only mass data breaches and not individual account hacks.*')
+    res.reply('Add an email with order `notify me if my email <email> is compromised`.')
+    res.reply('I will notify you if a data breach concerns online accounts using this email.')
+    res.reply('For more help, please use `help me to prevent account hackings`')
 })
 
-safeKeeper.hear([ 'safekeeper help more' ], (req, res) => {
+safeKeeper.hear([ 'help me to prevent account hackings' ], (req, res) => {
     res.reply([
-        '`safekeeper help` | `how to keep me safe`: show description',
-        '`safekeeper add email <email>` | `notify me if my email <email> has been hacked`: add email to protect',
-        '`safekeeper remove email <email>` | `stop notifying me if my email <email> has been hacked`: remove email to protect',
-        '`safekeeper list email` | `list my emails checked against hacking`: get the state of my emails',
-        '`safekeeper check email` | `check if my emails have been hacked`: instanstly check if emails have been hacked',
-        '`list all hacks`: list all hacks (managed and unmanaged) about your emails',
-        '`list unmanaged hacks`: list all unmanaged hacks about your emails',
-        '`<url> hack with email <email> is managed`: indicate you have managed a hack of one of your account'
+        '`how to prevent account hackings`: show description',
+        '`notify me if my email <email> is compromised`: add email to monitor',
+        '`stop notifying me if my email <email> is compromised`: remove email to monitor',
+        '`list my emails monitored`: get the state of my emails',
+        'check if my emails are compromised`: instanstly check if emails have been compromised',
+        '`list all breaches`: list all data breaches (managed and unmanaged) about your emails',
+        '`list unmanaged breaches`: list all unmanaged breaches about your emails',
+        '`breach at <url> for email <email> is managed`: indicate you have managed a breach of one of your account. The easy way to manage a breach is to change the password of the account linked with your email.'
     ])
 })
 

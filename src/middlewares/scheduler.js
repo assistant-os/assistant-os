@@ -10,7 +10,7 @@ import OccurrenceEvent from '../models/occurrence-event'
 
 later.date.localTime()
 
-let scheduler = new Middleware(ns.parse)
+let scheduler = new Middleware()
 
 function scheduleDateReminder (dateEvent, callback) {
     winston.info('schedule date')
