@@ -18,7 +18,7 @@ admin.hear('name', (req, res) => {
     res.reply(req.os.name)
 })
 
-admin.hear('*', (req, res, nex) => {
+admin.hear('*', (req, res, next) => {
 
     if (req.text.toLowerCase() === 'reinitialize') {
         cache[req.user.id] = {

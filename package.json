@@ -36,6 +36,7 @@
     "request": "^2.81.0",
     "sequelize": "^3.27.0",
     "slackbots": "^0.5.3",
+    "socket.io": "^1.7.3",
     "sqlite3": "^3.1.8",
     "winston": "^2.3.0"
   },
