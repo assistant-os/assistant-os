@@ -140,11 +140,13 @@ os.hear('*', (req, res) => {
 })
 
 home.on('connected', () => {
-    winston.info('home sweet home')
+    os.speak(process.env.SLACK_ADMIN, 'Home Spark is now connected.')
+    // winston.info('home sweet home')
 })
 
 home.on('disconnected', () => {
-    winston.info('see you soon')
+    os.speak(process.env.SLACK_ADMIN, 'Home Spark is now disconnected.')
+    // winston.info('see you soon')
 })
 
 nexus.start()
