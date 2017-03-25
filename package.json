@@ -1,6 +1,6 @@
 {
   "name": "assistant-os",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Artificial intelligence understanding natural intelligence to assist human beings",
   "main": "src/index.js",
   "scripts": {
