@@ -1,12 +1,16 @@
 import winston from 'winston'
 import ns from 'natural-script'
 import dotenv from 'dotenv'
-// import socketIo from 'socket.io'
 
 import Os from './os/os'
 
+import Nexus from './os/nexus'
+import Node from './os/node'
+
 import { Slack } from './adapters'
 import { admin, scheduler, welcome, safeKeeper } from './middlewares'
+
+import User from './models/user'
 
 if ('production' !== process.env.NODE_ENV) {
     dotenv.config()
@@ -38,6 +42,50 @@ let os = new Os({
             return 0
         }
     }
+})
+
+let home = new Node({
+    id: process.env.HOME_SPARK_ID,
+    name: 'home',
+    token: process.env.HOME_SPARK_TOKEN,
+    description: ''
+})
+
+home.behaviors = [
+    {
+        type: 'watch-presence',
+        device: {
+            ip: process.env.COMPANION_IP,
+        },
+        callback: (event) => {
+            if (event.device.ip === process.env.COMPANION_IP) {
+                User.findOne({
+                    where: {
+                        name: process.env.COMPANION_OWNER
+                    }
+                }).then((user) => {
+                    if (user) {
+                        if (event.currentState && !event.previousStatus) {
+                            os.speak(user, 'Welcome home!')
+                        } else {
+                            os.speak(user, 'Go back soon.')
+                        }
+
+                    }
+                })
+            } else {
+                winston.info('unmanaged event', { event: event })
+            }
+
+        }
+    }
+]
+
+let nexus = new Nexus({
+    port: process.env.PORT,
+    nodes: [
+        home
+    ]
 })
 
 os.on('ready', () => {
@@ -90,8 +138,22 @@ scheduler.on('event.done.several.times', ({ event }) => {
     }
 })
 
+admin.on('reinitialized', () => {
+    attach()
+})
+
 os.hear('*', (req, res) => {
     res.reply('Sorry, I didn\'t understand your request')
 })
+
+home.on('connected', () => {
+    winston.info('home sweet home')
+})
+
+home.on('disconnected', () => {
+    winston.info('see you soon')
+})
+
+nexus.start()
 
 os.start()

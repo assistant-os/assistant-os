@@ -123,7 +123,8 @@ safeKeeper.hear([
 })
 
 safeKeeper.hear([
-    'list email monitored'
+    'list emails monitored',
+    'list my emails monitored'
 ], (req, res) => {
     SafeEmail.findAll({
         attributes: [ 'id', 'email' ],
@@ -173,7 +174,10 @@ safeKeeper.hear([
     })
 })
 
-safeKeeper.hear('list all breaches', (req, res) => {
+safeKeeper.hear([
+    'list all breaches',
+    'list all hackings'
+], (req, res) => {
     Hack.findAll({
         include: [ {
             model: SafeEmail,
@@ -200,7 +204,10 @@ safeKeeper.hear('list all breaches', (req, res) => {
     })
 })
 
-safeKeeper.hear('list unmanaged breaches', (req, res) => {
+safeKeeper.hear([
+    'list unmanaged breaches',
+    'list unmanaged hackings',
+], (req, res) => {
     Hack.findAll({
         where: {
             state: HackState.UNMANAGED

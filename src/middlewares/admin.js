@@ -30,6 +30,7 @@ admin.hear('*', (req, res, next) => {
         db.sync({ force: true })
         .then(() => {
             winston.info('reiniatialization done')
+            admin.emit('reinitialized')
         })
         .catch((e) => {
             winston.error('reiniatialization error', { error:e })

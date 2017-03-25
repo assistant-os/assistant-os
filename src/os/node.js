@@ -9,6 +9,8 @@ class Node extends EventEmitter {
         this.name = opts.name
         this.description = opts.description
         this.status = 'disconnected'
+        this.owner = null
+        this.behaviors = opts.behaviors
     }
 
     isConnected () {
@@ -16,16 +18,28 @@ class Node extends EventEmitter {
     }
 
     connect () {
+        let previousStatus = this.status
         this.status = 'connected'
-        this.emit('connected')
+        if (previousStatus !== this.status) {
+            this.emit('connected')
+        }
     }
 
     disconnect () {
+        let previousStatus = this.status
         this.status = 'disconnected'
-        this.emit('disconnected')
+        if (previousStatus !== this.status) {
+            this.emit('disconnected')
+        }
     }
 
     process (message) {
 
     }
+
+    belongsTo (user) {
+        this.owner = user
+    }
 }
+
+export default Node
