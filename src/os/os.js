@@ -29,8 +29,17 @@ class Os extends Middleware {
     }
 
     speak (user, text) {
-        if (this.adapters[0]) {
-            this.adapters[0].send(user, text)
+        let defaultAdapter = this.adapters[0]
+        if (defaultAdapter) {
+            if (typeof user === 'string') {
+                defaultAdapter.findUser({
+                    name: user
+                }).then((user) => {
+                    defaultAdapter.send(user, text)
+                })
+            } else {
+                defaultAdapter.send(user, text)
+            }
         }
     }
 
@@ -95,10 +104,10 @@ class Os extends Middleware {
 
                 this.run(req, {
                     reply: reply,
-                    replyRandomly: function (choices, callback) {
+                    replyRandomly: function (choices) {
                         if (choices instanceof Array && choices.length > 0) {
                             let random = Math.floor(Math.random() * 10 % choices.length)
-                            reply(choices[random], callback)
+                            reply(choices[random])
                         }
                     },
                     adapter: adapter

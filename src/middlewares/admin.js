@@ -19,7 +19,6 @@ admin.hear('name', (req, res) => {
 })
 
 admin.hear('*', (req, res, next) => {
-
     if (req.text.toLowerCase() === 'reinitialize') {
         cache[req.user.id] = {
             state: 'waiting-for-confirmation'

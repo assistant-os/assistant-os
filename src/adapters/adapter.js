@@ -16,6 +16,12 @@ class Adapter extends EventEmitter {
     send (user, text, config) {
 
     }
+
+    findUser (opts) {
+        return new Promise((resolve, reject) => {
+            reject()
+        })
+    }
 }
 
 

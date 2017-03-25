@@ -40,6 +40,12 @@ class Slack extends Adapter {
 
                 // console.log(text)
 
+                this.findUser({
+                    id: message.user
+                }).then((user) => {
+                    this.emit('message', { user:user, text:text, date: new Date() })
+                })
+                /*
                 User.findOne({
                     where: {
                         slackId: message.user
@@ -62,7 +68,7 @@ class Slack extends Adapter {
                     } else {
                         this.emit('message', { user:user, text:text, date: new Date() })
                     }
-                })
+                })*/
             }
         })
     }
@@ -100,6 +106,50 @@ class Slack extends Adapter {
         this.bot
         .postMessageToUser(user.name, '', content)
         .always((/* data */) => {
+        })
+    }
+
+    findUser (opts) {
+        let where = {}
+        if (opts) {
+            if (opts.slackId) {
+                where.slackId = opts.id
+            }
+
+            if (opts.name) {
+                where.name = opts.name
+            }
+        }
+        return new Promise((resolve, reject) => {
+            User.findOne({
+                where: where
+            }).then((user) => {
+                if (user === null) {
+                    this.bot.getUsers().then((slackUsers) => {
+                        slackUsers.members.forEach((slackUser) => {
+                            if ((where.slackId && slackUser.id === opts.id) || (where.name && slackUser.name === opts.name)) {
+                                User.create({
+                                    real_name: slackUser.real_name,
+                                    name: slackUser.name,
+                                    slackId: slackUser.id
+                                }).then((user) => {
+                                    if (user) {
+                                        resolve(user)
+                                    } else {
+                                        reject()
+                                    }
+                                    // this.emit('message', { user:user, text:text, date: new Date() })
+                                }).catch((e) => {
+                                    reject(e)
+                                })
+                            }
+                        })
+                    })
+                } else {
+                    resolve(user)
+                    // this.emit('message', { user:user, text:text, date: new Date() })
+                }
+            })
         })
     }
 

@@ -28,6 +28,7 @@ slack.on('restart', () => {
 
 slack.on('ready', () => {
     winston.info('slack ready')
+    os.speak(process.env.SLACK_ADMIN, 'I am now online!')
 })
 
 let os = new Os({
@@ -59,20 +60,11 @@ home.behaviors = [
         },
         callback: (event) => {
             if (event.device.ip === process.env.COMPANION_IP) {
-                User.findOne({
-                    where: {
-                        name: process.env.COMPANION_OWNER
-                    }
-                }).then((user) => {
-                    if (user) {
-                        if (event.currentState && !event.previousStatus) {
-                            os.speak(user, 'Welcome home!')
-                        } else {
-                            os.speak(user, 'Go back soon.')
-                        }
-
-                    }
-                })
+                if (event.currentState && !event.previousStatus) {
+                    os.speak(process.env.COMPANION_OWNER, 'Welcome home!')
+                } else {
+                    os.speak(process.env.COMPANION_OWNER, 'Go back soon.')
+                }
             } else {
                 winston.info('unmanaged event', { event: event })
             }
@@ -139,8 +131,9 @@ scheduler.on('event.done.several.times', ({ event }) => {
 })
 
 admin.on('reinitialized', () => {
-    attach()
+    os.speak(process.env.SLACK_ADMIN, 'Reinitialization done.')
 })
+
 
 os.hear('*', (req, res) => {
     res.reply('Sorry, I didn\'t understand your request')
