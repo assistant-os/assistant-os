@@ -26,6 +26,7 @@ class Os extends Middleware {
         this.icon_url = opts.icon_url || profile.icon_url
         this.response_time = opts.response_time || 1000
         this.buffer = []
+        this.nexus = null
     }
 
     speak (user, text) {
@@ -49,6 +50,10 @@ class Os extends Middleware {
             color: this.color,
             icon_url: this.icon_url
         }
+    }
+
+    getNexus () {
+      return this.nexus
     }
 
     processBuffer () {
@@ -113,6 +118,10 @@ class Os extends Middleware {
                     adapter: adapter
                 })
             })
+        }
+
+        if (this.nexus) {
+          this.nexus.start()
         }
 
         this.emit('ready')

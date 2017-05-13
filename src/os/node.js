@@ -11,6 +11,7 @@ class Node extends EventEmitter {
         this.status = 'disconnected'
         this.owner = null
         this.behaviors = opts.behaviors
+        this.nexus = null
     }
 
     isConnected () {
@@ -23,6 +24,12 @@ class Node extends EventEmitter {
         if (previousStatus !== this.status) {
             this.emit('connected')
         }
+    }
+
+    send (request, data) {
+      if (this.nexus) {
+        this.nexus.send(this, request, data)
+      }
     }
 
     disconnect () {

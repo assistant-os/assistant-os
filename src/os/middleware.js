@@ -47,6 +47,15 @@ class Middleware extends EventEmitter {
         }
     }
 
+    getNexus () {
+        if (this.parent) {
+            return this.parent.getNexus()
+        } else {
+            console.log('no parent')
+        }
+    }
+
+
     parse (text, expression) {
         if (this.parser) {
             return this.parser(text, expression)

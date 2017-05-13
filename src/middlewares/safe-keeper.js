@@ -83,7 +83,7 @@ function checkEmails (emails, index, silent, callback) {
 // })
 
 safeKeeper.hear([
-    'notify me if my email {{email:email}} is compromised'
+    'notify me if my email {{email:email}} is compromised',
 ], (req, res) => {
     SafeEmail.create({
         email: req.parsed.email
@@ -148,7 +148,8 @@ safeKeeper.hear([
 })
 
 safeKeeper.hear([
-    'check if my emails are compromised'
+    'check if my emails are compromised',
+    'check if my accounts are compromised'
 ], (req, res) => {
     SafeEmail.findAll({
         attributes: [ 'id', 'email' ],
@@ -296,7 +297,7 @@ safeKeeper.hear([ 'help me to prevent account hackings' ], (req, res) => {
         '`notify me if my email <email> is compromised`: add email to monitor',
         '`stop notifying me if my email <email> is compromised`: remove email to monitor',
         '`list my emails monitored`: get the state of my emails',
-        'check if my emails are compromised`: instanstly check if emails have been compromised',
+        '`check if my emails are compromised`: instanstly check if emails have been compromised',
         '`list all breaches`: list all data breaches (managed and unmanaged) about your emails',
         '`list unmanaged breaches`: list all unmanaged breaches about your emails',
         '`breach at <url> for email <email> is managed`: indicate you have managed a breach of one of your account. The easy way to manage a breach is to change the password of the account linked with your email.'

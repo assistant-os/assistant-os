@@ -19,6 +19,7 @@ class Nexus extends EventEmitter {
 
     }
 
+    // format data from socket.io in order to find node sending the request
     format (callback) {
         return (data) => {
             if (data && typeof data === 'object' && data.hasOwnProperty('token')) {
@@ -32,13 +33,34 @@ class Nexus extends EventEmitter {
         }
     }
 
+    send (node, request, data) {
+      for (const socket in io.sockets.sockets) {
+        if (socket.node === node) {
+          socket.emit(request, data)
+        }
+      }
+    }
+
+    getNode (nodeName) {
+      for (const node of this.nodes) {
+        if (node.name === nodeName) {
+          return node
+        }
+      }
+      return null
+    }
+
     start () {
+      for (const node of this.nodes) {
+        node.nexus = this
+      }
+
+
         this.io = socketIo(this.port)
         this.io.on('connection', (socket) => {
-            let currentNode = null
 
             socket.on('hello', this.format((node, data) => {
-                currentNode = node
+              socket.node = node
                 node.connect()
 
                 let behaviors = []
@@ -63,8 +85,8 @@ class Nexus extends EventEmitter {
             // socket.on('')
 
             socket.on('disconnect', () => {
-                if (currentNode) {
-                    currentNode.disconnect()
+                if (socket.node) {
+                    socket.node.disconnect()
                 }
             })
         })

@@ -1,4 +1,3 @@
-import ns from 'natural-script'
 import later from 'later'
 import winston from 'winston'
 
@@ -31,7 +30,7 @@ function scheduleDateReminder (dateEvent, callback) {
                 return
             }
 
-            scheduler.emit('event.ready', { event: dateEvent })
+            scheduler.emit('event.date.done', { event: dateEvent })
         })
 
 
@@ -56,7 +55,7 @@ function scheduleOccurrenceReminder (occurrenceEvent, callback) {
                 return
             }
 
-            scheduler.emit('event.done.several.times', { event: occurrenceEvent })
+            scheduler.emit('event.occurrence.done', { event: occurrenceEvent })
         })
     }, occurrence)
 

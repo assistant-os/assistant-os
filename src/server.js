@@ -8,9 +8,9 @@ import Nexus from './os/nexus'
 import Node from './os/node'
 
 import { Slack } from './adapters'
-import { admin, scheduler, welcome, safeKeeper } from './middlewares'
+import { admin, scheduler, welcome, safeKeeper, wakeUp, presence } from './middlewares'
 
-import User from './models/user'
+// import User from './models/user'
 
 if ('production' !== process.env.NODE_ENV) {
     dotenv.config()
@@ -73,7 +73,7 @@ home.behaviors = [
     }
 ]
 
-let nexus = new Nexus({
+os.nexus = new Nexus({
     port: process.env.PORT,
     nodes: [
         home
@@ -94,41 +94,37 @@ os.hear('*', (req, res, next) => {
 
 os.use(welcome)
 os.use(admin)
+// os.use(info)
 os.use(scheduler)
 os.use(safeKeeper)
+os.use(wakeUp)
+os.use(presence)
 
 
-os.hear('wake me up {{date:date}}', (req, res) => {
-    scheduler.scheduleDateEvent(req.user, 'wake-up', req.parsed.date.start.date())
-})
 
-os.hear('wake me up {{occurrence:occurence}}', (req, res) => {
-    scheduler.scheduleOccurrenceEvent(req.user, 'wake-up', req.parsed.occurence.laterjs)
-})
-
-scheduler.on('event.scheduled', ({ diff, event }) => {
-    winston.info('event.scheduled')
-    os.speak(event.event.user, 'Roger that!')
-})
-
-scheduler.on('event.done.once', ({ event }) => {
-    winston.info('event.done.once')
-    if (event.event.name === 'wake-up') {
-        os.speak(event.event.user, 'Wake up!')
-    } else {
-        os.speak(event.event.user, 'let\'s go')
-    }
-    event.event.finish()
-})
-
-scheduler.on('event.done.several.times', ({ event }) => {
-    winston.info('event.done.several.times')
-    if (event.event.name === 'wake-up') {
-        os.speak(event.event.user, 'Wake up!')
-    } else {
-        os.speak(event.event.user, 'let\'s go')
-    }
-})
+// scheduler.on('event.scheduled', ({ diff, event }) => {
+//     winston.info('event.scheduled')
+//     os.speak(event.event.user, 'Roger that!')
+// })
+//
+// scheduler.on('event.done.once', ({ event }) => {
+//     winston.info('event.done.once')
+//     if (event.event.name === 'wake-up') {
+//         os.speak(event.event.user, 'Wake up!')
+//     } else {
+//         os.speak(event.event.user, 'let\'s go')
+//     }
+//     event.event.finish()
+// })
+//
+// scheduler.on('event.done.several.times', ({ event }) => {
+//     winston.info('event.done.several.times')
+//     if (event.event.name === 'wake-up') {
+//         os.speak(event.event.user, 'Wake up!')
+//     } else {
+//         os.speak(event.event.user, 'let\'s go')
+//     }
+// })
 
 admin.on('reinitialized', () => {
     os.speak(process.env.SLACK_ADMIN, 'Reinitialization done.')
@@ -148,7 +144,5 @@ home.on('disconnected', () => {
     os.speak(process.env.SLACK_ADMIN, 'Home Spark is now disconnected.')
     // winston.info('see you soon')
 })
-
-nexus.start()
 
 os.start()

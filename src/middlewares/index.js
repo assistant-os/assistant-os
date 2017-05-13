@@ -2,6 +2,9 @@ import admin from './admin'
 import scheduler from './scheduler'
 import welcome from './welcome'
 import safeKeeper from './safe-keeper'
-import info from './info'
+import wakeUp from './wake-up'
+import presence from './presence'
 
-export { admin, scheduler, welcome, safeKeeper, info }
+// import info from './info'
+
+export { admin, scheduler, welcome, safeKeeper, wakeUp, presence/*, info*/ }
