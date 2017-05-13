@@ -7,6 +7,7 @@ class Node extends EventEmitter {
         this.id = opts.id
         this.token = opts.token
         this.name = opts.name
+        this.real_name = opts.real_name
         this.description = opts.description
         this.status = 'disconnected'
         this.owner = null

@@ -6,6 +6,7 @@ class Nexus extends EventEmitter {
         super()
         this.port = 8080
         this.nodes = []
+        this.sockets = {}
 
         if (opts) {
             if (opts.port) {
@@ -34,10 +35,9 @@ class Nexus extends EventEmitter {
     }
 
     send (node, request, data) {
-      for (const socket in io.sockets.sockets) {
-        if (socket.node === node) {
-          socket.emit(request, data)
-        }
+      if (this.sockets[node.name]) {
+        this.sockets[node.name].emit(request, data)
+        console.log('socket.emit', request)
       }
     }
 
@@ -61,6 +61,7 @@ class Nexus extends EventEmitter {
 
             socket.on('hello', this.format((node, data) => {
               socket.node = node
+              this.sockets[node.name] = socket
                 node.connect()
 
                 let behaviors = []
@@ -87,6 +88,7 @@ class Nexus extends EventEmitter {
             socket.on('disconnect', () => {
                 if (socket.node) {
                     socket.node.disconnect()
+                    delete this.sockets[socket.node.name]
                 }
             })
         })

@@ -8,7 +8,7 @@ import Nexus from './os/nexus'
 import Node from './os/node'
 
 import { Slack } from './adapters'
-import { admin, scheduler, welcome, safeKeeper, wakeUp, presence } from './middlewares'
+import { admin, scheduler, welcome, safeKeeper, wakeUp, presence, music, nodes } from './middlewares'
 
 // import User from './models/user'
 
@@ -20,7 +20,7 @@ let slack = new Slack({
     token: process.env.SLACK_API_TOKEN
 })
 
-slack.keepAlive()
+// slack.keepAlive()
 
 slack.on('restart', () => {
     winston.info('slack restarting')
@@ -47,7 +47,8 @@ let os = new Os({
 
 let home = new Node({
     id: process.env.HOME_SPARK_ID,
-    name: 'home',
+    name: 'home-spark',
+    real_name: 'Home Spark',
     token: process.env.HOME_SPARK_TOKEN,
     description: ''
 })
@@ -99,6 +100,8 @@ os.use(scheduler)
 os.use(safeKeeper)
 os.use(wakeUp)
 os.use(presence)
+os.use(music)
+os.use(nodes)
 
 
 

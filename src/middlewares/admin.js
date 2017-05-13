@@ -10,6 +10,11 @@ let admin = new Middleware()
 
 let cache = {}
 
+admin.hear('date', (req, res) => {
+  console.log((new Date()).toString())
+    res.reply((new Date()).toString())
+})
+
 admin.hear('version', (req, res) => {
     res.reply(version)
 })
@@ -17,6 +22,8 @@ admin.hear('version', (req, res) => {
 admin.hear('name', (req, res) => {
     res.reply(req.os.name)
 })
+
+
 
 admin.hear('*', (req, res, next) => {
     if (req.text.toLowerCase() === 'reinitialize') {

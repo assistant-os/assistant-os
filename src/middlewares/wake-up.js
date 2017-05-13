@@ -4,7 +4,7 @@ import state from '../os/state'
 
 import Middleware from '../os/middleware'
 import scheduler from './scheduler'
-
+import music from './music'
 
 const wakeUp = new Middleware()
 
@@ -24,9 +24,10 @@ scheduler.on('event.scheduled', ({ diff, event }) => {
 scheduler.on('event.date.done', ({ event }) => {
     winston.info('event.date.done')
     if (event.event.name === 'wake-up') {
-      const node = wakeUp.getNexus().getNode('home')
-      if (/*node && node.isConnected() &&*/ state.get(event.event.user, 'location') === 'home') {
-        wakeUp.speak(event.event.user, 'Wake up at home!')
+      const node = wakeUp.getNexus().getNode('home-spark')
+      if (node && node.isConnected() && state.get(event.event.user, 'location') === 'home') {
+        music.startMusic(event.event.user)
+        // wakeUp.speak(event.event.user, 'Wake up at home!')
       } else {
         wakeUp.speak(event.event.user, 'Wake up!')
       }
