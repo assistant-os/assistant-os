@@ -40,7 +40,13 @@ scheduler.on('event.date.done', ({ event }) => {
 scheduler.on('event.occurrence.done', ({ event }) => {
     winston.info('event.occurrence.done')
     if (event.event.name === 'wake-up') {
+      if (node && node.isConnected() && state.get(event.event.user, 'location') === 'home') {
+        music.startMusic(event.event.user)
+        // wakeUp.speak(event.event.user, 'Wake up at home!')
+      } else {
         wakeUp.speak(event.event.user, 'Wake up!')
+      }
+        // wakeUp.speak(event.event.user, 'Wake up!')
     } else {
         wakeUp.speak(event.event.user, 'let\'s go')
     }
