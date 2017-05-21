@@ -27,7 +27,7 @@ scheduler.on('event.date.done', ({ event }) => {
       const node = wakeUp.getNexus().getNode('home-spark')
       if (node && node.isConnected() && state.get(event.event.user, 'location') === 'home') {
         music.startMusic(event.event.user)
-        // wakeUp.speak(event.event.user, 'Wake up at home!')
+        wakeUp.speak(event.event.user, 'Wake up at home!')
       } else {
         wakeUp.speak(event.event.user, 'Wake up!')
       }
@@ -40,9 +40,10 @@ scheduler.on('event.date.done', ({ event }) => {
 scheduler.on('event.occurrence.done', ({ event }) => {
     winston.info('event.occurrence.done')
     if (event.event.name === 'wake-up') {
+      const node = wakeUp.getNexus().getNode('home-spark')
       if (node && node.isConnected() && state.get(event.event.user, 'location') === 'home') {
         music.startMusic(event.event.user)
-        // wakeUp.speak(event.event.user, 'Wake up at home!')
+        wakeUp.speak(event.event.user, 'Wake up at home!')
       } else {
         wakeUp.speak(event.event.user, 'Wake up!')
       }
