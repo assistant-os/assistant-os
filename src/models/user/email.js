@@ -13,9 +13,9 @@ let Email = db.define('email', {
 Email.belongsTo(User)
 // Email.hasOne(User)
 
-// Email.sync({ force: false })
+Email.sync({ force: false })
 
-// User.sync({ force: false })
+User.sync({ force: false })
 
 Email.Instance.prototype.toChat = function () {
     let s = ''
