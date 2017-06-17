@@ -3,7 +3,7 @@ import state from '../os/state'
 import User from '../models/user'
 import Info from '../models/info'
 
-let info = new Middleware()
+let info = new Middleware('info')
 
 //
 info.hear([

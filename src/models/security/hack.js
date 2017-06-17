@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize'
-import db from '../config/db'
+import db from '../../config/db'
 
-import SafeEmail from './safe-email'
+import { Email } from '../user'
 
 export const STATE = {
     MANAGED: 'managed',
@@ -25,7 +25,7 @@ let Hack = db.define('hack', {
     }
 })
 
-Hack.belongsTo(SafeEmail, { as: 'safeEmail', foreignKey: 'safeEmailId' })
+Hack.belongsTo(Email, { as: 'email', foreignKey: 'emailId' })
 
 Hack
 .sync({ force: false })
@@ -37,7 +37,7 @@ Hack.Instance.prototype.toChat = function () {
     })
     let s = ''
     s += `\tname: ${this.name}\n`
-    s += `\t\temail concerned: ${this.safeEmail.email}\n`
+    s += `\t\temail concerned: ${this.email.email}\n`
     s += `\t\tdomain: ${this.domain}\n`
     s += `\t\tdescription: ${newDescription}\n`
     s += `\t\tdate: ${this.date}\n`

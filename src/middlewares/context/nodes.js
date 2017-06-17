@@ -1,7 +1,7 @@
-import Middleware from '../os/middleware'
-import state from '../os/state'
+import Middleware from '../../os/middleware'
+import state from '../../os/state'
 
-let nodes = new Middleware()
+let nodes = new Middleware('nodes')
 
 nodes.hear('list nodes', (req, res) => {
   for (const node of nodes.getNexus().nodes) {

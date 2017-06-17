@@ -2,7 +2,7 @@ import Middleware from '../os/middleware'
 
 import state from '../os/state'
 
-let welcome = new Middleware()
+let welcome = new Middleware('welcome')
 
 welcome.hear('*', (req, res, next) => {
     if (state.get(req.user) && state.get(req.user, 'status') === 'waiting-for-name') {
@@ -75,6 +75,10 @@ welcome.hear([ 'thanks', 'thx', 'thank you' ], (req, res, next) => {
   res.reply(`You are welcome ${req.user.real_name}!`)
 })
 
+welcome.hear([ 'help', 'help me' ], (req, res, next) => {
+  res.reply(`My name is ${os.config().name} and I am here to help in repetitive tasks.`)
+  // res.reply(`You are welcome ${req.user.real_name}!`)
+})
 
 
 export default welcome

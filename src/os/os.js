@@ -1,6 +1,6 @@
 import ns from 'natural-script'
 
-import Middleware from './middleware'
+import Middleware from '../os/middleware'
 import profile from '../config/profile'
 
 class Os extends Middleware {

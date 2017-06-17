@@ -1,6 +1,6 @@
 {
   "name": "assistant-os",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Artificial intelligence understanding natural intelligence to assist human beings",
   "main": "src/index.js",
   "scripts": {
@@ -27,9 +27,11 @@
   "dependencies": {
     "chrono-node": "^1.2.5",
     "dotenv": "^2.0.0",
+    "express": "^4.15.3",
     "fs-extra": "^1.0.0",
     "haveibeenpwned": "^1.0.1",
     "languagedetect": "^1.1.1",
+    "mongoose": "^4.10.6",
     "natural": "^0.4.0",
     "natural-script": "^0.5.1",
     "node-schedule": "^1.2.0",
@@ -38,6 +40,7 @@
     "slackbots": "^0.5.3",
     "socket.io": "^1.7.3",
     "sqlite3": "^3.1.8",
+    "webhook-catcher": "^0.1.2",
     "winston": "^2.3.0"
   },
   "devDependencies": {

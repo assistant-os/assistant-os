@@ -1,15 +1,17 @@
 import later from 'later'
 import winston from 'winston'
 
-import Middleware from '../os/middleware'
-import User from '../models/user'
-import { default as Event, STATE as EventState } from '../models/event'
-import DateEvent from '../models/date-event'
-import OccurrenceEvent from '../models/occurrence-event'
+import Middleware from '../../os/middleware'
+import User from '../../models/user'
+import { default as Event, STATE as EventState } from '../../models/event'
+import { DateEvent, OccurrenceEvent } from '../../models/event'
 
 later.date.localTime()
 
-let scheduler = new Middleware()
+let scheduler = new Middleware({
+  id: 'scheduler',
+  description: 'shedule events',
+})
 
 function scheduleDateReminder (dateEvent, callback) {
     winston.info('schedule date')
@@ -23,7 +25,7 @@ function scheduleDateReminder (dateEvent, callback) {
     }
 
 
-    /*let timeout = */setTimeout(() => {
+    setTimeout(() => {
         console.log('start', dateEvent.event.name)
         dateEvent.reload().then(() => {
             if (!dateEvent.event.ready) {
@@ -62,7 +64,10 @@ function scheduleOccurrenceReminder (occurrenceEvent, callback) {
     scheduler.emit('event.scheduled', { event: occurrenceEvent })
 }
 
-scheduler.hear('list event', (req, res) => {
+scheduler.hear([
+  'list event',
+  'event list',
+], (req, res) => {
     Event.findAll({
         attributes: [ 'id', 'name', 'context' ],
         where: {
@@ -84,7 +89,10 @@ scheduler.hear('list event', (req, res) => {
     })
 })
 
-scheduler.hear('cancel all events', (req, res) => {
+scheduler.hear([
+  'cancel all events',
+  'events cancel all',
+], (req, res) => {
     Event.update({
         state: EventState.CANCELED
     }, {
@@ -102,7 +110,10 @@ scheduler.hear('cancel all events', (req, res) => {
     })
 })
 
-scheduler.hear('cancel event {{integer:id}}', (req, res) => {
+scheduler.hear([
+  'cancel event {{integer:id}}',
+  'event cancel {{integer:id}}',
+], (req, res) => {
     // console.log('id', req.parsed.id)
     Event.update({
         state: EventState.CANCELED

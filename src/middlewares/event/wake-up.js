@@ -1,12 +1,15 @@
 import winston from 'winston'
 
-import state from '../os/state'
+import state from '../../os/state'
 
-import Middleware from '../os/middleware'
+import Middleware from '../../os/middleware'
 import scheduler from './scheduler'
-import music from './music'
+import music from '../context/music'
 
-const wakeUp = new Middleware()
+const wakeUp = new Middleware({
+  id: 'wake-up',
+  description: 'manage alarm clock',
+})
 
 wakeUp.hear('wake me up {{date:date}}', (req, res) => {
     scheduler.scheduleDateEvent(req.user, 'wake-up', req.parsed.date.start.date())

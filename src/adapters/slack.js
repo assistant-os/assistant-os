@@ -3,7 +3,7 @@ import SlackBot from 'slackbots'
 // import EventEmitter from 'event'
 // import winston from 'winston'
 
-import Adapter from './adapter'
+import Adapter from '../os/adapter'
 
 // import db from '../config/db'
 import User from '../models/user'

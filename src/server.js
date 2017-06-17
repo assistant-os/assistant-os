@@ -2,13 +2,15 @@ import winston from 'winston'
 import ns from 'natural-script'
 import dotenv from 'dotenv'
 
+import webhookCatcher from 'webhook-catcher'
+
 import Os from './os/os'
 
 import Nexus from './os/nexus'
 import Node from './os/node'
 
 import { Slack } from './adapters'
-import { admin, scheduler, welcome, safeKeeper, wakeUp, presence, music, nodes } from './middlewares'
+import { admin, welcome, security, eventManager, contextManager, profile } from './middlewares'
 
 // import User from './models/user'
 
@@ -74,35 +76,51 @@ home.behaviors = [
     }
 ]
 
+const routers = {}
+
+if (process.env.WEBHOOK_TOKEN) {
+  const webhookCatcher = new WebhookCatcher({
+    services: [ 'github', 'bitbucket' ],
+    token: process.env.WEBHOOK_TOKEN,
+  })
+
+  webhookCatcher.on('pull-request', (event) => {
+    if (event.reviewers.length > 0) {
+      os.speak(event.reviewers[0].username, `You have a new pull request "${event.title}" available at url ${event.url}.`)
+    }
+  })
+
+  routers['/webhook'] = webhookCatcher.router
+}
+
 os.nexus = new Nexus({
     port: process.env.PORT,
     nodes: [
         home
-    ]
+    ],
+    routers: routers,
 })
 
 os.on('ready', () => {
     winston.info(`assistant ${os.name} ready`)
 })
 
-os.hear('*', (req, res, next) => {
-    if (req.text.toLowerCase() === 'help') {
-        res.reply(`My name is ${os.config().name} and I am here to help in repetitive tasks.`)
-    } else {
-        next()
-    }
-})
+// os.hear(['help', ], (req, res, next) => {
+//     if (req.text.toLowerCase() === 'help') {
+//         res.reply(`My name is ${os.config().name} and I am here to help in repetitive tasks.`)
+//     } else {
+//         next()
+//     }
+// })
 
 os.use(welcome)
 os.use(admin)
 // os.use(info)
-os.use(scheduler)
-os.use(safeKeeper)
-os.use(wakeUp)
-os.use(presence)
-os.use(music)
-os.use(nodes)
-
+os.use(eventManager)
+os.use(security)
+// os.use(wakeUp)
+os.use(contextManager)
+os.use(profile)
 
 
 // scheduler.on('event.scheduled', ({ diff, event }) => {

@@ -1,6 +1,6 @@
-import Middleware from '../os/middleware'
+import Middleware from '../../os/middleware'
 
-let music = new Middleware()
+let music = new Middleware('music')
 
 music.startMusic = (user, speed = 'fast') => {
   const homeSpark = music.getNexus().getNode('home-spark')

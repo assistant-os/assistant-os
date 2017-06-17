@@ -1,24 +1,33 @@
 import EventEmitter from 'events'
 
+/**
+ * manage rules and child middlwares
+ */
 class Middleware extends EventEmitter {
 
-    constructor (opts) {
+    constructor (opts = {}) {
         super()
-        this.rules = []
-        this.parser = null
-        this.description = ''
-        if (opts) {
-            if (opts.parser) {
-                this.parser = opts.parser
-            }
 
-            if (opts.description) {
-                this.description = opts.description
-            }
+        if (typeof opts === 'string') {
+          opts = { id: opts }
         }
+
+        const { parser = null, description = '', id = '', enabled = true } = opts
+
+        this.rules = []
+        this.parser = parser
+        this.description = description
+        this.enabled = enabled
+        this.id = id
         this.parent = null
+        this.config
     }
 
+    /**
+     * Add simple rule
+     * @param  {[string|array]}   expression [user sentence to check according to a specific parser]
+     * @param  {Function} callback   [what to do if the user says the expression ]
+     */
     hear (expression, callback) {
         this.rules.push({
             expression: expression,
@@ -26,6 +35,10 @@ class Middleware extends EventEmitter {
         })
     }
 
+    /**
+     * Add child middleware
+     * @param  {[Middleware]} middleware [child middleware to add]
+     */
     use (middleware) {
         this.rules.push(middleware)
         middleware.parent = this
@@ -35,7 +48,7 @@ class Middleware extends EventEmitter {
         if (this.parent) {
             return this.parent.config()
         } else {
-            console.log('no parent')
+            return {}
         }
     }
 
@@ -53,6 +66,14 @@ class Middleware extends EventEmitter {
         } else {
             console.log('no parent')
         }
+    }
+
+    log (status, object) {
+      if (this.parent) {
+        this.parent.log(status, object)
+      } else {
+        this.emit('log', { status, object })
+      }
     }
 
 
@@ -79,10 +100,6 @@ class Middleware extends EventEmitter {
         let rule = this.rules[index]
         if (rule instanceof Middleware) {
             rule.run(req, res, next)
-            // let next =
-            // if (next === false) {
-            //     return false
-            // }
         } else {
             // console.log(req, rule)
             let parserResult = false
@@ -104,7 +121,6 @@ class Middleware extends EventEmitter {
             }
 
             if (parserResult !== false) {
-                // console.log('stop', req.text)
                 if ('object' === typeof parserResult) {
                     req.parsed = parserResult
                 }
@@ -120,52 +136,11 @@ class Middleware extends EventEmitter {
     }
 
     run (req, res, next) {
-
+      if (this.enabled) {
         this.runRecursively(req, res, 0, next)
-
-        /*
-        for (let i in this.rules) {
-            let rule = this.rules[i]
-
-            if (rule instanceof Middleware) {
-                let next = rule.run(req, res)
-                if (next === false) {
-                    return false
-                }
-            } else {
-                // console.log(req, rule)
-                let parserResult = false
-                if (typeof rule.expression === 'string') {
-                    if (rule.expression === '*') {
-                        parserResult = true
-                    } else {
-                        parserResult = this.parse(req.text, rule.expression)
-                    }
-                } else if (rule.expression instanceof Array) {
-                    for (let expression of rule.expression) {
-                        parserResult = this.parse(req.text, expression)
-                        if (parserResult !== false) {
-                            break
-                        }
-                    }
-                } else if (typeof rule.expression === 'function') {
-                    parserResult = rule.expression(req)
-                }
-
-                if (parserResult !== false) {
-                    // console.log('stop', req.text)
-                    if ('object' === typeof parserResult) {
-                        req.parsed = parserResult
-                    }
-                    if (rule.callback) {
-                        return rule.callback(req, res)
-                    } else {
-                        return false
-                    }
-                }
-            }
-        }
-        return true*/
+      } else {
+        next && next(req, next)
+      }
     }
 
 }

@@ -5,8 +5,7 @@ import Middleware from '../os/middleware'
 
 import db from '../config/db'
 
-
-let admin = new Middleware()
+let admin = new Middleware('admin')
 
 let cache = {}
 
@@ -22,8 +21,6 @@ admin.hear('version', (req, res) => {
 admin.hear('name', (req, res) => {
     res.reply(req.os.name)
 })
-
-
 
 admin.hear('*', (req, res, next) => {
     if (req.text.toLowerCase() === 'reinitialize') {
