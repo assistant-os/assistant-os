@@ -198,25 +198,25 @@ scheduler.scheduleOccurrenceEvent = (user, name, occurrence, content = '', callb
 
 
 export default scheduler
-
-DateEvent.findAll({
-    include: [ {
-        model: Event,
-        include: [ User ]
-    } ]
-}).then((events) => {
-    events.forEach((event) => {
-        scheduleDateReminder(event)
-    })
-})
-
-OccurrenceEvent.findAll({
-    include: [ {
-        model: Event,
-        include: [ User ]
-    } ]
-}).then((events) => {
-    events.forEach((event) => {
-        scheduleOccurrenceReminder(event)
-    })
-})
+//
+// DateEvent.findAll({
+//     include: [ {
+//         model: Event,
+//         include: [ User ]
+//     } ]
+// }).then((events) => {
+//     events.forEach((event) => {
+//         scheduleDateReminder(event)
+//     })
+// })
+//
+// OccurrenceEvent.findAll({
+//     include: [ {
+//         model: Event,
+//         include: [ User ]
+//     } ]
+// }).then((events) => {
+//     events.forEach((event) => {
+//         scheduleOccurrenceReminder(event)
+//     })
+// })
