@@ -4,6 +4,9 @@ import express from 'express'
 import http from 'http'
 import socketIo from 'socket.io'
 
+/**
+ * Manage nodes
+ */
 class Nexus extends EventEmitter {
   constructor ({ port = 8080, nodes = [], routers = {} }) {
     super()

@@ -3,6 +3,9 @@ import ns from 'natural-script'
 import Middleware from '../os/middleware'
 import profile from '../config/profile'
 
+/**
+ * The root middleware
+ */
 class Os extends Middleware {
 
     constructor (opts) {
@@ -20,7 +23,7 @@ class Os extends Middleware {
 
         this.adapters = opts.adapters
 
-
+        this.id = 'os'
         this.name = opts.name || profile.name
         this.color = opts.color || profile.color
         this.icon_url = opts.icon_url || profile.icon_url
@@ -126,7 +129,6 @@ class Os extends Middleware {
 
         this.emit('ready')
     }
-
 
 }
 

@@ -1,5 +1,8 @@
 import EventEmitter from 'events'
 
+/**
+ * Represents an object in communication with the assistant
+ */
 class Node extends EventEmitter {
 
     constructor (opts) {

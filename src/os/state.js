@@ -1,4 +1,4 @@
-// replace with redis 
+// replace with redis
 let state = {}
 
 const initialize = (user) => {
