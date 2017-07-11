@@ -38,3 +38,9 @@ $ SLACK_API_TOKEN=<...> COLOR=<...> ... npm start
 This methods depends of your os or the web hosting.
 
 For linux, the best way is to add the variables in the bashrc.
+
+
+
+## TODO
+
+* see [here](https://github.com/orgs/assistant-os/projects/1).
