@@ -1,4 +1,4 @@
-# Use cases
+# Master Plan
 
 ## Step 1
 
@@ -15,8 +15,9 @@ You define your wake up time with simple english order like `wake me up every da
 
 ### Security
 
-The assistant has several ways to protect you. The first way is the protection of your online accounts. Give your emails to the assistant. Turn on the check and every evening it will check if these emails are compromised.
+The assistant has several ways to protect you. The first way is the protection of your online accounts. Give your emails to the assistant. Turn on the online protection and every evening it will check if these emails are compromised.
 
 ### Meteo
 
-Every morning
+Every morning, the virtual assistant gives the meteo of the day in the current location.
+You can also ask directly the meteo for the current day.

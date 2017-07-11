@@ -68,11 +68,11 @@ class Middleware extends EventEmitter {
         }
     }
 
-    log (status, object) {
+    log (status, payload) {
       if (this.parent) {
-        this.parent.log(status, object)
+        this.parent.log(status, payload)
       } else {
-        this.emit('log', { status, object })
+        this.emit('log', { status, payload })
       }
     }
 

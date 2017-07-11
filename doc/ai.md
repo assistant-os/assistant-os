@@ -18,3 +18,8 @@
 * [describe events](https://github.com/bunkat/later)
 * [find date in string](https://github.com/wanasit/chrono)
 * [schedule events](https://github.com/node-schedule/node-schedule)
+
+## meteo
+
+* https://openweathermap.org/api
+* https://github.com/baslr/node-openweathermap
