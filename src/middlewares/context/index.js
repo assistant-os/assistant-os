@@ -2,15 +2,15 @@ import Middleware from '../../os/middleware'
 
 import music from './music'
 import nodes from './nodes'
-import presence from './presence'
-import meteo from './meteo'
+import location from './location'
+import weather from './weather'
 
 const context = new Middleware('context')
 
 context.use(music)
 context.use(nodes)
-context.use(presence)
-context.use(meteo)
+context.use(location)
+context.use(weather)
 
 export default context
 

@@ -101,8 +101,8 @@ os.on('ready', () => {
   winston.info(`assistant ${os.name} ready`)
 })
 
-os.on('log', ({ status = 'error', payload }) => {
-  winston.log(status, { ...payload, })
+os.on('log', ({ status, event, payload }) => {
+  winston.log(status, { ...payload, event })
 })
 
 os.use(welcome)

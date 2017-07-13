@@ -21,3 +21,18 @@ The assistant has several ways to protect you. The first way is the protection o
 
 Every morning, the virtual assistant gives the meteo of the day in the current location.
 You can also ask directly the meteo for the current day.
+
+### Repository Event notifier
+
+When you become reviewer of a pull request on github or bitbucket, the virtual assistant alerts you.
+
+## Step 2
+
+This step is about a assistant more integrated.
+
+### Messenger integration
+
+
+### Email notifier
+
+### Home integration step 1

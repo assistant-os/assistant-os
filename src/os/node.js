@@ -3,7 +3,7 @@ import EventEmitter from 'events'
 /**
  * Represents an object in communication with the assistant
  */
-class Node extends EventEmitter {
+export default class Node extends EventEmitter {
 
     constructor (opts) {
         super()
@@ -52,5 +52,3 @@ class Node extends EventEmitter {
         this.owner = user
     }
 }
-
-export default Node

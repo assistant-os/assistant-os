@@ -15,18 +15,27 @@ welcome.hear('*', (req, res, next) => {
 welcome.hear([ 'hello', 'hi', 'good morning', 'good afternoon', 'good evening' ], (req, res) => {
 
   const name = req.user.real_name ? ` ${req.user.real_name}` : ''
+  const lastHello = welcome.state.get(req.user, 'last-hello')
 
-  res.replyRandomly([ `Hello${name}`, `Hi${name}`, () => {
-    if (req.date.getHours() < 11) {
-      return `Good morning${name}!`
-    } else if (req.date.getHours() < 18) {
-      return `Good afternoon${name}!`
-    } else if (req.date.getHours() < 23) {
-      return `Good evening${name}!`
-    } else {
-      return `Good night${name}!`
-    }
-  } ])
+  if (lastHello === null || lastHello.getDay() !== (new Date()).getDay()) {
+    res.reply([ `Hello${name}`, `Hi${name}`, () => {
+      if (req.date.getHours() < 11) {
+        return `Good morning${name}!`
+      } else if (req.date.getHours() < 18) {
+        return `Good afternoon${name}!`
+      } else if (req.date.getHours() < 23) {
+        return `Good evening${name}!`
+      } else {
+        return `Good night${name}!`
+      }
+    } ], { random: true })
+  } else {
+    res.reply('Hey, you already said hello today!')
+  }
+
+
+
+  welcome.state.set(req.user, 'last-hello', new Date())
 
 
   if (req.user.real_name) {
@@ -49,7 +58,6 @@ welcome.hear([ 'cancel', 'forget', 'forget it' ], (req, res, next) => {
   } else {
     next()
   }
-
 })
 
 welcome.hear([ 'yes', 'ouep' ], (req, res, next) => {

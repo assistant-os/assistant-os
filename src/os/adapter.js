@@ -9,7 +9,7 @@ import EventEmitter from 'events'
  * This class automatically create user if it doesn't already exist in database
  *
  */
-class Adapter extends EventEmitter {
+export default class Adapter extends EventEmitter {
 
     constructor () {
         super()
@@ -36,7 +36,3 @@ class Adapter extends EventEmitter {
         })
     }
 }
-
-
-
-export default Adapter

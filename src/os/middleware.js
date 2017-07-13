@@ -1,11 +1,11 @@
 import EventEmitter from 'events'
 
-import StateManager from './state-manager'
+import State from './state'
 
 /**
 * manage rules and child middlwares
 */
-class Middleware extends EventEmitter {
+export default class Middleware extends EventEmitter {
 
   constructor (opts = {}) {
     super()
@@ -22,8 +22,7 @@ class Middleware extends EventEmitter {
     this.enabled = enabled
     this.id = id
     this.parent = null
-    this.config
-    this.state = new StateManager(this)
+    this.state = new State(this)
   }
 
   /**
@@ -55,9 +54,9 @@ class Middleware extends EventEmitter {
     }
   }
 
-  speak (user, text) {
+  speak (user, text, options) {
     if (this.parent) {
-      this.parent.speak(user, text)
+      this.parent.speak(user, text, options)
     } else {
       console.log('no parent')
     }
@@ -67,7 +66,7 @@ class Middleware extends EventEmitter {
     if (this.parent) {
       return this.parent.getNexus()
     } else {
-      console.log('no parent')
+      return this.nexus
     }
   }
 
@@ -79,14 +78,13 @@ class Middleware extends EventEmitter {
     }
   }
 
-  log (status, payload) {
+  log (status = 'info', event = 'unknown-event', payload = {}) {
     if (this.parent) {
-      this.parent.log(status, payload)
+      this.parent.log(status, event, payload)
     } else {
-      this.emit('log', { status, payload })
+      this.emit('log', { status, event, payload })
     }
   }
-
 
   parse (text, expression) {
     if (this.parser) {
@@ -173,7 +171,6 @@ class Middleware extends EventEmitter {
     } else {
       next()
     }
-
   }
 
   list (callback, endCallback) {
@@ -195,5 +192,3 @@ class Middleware extends EventEmitter {
   // }
 
 }
-
-module.exports = Middleware

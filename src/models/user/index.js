@@ -1,7 +1,6 @@
-import User2 from './user'
-import Email2 from './email'
+import User from './user'
+import Email from './email'
 
-export default User2
-
-export const User = User2
-export const Email = Email2
+export default User
+export { User }
+export { Email }

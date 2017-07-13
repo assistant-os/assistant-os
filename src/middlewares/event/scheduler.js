@@ -3,8 +3,8 @@ import winston from 'winston'
 
 import Middleware from '../../os/middleware'
 import User from '../../models/user'
-import { default as Event, STATE as EventState } from '../../models/event'
-import { DateEvent, OccurrenceEvent } from '../../models/event'
+import { default as Event, STATE as EventState, DateEvent, OccurrenceEvent } from '../../models/event'
+import {  } from '../../models/event'
 
 later.date.localTime()
 
@@ -14,16 +14,14 @@ let scheduler = new Middleware({
 })
 
 function scheduleDateReminder (dateEvent, callback) {
-    winston.info('schedule date')
+    scheduler.log('info', 'schedule date')
     // console.log(JSON.parse(event.date).start)
-    let diff = dateEvent.delay
-    console.log('diff', diff)
+    const diff = dateEvent.delay
 
     if (diff < 0) {
         dateEvent.event.pass()
         return
     }
-
 
     setTimeout(() => {
         console.log('start', dateEvent.event.name)
@@ -31,10 +29,8 @@ function scheduleDateReminder (dateEvent, callback) {
             if (!dateEvent.event.ready) {
                 return
             }
-
             scheduler.emit('event.date.done', { event: dateEvent })
         })
-
 
     }, diff)
 
@@ -44,13 +40,10 @@ function scheduleDateReminder (dateEvent, callback) {
 }
 
 function scheduleOccurrenceReminder (occurrenceEvent, callback) {
-    winston.info('schedule occurrence')
-    // console.log(JSON.parse(event.date).start)
-
-    let occurrence = JSON.parse(occurrenceEvent.occurrence)
+    scheduler.log('info', 'schedule occurrence')
+    const occurrence = JSON.parse(occurrenceEvent.occurrence)
 
     let interval = later.setInterval(() => {
-        console.log('start', occurrenceEvent.event.name)
         occurrenceEvent.reload().then(() => {
             if (!occurrenceEvent.event.ready) {
                 interval.clear()
@@ -106,7 +99,7 @@ scheduler.hear([
     })
     .catch((e) => {
         res.reply('oups bug')
-        winston.error('error while cancelling all events', { error: e })
+        scheduler.log('error', 'error while cancelling all events', { error: e })
     })
 })
 
@@ -134,7 +127,7 @@ scheduler.hear([
     })
     .catch((e) => {
         res.reply('oups bug')
-        winston.error('error while cancelling an event', { error: e })
+        scheduler.log('error', 'error while cancelling an event', { error: e })
     })
 })
 
@@ -195,6 +188,21 @@ scheduler.scheduleOccurrenceEvent = (user, name, occurrence, content = '', callb
         }
     })
 }
+
+scheduler.on('event.date.done', ({ event }) => {
+  scheduler.log('info', 'event.scheduled')
+    if (event.event.name !== 'wake-up') {
+        wakeUp.speak(event.event.user, 'let\'s go')
+        event.event.finish()
+    }
+})
+
+scheduler.on('event.occurrence.done', ({ event }) => {
+  scheduler.log('info', 'event.scheduled')
+    if (event.event.name !== 'wake-up') {
+        wakeUp.speak(event.event.user, 'let\'s go')
+    }
+})
 
 
 export default scheduler

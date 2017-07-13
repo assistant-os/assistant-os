@@ -1,11 +1,6 @@
 import SlackBot from 'slackbots'
-// import util from 'util'
-// import EventEmitter from 'event'
-// import winston from 'winston'
 
 import Adapter from '../os/adapter'
-
-// import db from '../config/db'
 import User from '../models/user'
 
 class Slack extends Adapter {
@@ -38,37 +33,11 @@ class Slack extends Adapter {
                     return p2
                 })
 
-                // console.log(text)
-
                 this.findUser({
                     id: message.user
                 }).then((user) => {
                     this.emit('message', { user:user, text:text, date: new Date() })
                 })
-                /*
-                User.findOne({
-                    where: {
-                        slackId: message.user
-                    }
-                }).then((user) => {
-                    if (user === null) {
-                        this.bot.getUsers().then((slackUsers) => {
-                            slackUsers.members.forEach((slackUser) => {
-                                if (slackUser.id === message.user) {
-                                    User.create({
-                                        real_name: slackUser.real_name,
-                                        name: slackUser.name,
-                                        slackId: slackUser.id
-                                    }).then((user) => {
-                                        this.emit('message', { user:user, text:text, date: new Date() })
-                                    })
-                                }
-                            })
-                        })
-                    } else {
-                        this.emit('message', { user:user, text:text, date: new Date() })
-                    }
-                })*/
             }
         })
     }
@@ -91,24 +60,34 @@ class Slack extends Adapter {
             "attachments": []
         }
 
-
-
-        /*
-        if (help) {
-            content.attachments.push({
-                "text": help,
-                "callback_id": "happiness_collection",
-                "color": process.env.COLOR,
-                "mrkdwn_in": ["text", "pretext"]
-            });
-        };*/
-
-        this.bot
-        .postMessageToUser(user.name, '', content)
-        .always((/* data */) => {
+        return this.findUserTmp(user).then((slackUser) => {
+          this.bot
+          .postMessageToUser(slackUser.name, '', content)
+          .always((/* data */) => {
+          })
+        }).catch(() => {
+          console.log('error')
         })
     }
 
+    // TODO clean this method
+    findUserTmp (user) {
+      return new Promise((resolve, reject) => {
+        if (typeof user === 'string') {
+          return this.findUser({
+            name: user
+          }).then((slackUser) => {
+            resolve(slackUser)
+          }).catch(() => {
+            reject()
+          })
+        } else {
+          resolve(user)
+        }
+      })
+    }
+
+    // TODO clean this method
     findUser (opts) {
         let where = {}
         if (opts) {

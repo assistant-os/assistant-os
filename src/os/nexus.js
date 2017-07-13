@@ -7,7 +7,7 @@ import socketIo from 'socket.io'
 /**
  * Manage nodes
  */
-class Nexus extends EventEmitter {
+export default class Nexus extends EventEmitter {
   constructor ({ port = 8080, nodes = [], routers = {} }) {
     super()
     this.port = port // default port
@@ -100,5 +100,3 @@ class Nexus extends EventEmitter {
     })
   }
 }
-
-export default Nexus

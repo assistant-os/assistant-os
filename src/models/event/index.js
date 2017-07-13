@@ -1,9 +1,8 @@
-import Event2 from './event'
-import DateEvent2 from './date-event'
-import OccurrenceEvent2 from './occurrence-event'
+import Event from './event'
+import DateEvent from './date-event'
+import OccurrenceEvent from './occurrence-event'
+export default Event
 
-export default Event2
-
-export const DateEvent = DateEvent2
-export const OccurrenceEvent = OccurrenceEvent2
-export const Event = Event2
+export * from './event'
+export { DateEvent }
+export { OccurrenceEvent }
