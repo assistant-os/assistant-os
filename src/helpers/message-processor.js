@@ -5,7 +5,7 @@ export function processResponse (response) {
   if (typeof response === 'string') {
     text = response
   } else if (typeof response === 'function') {
-    text = message()
+    text = response()
   } else if (response instanceof Array) {
     text = response.join('\n')
   }

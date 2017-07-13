@@ -1,5 +1,4 @@
 import later from 'later'
-import winston from 'winston'
 
 import Middleware from '../../os/middleware'
 import User from '../../models/user'
