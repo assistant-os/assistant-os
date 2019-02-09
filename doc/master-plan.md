@@ -4,8 +4,12 @@
 
 The system is based on 2 things:
 
-* a **virtual assistant** working with Assistant OS
-* a **spark** placed in the house (optionnal)
+- a **virtual assistant** working with Assistant OS
+- a **spark** placed in the house (optionnal)
+
+### Movie calendar
+
+The assistant saves the movies the user would like to watch in a the theater. It notifies the user when the film is released. It is also possible to have information about the movie.
 
 ### Wake up
 
@@ -31,7 +35,6 @@ When you become reviewer of a pull request on github or bitbucket, the virtual a
 This step is about a assistant more integrated.
 
 ### Messenger integration
-
 
 ### Email notifier
 
