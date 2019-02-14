@@ -2,6 +2,19 @@
 
 ```
 node -> nexus
+event name: register
+{
+  token: <token>
+  type: <string>
+  payload: {
+
+  }
+}
+
+```
+
+```
+node -> nexus
 event name: hello
 {
   token: <token>
@@ -21,7 +34,6 @@ event name: set-behavior
   }
 ]
 ```
-
 
 ```
 node -> nexus

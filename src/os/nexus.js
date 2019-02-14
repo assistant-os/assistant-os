@@ -8,94 +8,71 @@ import socketIo from 'socket.io'
  * Manage nodes
  */
 export default class Nexus extends EventEmitter {
-  constructor ({ port = 8080, nodes = [], routers = {} }) {
+  constructor ({ port = 8080, token = null, logger = null } = {}) {
     super()
     this.port = port // default port
-    this.nodes = nodes
     this.sockets = {}
-
-    this.routers = routers
+    this.nodes = {}
+    this.token = token
+    this.logger = logger
   }
 
-  // format data from socket.io in order to find node sending the request
-  format (callback) {
-    return (data) => {
-      if (data && typeof data === 'object' && data.hasOwnProperty('token')) {
-        for (let node of this.nodes) {
-          if (node.token === data.token) {
-            callback && callback (node, data)
-            return
-          }
-        }
+  check (callback) {
+    return data => {
+      if (
+        data &&
+        typeof data === 'object' &&
+        'token' in data &&
+        data.token === this.token
+      ) {
+        callback && callback(data)
       }
     }
   }
 
-  send (node, request, data) {
-    if (this.sockets[node.name]) {
-      this.sockets[node.name].emit(request, data)
-      console.log('socket.emit', request)
+  send ({ id, ...other }) {
+    if (id in this.nodes) {
+      this.nodes[id].socket.emit('message', { ...other })
     }
-  }
-
-  getNode (nodeName) {
-    for (const node of this.nodes) {
-      if (node.name === nodeName) {
-        return node
-      }
-    }
-    return null
   }
 
   start () {
-    for (const node of this.nodes) {
-      node.nexus = this
+    if (!this.token) {
+      this.emit('error', { reason: 'token-not-valid', details: this.token })
+      return
     }
 
     this.http = express()
     this.server = http.Server(this.http)
     this.io = socketIo(this.server)
 
-    // for (const key in this.routers) {
-    //   this.app.use(key, this.routers[key])
-    // }
+    this.server.listen(this.port, () => {
+      this.emit('info', `listening on port ${this.port}`)
+    })
 
-    this.server.listen(this.port)
-
-
-    this.io.on('connection', (socket) => {
-
-      socket.on('hello', this.format((node, data) => {
-        socket.node = node
-        this.sockets[node.name] = socket
-        node.connect()
-
-        let behaviors = []
-        for (let behavior of node.behaviors) {
-          behaviors.push({
-            type: behavior.type,
-            device: behavior.device
-          })
-        }
-
-        socket.emit('set-behavior', behaviors)
-      }))
-
-      socket.on('behavior-result', this.format((node, data) => {
-        for (let behavior of node.behaviors) {
-          if (behavior.type === data.type) {
-            behavior.callback && behavior.callback(data.payload)
+    this.io.on('connection', socket => {
+      let id = null
+      socket.on(
+        'message',
+        this.check(({ type, payload }) => {
+          if (type === 'register') {
+            id = Math.floor(Math.random() * Math.floor(1000000))
+            // register the socket
+            this.nodes[id] = {
+              ...payload,
+              socket
+            }
           }
-        }
-      }))
-
-      // socket.on('')
+          this.emit('node', { id, type, payload })
+        })
+      )
 
       socket.on('disconnect', () => {
-        if (socket.node) {
-          socket.node.disconnect()
-          delete this.sockets[socket.node.name]
-        }
+        delete this.nodes[id]
+        this.emit('node', {
+          type: 'unregister',
+          id
+        })
       })
     })
   }
