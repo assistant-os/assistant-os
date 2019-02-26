@@ -9,18 +9,22 @@ export default class WebSocketNode extends Node {
     super(props)
   }
 
+  send (type, payload) {
+    this.socket.emit('message', { token: this.token, type, payload })
+  }
+
+  start () {
+    this.register()
+  }
+
   register () {
     this.socket = io(`${this.host}:${this.port}`)
 
     this.socket.on('connect', () => {
-      this.socket.emit('message', {
-        token: this.token,
-        type: 'register',
-        payload: {
-          label: this.label,
-          priority: this.priority,
-          type: this.type
-        }
+      this.send('register', {
+        label: this.label,
+        priority: this.priority,
+        type: this.type,
       })
     })
 
@@ -29,6 +33,7 @@ export default class WebSocketNode extends Node {
         this.emit('registered')
       }
       this.emit('message', message)
+      // this.emit(`test-${message.type}`, message)
     })
   }
 }

@@ -17,7 +17,7 @@ export default class Nexus extends EventEmitter {
     this.logger = logger
   }
 
-  check (callback) {
+  checkToken (callback) {
     return data => {
       if (
         data &&
@@ -30,9 +30,15 @@ export default class Nexus extends EventEmitter {
     }
   }
 
-  send ({ id, ...other }) {
-    if (id in this.nodes) {
+  send ({ id, group, ...other }) {
+    if (id && id in this.nodes) {
       this.nodes[id].socket.emit('message', { ...other })
+    } else if (group) {
+      Object.keys(this.nodes).forEach(id => {
+        if (this.nodes[id].type === group) {
+          this.nodes[id].socket.emit('message', { ...other })
+        }
+      })
     }
   }
 
@@ -51,27 +57,35 @@ export default class Nexus extends EventEmitter {
     })
 
     this.io.on('connection', socket => {
-      let id = null
+      let userId = null
+      let adapterId = null
       socket.on(
         'message',
-        this.check(({ type, payload }) => {
+        this.checkToken(({ type, payload }) => {
           if (type === 'register') {
-            id = Math.floor(Math.random() * Math.floor(1000000))
+            adapterId = Math.floor(Math.random() * Math.floor(1000000))
+            userId = Math.floor(Math.random() * Math.floor(1000000))
+
             // register the socket
-            this.nodes[id] = {
+            this.nodes[adapterId] = {
+              id: adapterId,
               ...payload,
-              socket
+              socket,
             }
           }
-          this.emit('node', { id, type, payload })
+          this.emit('node', {
+            id: adapterId,
+            type,
+            payload: { ...payload, user: { id: userId } },
+          })
         })
       )
 
       socket.on('disconnect', () => {
-        delete this.nodes[id]
+        delete this.nodes[adapterId]
         this.emit('node', {
           type: 'unregister',
-          id
+          id: adapterId,
         })
       })
     })

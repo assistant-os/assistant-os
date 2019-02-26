@@ -4,7 +4,7 @@ import { plugLogger } from 'config/logger'
 // import webhookCatcher from 'webhook-catcher'
 
 import { Os, Nexus } from './os'
-import { Hello } from './nodes/modules'
+import { Hello, Movies } from './nodes/modules'
 
 // import Node from "./os/node"
 //
@@ -117,8 +117,19 @@ os.on('node', message => {
 nexus.start()
 os.start()
 
-const hello = new Hello()
-hello.register()
-hello.on('connected', () => {
-  console.log('connected')
+const hello = new Hello({
+  token: process.env.TOKEN,
+  host: process.env.HOST,
+  port: process.env.PORT,
+  priority: 5,
 })
+hello.start()
+
+const movies = new Movies({
+  token: process.env.TOKEN,
+  apiKey: process.env.THEMOVIEDB_API_KEY,
+  host: process.env.HOST,
+  port: process.env.PORT,
+  priority: 5,
+})
+movies.start()

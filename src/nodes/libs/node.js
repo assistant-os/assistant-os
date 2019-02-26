@@ -10,7 +10,7 @@ export default class Node extends EventEmitter {
     type = 'unknown',
     port,
     host,
-    token
+    token,
   }) {
     super()
     this.label = label
@@ -19,6 +19,10 @@ export default class Node extends EventEmitter {
     this.port = port
     this.host = host
     this.token = token
+  }
+
+  start () {
+    this.register()
   }
 
   register () {}
