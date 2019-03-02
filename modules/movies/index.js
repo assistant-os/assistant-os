@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { WebSocketModule, env } from '@assistant-os/utils'
+import { WebSocketModule } from '@assistant-os/utils'
 
 export default class extends WebSocketModule {
   constructor ({ apiKey, ...props }) {
@@ -60,10 +60,5 @@ export default class extends WebSocketModule {
         reject()
       }
     })
-  }
-
-  start () {
-    env()
-    super.start()
   }
 }

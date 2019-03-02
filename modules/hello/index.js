@@ -1,5 +1,5 @@
 import { JaroWinklerDistance } from 'natural'
-import { WebSocketModule, env } from '@assistant-os/utils'
+import { WebSocketModule } from '@assistant-os/utils'
 
 import config from './config'
 
@@ -27,10 +27,5 @@ export default class extends WebSocketModule {
         text: 'Hello !',
       })
     })
-  }
-
-  start () {
-    env()
-    super.start()
   }
 }

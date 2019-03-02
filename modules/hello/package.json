@@ -9,7 +9,7 @@
     "hello"
   ],
   "dependencies": {
-    "@assistant-os/utils": "file:../../core/utils",
+    "@assistant-os/utils": "file:../../utils",
     "natural": "^0.6.3"
   }
 }

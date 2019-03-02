@@ -5,9 +5,9 @@
   "main": "src/assistant.js",
   "scripts": {
     "test": "mocha test/test-parser.js",
-    "start": "babel-node src/assistant.js",
-    "cli": "npx babel-node adapters/command-line",
-    "build": "babel src --out-dir dist"
+    "dev": "npx babel-node --config-file ./.babelrc.js scripts/start-all.js",
+    "cli": "npx babel-node --config-file ./.babelrc.js adapters/command-line/index.js",
+    "build": "NODE_ENV=production lerna exec -- babel *.js --ignore dist -d dist"
   },
   "repository": {
     "type": "git",
@@ -24,24 +24,23 @@
   "bugs": {
     "url": "https://github.com/assistant-os/assistant-os/issues"
   },
-  "homepage": "https://github.com/assistant-os/assistant-os#readme",
   "workspaces": [
+    "config",
+    "utils",
     "adapters/*",
     "modules/*",
-    "core/*"
+    "os"
   ],
+  "homepage": "https://github.com/assistant-os/assistant-os#readme",
+  "private": true,
   "devDependencies": {
-    "lerna": "^3.13.1",
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.2",
+    "dotenv": "^6.2.0",
     "@babel/node": "^7.2.2",
-    "@babel/plugin-proposal-class-properties": "^7.3.0",
-    "@babel/plugin-proposal-export-default-from": "^7.2.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.3.2",
-    "@babel/preset-env": "^7.3.1",
-    "babel-eslint": "^10.0.1",
+    "lerna": "^3.13.1",
     "chai": "^4.2.0",
-    "eslint": "^5.12.1",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "@assistant-os/config": "^1.0.0",
+    "@assistant-os/utils": "^1.0.0",
+    "@assistant-os/os": "^1.0.0"
   }
 }

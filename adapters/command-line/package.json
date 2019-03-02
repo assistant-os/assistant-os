@@ -5,12 +5,12 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@assistant-os/utils": "file:../../core/utils",
+    "@assistant-os/config": "^1.0.0",
+    "@assistant-os/utils": "^1.0.0",
     "chalk": "^2.4.2",
     "enquirer": "^2.3.0"
   },
   "scripts": {
-    "start": "babel-node index.js"
-  },
-  "dependencies": {}
+    "start": "npx babel-node --config-file index.js"
+  }
 }

@@ -1,0 +1,11 @@
+{
+  "name": "@assistant-os/utils",
+  "version": "1.0.0",
+  "description": "All internal libraries usable by other components",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "winston": "^3.2.1",
+    "@assistant-os/config": "^1.0.0"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "@assistant-os/os",
+  "version": "1.0.0",
+  "description": "The operating system of the assistant",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "build": "npx babel os.js --out-dir dist/"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0",
+    "@assistant-os/utils": "^1.0.0",
+    "@assistant-os/config": "^1.0.0"
+  }
+}
