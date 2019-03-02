@@ -1,0 +1,15 @@
+{
+  "name": "@assistant-os/movies",
+  "description": "A module for assistant-os to find movies, save favorites and remember release date",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "keywords": [
+    "thetvdb",
+    "movies"
+  ],
+  "dependencies": {
+    "@assistant-os/utils": "file:../../core/utils",
+    "axios": "^0.18.0"
+  }
+}

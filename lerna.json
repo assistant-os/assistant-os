@@ -1,0 +1,6 @@
+{
+  "lerna": "3.13.1",
+  "packages": ["adapters/*", "modules/*", "core/*"],
+  "npmClient": "yarn",
+  "version": "0.2.0"
+}

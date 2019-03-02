@@ -1,0 +1,7 @@
+{
+  "name": "@assistant-os/config",
+  "version": "1.0.0",
+  "description": "The common configuration of most of packages in this repo",
+  "main": "index.js",
+  "license": "MIT"
+}

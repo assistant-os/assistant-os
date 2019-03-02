@@ -1,0 +1,11 @@
+{
+  "name": "os",
+  "version": "1.0.0",
+  "description": "The operating system of the assistant",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "license": "MIT",
+  "main": "index.js",
+  "dependencies": {
+    "dotenv": "^6.2.0",
+    "winston": "^3.2.1"
+  }
+}

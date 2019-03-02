@@ -1,0 +1,15 @@
+{
+  "name": "@assistant-os/hello",
+  "description": "A module for assistant-os to welcome the user",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "keywords": [
+    "welcome",
+    "hello"
+  ],
+  "dependencies": {
+    "@assistant-os/utils": "file:../../core/utils",
+    "natural": "^0.6.3"
+  }
+}
