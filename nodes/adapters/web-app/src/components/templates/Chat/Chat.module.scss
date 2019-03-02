@@ -1,0 +1,66 @@
+$paddingHorizontal: 15px;
+$paddingVertical: 10px;
+
+.Chat {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.discussion {
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  padding: 10px $paddingHorizontal;
+  text-align: left;
+
+  &.me {
+    justify-content: flex-end;
+    color: #5893d4;
+    text-align: right;
+  }
+
+  &.other {
+    justify-content: flex-start;
+  }
+}
+
+.content {
+  max-width: 60%;
+}
+
+.newMessage {
+  flex: 0 0 30px;
+}
+
+.input {
+  font-size: 1em;
+  flex: 1 1 auto;
+  width: auto;
+  padding: $paddingVertical $paddingVertical $paddingVertical $paddingHorizontal;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.submit {
+  padding: $paddingVertical $paddingHorizontal $paddingVertical 0;
+  background: transparent;
+  border: 0;
+  outline: none;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  stroke: white;
+}

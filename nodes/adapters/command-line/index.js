@@ -1,7 +1,7 @@
 import { prompt } from 'enquirer'
 import chalk from 'chalk'
 
-import { WebSocketAdapter, env } from '../../utils/index.js'
+import { WebSocketAdapter, env } from '@assistant-os/utils'
 
 let promptDisplayed = false
 

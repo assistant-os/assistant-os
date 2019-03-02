@@ -6,7 +6,8 @@
   "license": "MIT",
   "files": [
     ".babelrc.js",
-    ".eslintrc.js"
+    ".eslintrc.js",
+    "rules.js"
   ],
   "dependencies": {
     "@babel/cli": "^7.2.3",
