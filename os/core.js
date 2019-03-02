@@ -5,7 +5,7 @@ import EventEmitter from 'events'
  */
 export default class Core extends EventEmitter {
   constructor ({
-    name = process.env.NAME || 'Assistant',
+    name = 'Assistant',
     timeout = 1000 /* maximum accepted delay for a response by modules */,
   } = {}) {
     super()

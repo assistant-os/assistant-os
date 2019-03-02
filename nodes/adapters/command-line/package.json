@@ -11,6 +11,6 @@
     "enquirer": "^2.3.0"
   },
   "scripts": {
-    "start": "npx babel-node --config-file index.js"
+    "start:": "npx babel-node --config-file ./.babelrc.js index.js"
   }
 }

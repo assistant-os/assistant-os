@@ -2,7 +2,7 @@
 
 ```
 node -> nexus
-event name: register
+event name: message
 {
   token: <token>
   type: <string>

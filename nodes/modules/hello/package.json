@@ -9,7 +9,10 @@
     "hello"
   ],
   "dependencies": {
-    "@assistant-os/utils": "file:../../utils",
+    "@assistant-os/utils": "^1.0.0",
     "natural": "^0.6.3"
+  },
+  "scripts": {
+    "start:": "npx babel-node --config-file ./.babelrc.js index.js"
   }
 }

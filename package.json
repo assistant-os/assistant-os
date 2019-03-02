@@ -27,20 +27,21 @@
   "workspaces": [
     "config",
     "utils",
-    "adapters/*",
-    "modules/*",
+    "nodes/adapters/*",
+    "nodes/modules/*",
     "os"
   ],
   "homepage": "https://github.com/assistant-os/assistant-os#readme",
   "private": true,
   "devDependencies": {
-    "dotenv": "^6.2.0",
-    "@babel/node": "^7.2.2",
-    "lerna": "^3.13.1",
-    "chai": "^4.2.0",
-    "mocha": "^5.2.0",
     "@assistant-os/config": "^1.0.0",
+    "@assistant-os/os": "^1.0.0",
     "@assistant-os/utils": "^1.0.0",
-    "@assistant-os/os": "^1.0.0"
+    "@babel/node": "^7.2.2",
+    "chai": "^4.2.0",
+    "dotenv": "^6.2.0",
+    "lerna": "^3.13.1",
+    "mocha": "^5.2.0",
+    "chalk": "^2.4.2"
   }
 }

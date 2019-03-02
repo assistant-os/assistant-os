@@ -8,10 +8,7 @@ import socketIo from 'socket.io'
  * Manage nodes
  */
 export default class Nexus extends EventEmitter {
-  constructor ({
-    port = process.env.PORT || 8080,
-    token = process.env.TOKEN || null,
-  } = {}) {
+  constructor ({ port = 8080, token = null } = {}) {
     super()
     this.port = port
     this.sockets = {}
