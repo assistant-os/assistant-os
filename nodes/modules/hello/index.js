@@ -8,12 +8,14 @@ export default class extends WebSocketModule {
     super({ label: 'hello', ...props })
   }
 
-  evaluateProbability (message /* , user */) {
+  evaluateProbability ({ format, content /* , user */ }) {
     return new Promise((resolve, reject) => {
-      const distance = JaroWinklerDistance(message, 'hello')
-      if (distance > config.minimal_distance) {
-        resolve(1)
-        return
+      if (format === 'text') {
+        const distance = JaroWinklerDistance(content, 'hello')
+        if (distance > config.minimal_distance) {
+          resolve(1)
+          return
+        }
       }
 
       resolve(0)
@@ -23,8 +25,8 @@ export default class extends WebSocketModule {
   answer (/* data */) {
     return new Promise(resolve => {
       resolve({
-        type: 'text',
-        text: 'Hello !',
+        format: 'text',
+        content: 'Hello !',
       })
     })
   }

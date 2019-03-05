@@ -31,11 +31,11 @@ export default class Nexus extends EventEmitter {
 
   send ({ id, group, ...other }) {
     if (id && id in this.nodes) {
-      this.nodes[id].socket.emit('message', { ...other })
+      this.nodes[id].socket.emit('data', { ...other })
     } else if (group) {
       Object.keys(this.nodes).forEach(id => {
         if (this.nodes[id].type === group) {
-          this.nodes[id].socket.emit('message', { ...other })
+          this.nodes[id].socket.emit('data', { ...other })
         }
       })
     }
@@ -59,7 +59,7 @@ export default class Nexus extends EventEmitter {
       let userId = null
       let adapterId = null
       socket.on(
-        'message',
+        'data',
         this.checkToken(({ type, payload }) => {
           if (type === 'register') {
             adapterId = Math.floor(Math.random() * Math.floor(1000000))

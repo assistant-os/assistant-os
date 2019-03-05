@@ -9,13 +9,17 @@ export default class extends WebSocketModule {
     this.cache = {}
   }
 
-  evaluateProbability (message, user) {
+  evaluateProbability ({ format, content }) {
     return new Promise((resolve, reject) => {
+      if (format !== 'text') {
+        resolve(0)
+        return
+      }
       axios
         .get('https://api.themoviedb.org/3/search/movie', {
           params: {
             api_key: this.apiKey,
-            query: message,
+            query: content,
           },
         })
         .then(({ data }) => {
@@ -34,15 +38,17 @@ export default class extends WebSocketModule {
               })
 
             const response = {
-              type: 'list',
-              list: movies,
-              action: {
-                type: 'select',
-                multiple: true,
-                label: 'Notify me about',
+              format: 'list',
+              content: {
+                list: movies,
+                action: {
+                  type: 'select',
+                  multiple: true,
+                  label: 'Notify me about',
+                },
               },
             }
-            this.cache[message] = response
+            this.cache[content] = response
             resolve(movies.length > 0 ? 0.85 : 0)
           }
         })
@@ -52,10 +58,10 @@ export default class extends WebSocketModule {
     })
   }
 
-  answer (message, user) {
+  answer ({ format, content }) {
     return new Promise((resolve, reject) => {
-      if (message in this.cache) {
-        resolve(this.cache[message])
+      if (content in this.cache) {
+        resolve(this.cache[content])
       } else {
         reject()
       }

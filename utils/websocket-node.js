@@ -10,7 +10,7 @@ export default class WebSocketNode extends Node {
   }
 
   send (type, payload) {
-    this.socket.emit('message', { token: this.token, type, payload })
+    this.socket.emit('data', { token: this.token, type, payload })
   }
 
   start () {
@@ -28,11 +28,11 @@ export default class WebSocketNode extends Node {
       })
     })
 
-    this.socket.on('message', message => {
+    this.socket.on('data', message => {
       if (message.type === 'registered') {
         this.emit('registered')
       }
-      this.emit('message', message)
+      this.emit('data', message)
       // this.emit(`test-${message.type}`, message)
     })
   }

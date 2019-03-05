@@ -2,7 +2,7 @@
 
 ```
 node -> nexus
-event name: message
+event name: data
 {
   token: <token>
   type: <string>
@@ -10,7 +10,33 @@ event name: message
 
   }
 }
+```
 
+```
+node -> nexus
+event name: data
+{
+  token: <token>
+  type: 'register'
+  payload: {
+    label: <string>,
+    priority: <string>,
+    type: adapter|module,
+  }
+}
+```
+
+```
+node -> nexus
+event name: data
+{
+  token: <token>
+  type: 'message'
+  payload: {
+    format: 'text',
+    content: ''
+  }
+}
 ```
 
 ```

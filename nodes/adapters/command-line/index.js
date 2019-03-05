@@ -24,6 +24,7 @@ const requestText = async () => {
   } else {
     node.send('message', {
       content: response.sentence,
+      format: 'text',
     })
   }
 }
@@ -41,16 +42,16 @@ node.on('registered', async () => {
   requestText()
 })
 
-node.on('message', async ({ type, payload }) => {
+node.on('data', async ({ type, payload }) => {
   if (type === 'answer-answer') {
-    const { content } = payload
-    if (content.type === 'text') {
-      console.log(payload.content.text)
-    } else if (content.type === 'list') {
+    const { format, content } = payload
+    if (format === 'text') {
+      console.log(content)
+    } else if (format === 'list') {
       if (content.action) {
         const { label, multiple, type } = content.action
         if (type === 'select' && multiple) {
-          const choices = payload.content.list.map(
+          const choices = content.list.map(
             item => `${item.title}: ${chalk.blue(item.description)}`
           )
           await prompt({
@@ -61,11 +62,11 @@ node.on('message', async ({ type, payload }) => {
           })
         }
       } else {
-        payload.content.list.forEach(item => {
+        content.list.forEach(item => {
           console.log(`${item.title}: ${chalk.blue(item.description)}`)
         })
       }
-    } else if (content.type === 'nothing') {
+    } else if (format === 'nothing') {
     }
     requestText()
   }

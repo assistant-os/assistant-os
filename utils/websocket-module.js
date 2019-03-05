@@ -16,28 +16,28 @@ export default class Module extends WebSocketNode {
 
   answer () {
     return new Promise(resolve => {
-      resolve('')
+      resolve({ format: 'text', content: '' })
     })
   }
 
   start () {
     super.start()
 
-    this.on('message', ({ type, payload }) => {
+    this.on('data', ({ type, payload }) => {
       if (type === 'ask-probability') {
-        const { content, user } = payload
-        this.evaluateProbability(content, user).then(probability => {
+        const { messageId } = payload
+        this.evaluateProbability(payload).then(probability => {
           this.send('answer-probability', {
             probability,
-            messageId: payload.messageId,
+            messageId,
           })
         })
       } else if (type === 'ask-answer') {
-        const { content, user } = payload
-        this.answer(content, user).then(answer => {
+        const { messageId } = payload
+        this.answer(payload).then(answer => {
           this.send('answer-answer', {
-            content: answer,
-            messageId: payload.messageId,
+            ...answer,
+            messageId,
           })
         })
       }
