@@ -11,7 +11,7 @@ class Input extends Component {
   }
 
   render () {
-    const { className, placeholder, onChange, value } = this.props
+    const { className, placeholder, onChange, value, onFocus } = this.props
     return (
       <input
         ref={e => (this.input = e)}
@@ -20,6 +20,7 @@ class Input extends Component {
         placeholder={placeholder}
         onChange={onChange}
         value={value}
+        onFocus={onFocus}
       />
     )
   }
@@ -30,13 +31,15 @@ Input.defaultProps = {
   placeholder: '',
   onChange: () => {},
   value: '',
+  onFocus: () => {},
 }
 
 Input.propTypes = {
   className: PropTypes.string,
   placeholder: PropTypes.string,
   onChange: PropTypes.func,
-  value: PropTypes.func,
+  value: PropTypes.string,
+  onFocus: PropTypes.func,
 }
 
 export default Input
