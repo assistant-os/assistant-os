@@ -96,8 +96,9 @@ class Chat extends Component {
       this.input.focus()
     }
     if (query) {
-      const { addMessage } = this.props
-      addMessage('me', query, '')
+      const { sendMessage, token } = this.props
+      sendMessage(token, 'text', query)
+
       this.os.reactToMessage(query)
       this.setState({
         query: '',
@@ -119,8 +120,13 @@ class Chat extends Component {
             transitionEnterTimeout={250}
             transitionLeaveTimeout={300}
           >
-            {messages.map(({ date, emitter, content }) => (
-              <Message key={date} emitter={emitter} content={content} />
+            {messages.map(({ date, emitter, content, format }) => (
+              <Message
+                key={date}
+                emitter={emitter}
+                content={content}
+                format={format}
+              />
             ))}
           </ReactCSSTransitionGroup>
         </div>
@@ -159,6 +165,7 @@ Chat.defaultProps = {
   setHost: () => {},
   clearMemory: () => {},
   connect: () => {},
+  sendMessage: () => {},
 }
 
 Chat.propTypes = {
@@ -177,6 +184,7 @@ Chat.propTypes = {
   setHost: PropTypes.func,
   clearMemory: PropTypes.func,
   connect: PropTypes.func,
+  sendMessage: PropTypes.func,
 }
 
 export default Chat

@@ -1,10 +1,10 @@
 export const ADD_MESSAGE = 'ADD_MESSAGE'
-export const addMessage = (emitter, content, type = 'text') => ({
+export const addMessage = (emitter, content, format = 'text') => ({
   type: ADD_MESSAGE,
   payload: {
     emitter,
     content,
-    type,
+    format,
     date: Date.now(),
   },
 })

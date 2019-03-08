@@ -9,7 +9,7 @@ let socket = null
 let waitForResponse = null
 
 export const emit = (type, token, payload) =>
-  socket && socket.emit('message', { type, token, payload })
+  socket && socket.emit('data', { type, token, payload })
 
 export const init = (uri, token) => dispatch => {
   console.log('init')
@@ -38,20 +38,26 @@ export const init = (uri, token) => dispatch => {
     dispatch(setOnline(false))
   })
 
-  socket.on('message', ({ type, payload }) => {
+  socket.on('data', ({ type, payload }) => {
     if (type === 'registered') {
       clearTimeout(waitForResponse)
       dispatch(setOnline(true))
       dispatch(addMessage('other', 'Connection established', 'text'))
+    } else if (type === 'answer-answer') {
+      dispatch(addMessage('other', payload.content, payload.format))
     }
   })
 }
 
-this.context = { type: 'confirmClear' }
+// this.context = { type: 'confirmClear' }
 
-export const sendMessage = (token, { type, content }) => dispatch => {
-
-  if (type === 'text' && content.toLowerCase() === 'clear') {
-    dispatch(addMessage('other', 'Do you really want to clear my memory?', 'text')
+export const sendMessage = (token, format, content) => dispatch => {
+  dispatch(addMessage('me', content, format))
+  if (socket) {
+    emit('message', token, { content, format })
   }
+
+  // if (type === 'text' && content.toLowerCase() === 'clear') {
+  //   dispatch(addMessage('other', 'Do you really want to clear my memory?', 'text')
+  // }
 }

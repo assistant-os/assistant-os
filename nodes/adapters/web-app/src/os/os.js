@@ -66,21 +66,22 @@ export default class Os {
         this.askToAddMessage(
           'other',
           'In order to connect, I need to have the url of your assistant.',
-          ''
+          'text'
         )
       } else if (!this.token) {
         this.askToAddMessage(
           'other',
           'I need a token to be authorized by your assistant.',
-          ''
+          'text'
         )
         this.context = { type: 'afterToken' }
       } else if (this.context && this.context.type === 'afterToken') {
         this.askToAddMessage(
           'other',
           'Ok thank you. I try to establish the connection.',
-          ''
+          'text'
         )
+        this.connect()
       }
     }, 1500)
   }

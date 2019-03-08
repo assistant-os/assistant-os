@@ -8,7 +8,7 @@ import {
   clearCredentials,
 } from 'redux/credentials'
 
-import { init } from 'redux/os'
+import { init, sendMessage } from 'redux/os'
 
 import component from './Chat'
 
@@ -28,6 +28,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(clearCredentials())
   },
   connect: (host, token) => dispatch(init(host, token)),
+  sendMessage: (token, format, content) =>
+    dispatch(sendMessage(token, format, content)),
 })
 
 export default connect(
