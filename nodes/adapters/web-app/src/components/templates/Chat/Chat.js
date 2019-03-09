@@ -6,8 +6,6 @@ import Input from 'components/atoms/Input'
 import Message from 'components/organisms/Message'
 import { ReactComponent as Send } from 'assets/send.svg'
 
-import Os from 'os/os'
-
 import style from './Chat.module.scss'
 
 class Chat extends Component {
@@ -22,53 +20,17 @@ class Chat extends Component {
     this.state = {
       query: '',
     }
-
-    const {
-      addMessage,
-      setToken,
-      setHost,
-      host,
-      token,
-      connect,
-      clearMemory,
-    } = this.props
-
-    // const clearMemory = () => {
-    //   console.log('clearMemory')
-    //
-    //   persistor.pause()
-    //   persistor.purge().then(() => {
-    //     console.log('purged')
-    //     // window.location.reload()
-    //   })
-    // }
-
-    this.os = new Os(host, token, {
-      addMessage,
-      setToken,
-      setHost,
-      clearMemory,
-      connect,
-    })
   }
 
   componentDidMount () {
-    this.os.start()
     this.handleFocus()
+    this.props.connect()
   }
 
   componentDidUpdate (prevProps, prevState) {
-    const { messages, token, host } = this.props
+    const { messages } = this.props
     if (prevProps.messages.length !== messages.length) {
       this.updateScroll()
-    }
-
-    if (prevProps.token !== token) {
-      this.os.setToken(token)
-    }
-
-    if (prevProps.host !== host) {
-      this.os.setHost(host)
     }
   }
 
@@ -96,10 +58,8 @@ class Chat extends Component {
       this.input.focus()
     }
     if (query) {
-      const { sendMessage, token } = this.props
-      sendMessage(token, 'text', query)
-
-      this.os.reactToMessage(query)
+      const { sendMessage } = this.props
+      sendMessage('text', query)
       this.setState({
         query: '',
       })
@@ -157,20 +117,13 @@ class Chat extends Component {
 }
 
 Chat.defaultProps = {
-  token: '',
-  host: '',
   messages: [],
-  addMessage: () => {},
-  setToken: () => {},
-  setHost: () => {},
   clearMemory: () => {},
   connect: () => {},
   sendMessage: () => {},
 }
 
 Chat.propTypes = {
-  token: PropTypes.string,
-  host: PropTypes.string,
   messages: PropTypes.arrayOf(
     PropTypes.shape({
       content: PropTypes.oneOfType([ PropTypes.string, PropTypes.object ]),
@@ -179,10 +132,6 @@ Chat.propTypes = {
       date: PropTypes.number,
     })
   ),
-  addMessage: PropTypes.func,
-  setToken: PropTypes.func,
-  setHost: PropTypes.func,
-  clearMemory: PropTypes.func,
   connect: PropTypes.func,
   sendMessage: PropTypes.func,
 }

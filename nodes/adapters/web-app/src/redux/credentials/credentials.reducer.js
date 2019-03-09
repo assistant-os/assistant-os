@@ -26,7 +26,7 @@ const reducer = (state = initState, action) => {
     case SET_ONLINE:
       return {
         ...state,
-        online: action.online,
+        online: action.payload.online,
       }
     case CLEAR_CREDENTIALS:
       return initState
