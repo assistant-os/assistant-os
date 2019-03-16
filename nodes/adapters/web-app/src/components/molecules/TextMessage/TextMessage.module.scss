@@ -1,0 +1,24 @@
+$paddingHorizontal: 15px;
+$paddingVertical: 10px;
+
+.TextMessage {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 7px $paddingHorizontal;
+  text-align: left;
+
+  &.me {
+    justify-content: flex-end;
+    color: #5893d4;
+    text-align: right;
+  }
+
+  &.other {
+    justify-content: flex-start;
+  }
+}
+
+.content {
+  max-width: 60%;
+}

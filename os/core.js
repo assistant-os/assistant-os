@@ -24,7 +24,7 @@ export default class Core extends EventEmitter {
       clearTimeout(this.waitingForProbability)
       this.waitingForProbability = null
     }
-    const { answers, format, content } = this.context[messageId]
+    const { answers, payload } = this.context[messageId]
     let betterAnswer = { probability: -1 }
     let betterAdapterId = null
     Object.keys(answers).forEach(adapterId => {
@@ -42,7 +42,7 @@ export default class Core extends EventEmitter {
       this.emit('node', {
         type: 'ask-answer',
         id: betterAdapterId,
-        payload: { format, content, messageId },
+        payload: { ...payload, messageId },
       })
     } else if (messageId in this.context) {
       this.emit('node', {

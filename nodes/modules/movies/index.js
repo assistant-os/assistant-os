@@ -28,26 +28,53 @@ export default class extends WebSocketModule {
             resolve(0)
           } else {
             const movies = []
+            const memory = {}
             results
               .filter(({ popularity }) => popularity > 10) // we list only popular movies
-              .forEach(({ title, overview }) => {
-                movies.push({
+              .forEach(
+                ({
+                  id,
                   title,
-                  description: overview,
-                })
-              })
+                  overview,
+                  release_date,
+                  backdrop_path,
+                  original_language,
+                  adult,
+                }) => {
+                  const tags = []
+                  tags.push(original_language)
+                  if (adult) {
+                    tags.push('adult')
+                  }
+
+                  movies.push({
+                    id,
+                    title,
+                    subtitle: release_date,
+                    description: overview,
+                    image: `https://image.tmdb.org/t/p/original/${backdrop_path}`,
+                    tags,
+                    actions: [
+                      {
+                        type: 'toggle',
+                        icon: 'favorite',
+                        id: 'movies.favorite',
+                      },
+                    ],
+                  })
+
+                  memory[`movies.favorite.${id}`] = false
+                }
+              )
 
             const response = {
               format: 'list',
               content: {
                 list: movies,
-                action: {
-                  type: 'select',
-                  multiple: true,
-                  label: 'Notify me about',
-                },
               },
+              memory,
             }
+
             this.cache[content] = response
             resolve(movies.length > 0 ? 0.85 : 0)
           }

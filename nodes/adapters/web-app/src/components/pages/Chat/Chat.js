@@ -25,6 +25,10 @@ class Chat extends Component {
   componentDidMount () {
     this.handleFocus()
     this.props.connect()
+
+    if (this.input) {
+      this.input.focus()
+    }
   }
 
   componentDidUpdate (prevProps, prevState) {
@@ -80,8 +84,9 @@ class Chat extends Component {
             transitionEnterTimeout={250}
             transitionLeaveTimeout={300}
           >
-            {messages.map(({ date, emitter, content, format }) => (
+            {messages.map(({ date, emitter, content, format }, index) => (
               <Message
+                index={index}
                 key={date}
                 emitter={emitter}
                 content={content}

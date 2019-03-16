@@ -5,6 +5,7 @@ import storage from 'redux-persist/lib/storage'
 
 import credentials, { uri as credentialsUri } from './credentials'
 import discussion, { uri as discussionUri } from './discussion'
+import os, { uri as osUri } from './os'
 
 const persistConfig = {
   key: 'root',
@@ -14,6 +15,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   [credentialsUri]: credentials,
   [discussionUri]: discussion,
+  [osUri]: os,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

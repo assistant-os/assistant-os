@@ -13,6 +13,16 @@ export default class WebSocketNode extends Node {
     this.socket.emit('data', { token: this.token, type, payload })
   }
 
+  sendMemory (memory) {
+    this.socket.emit('data', {
+      token: this.token,
+      type: 'set-memory',
+      payload: memory,
+    })
+  }
+
+  processAction () {}
+
   start () {
     this.register()
   }
@@ -31,6 +41,10 @@ export default class WebSocketNode extends Node {
     this.socket.on('data', message => {
       if (message.type === 'registered') {
         this.emit('registered')
+      }
+
+      if (message.type === 'process-action') {
+        this.processAction(message.payload)
       }
       this.emit('data', message)
       // this.emit(`test-${message.type}`, message)

@@ -22,15 +22,20 @@ const matchExact = (format, content, pattern, contextIdRequired) => {
   return (
     format === 'text' &&
     content.toLowerCase() === pattern &&
-    (!contextIdRequired || (context || context.id === contextIdRequired))
+    (!contextIdRequired || context || context.id === contextIdRequired)
   )
 }
+
+export const SET_MEMORY = 'SET_MEMORY'
+export const setMemory = memory => ({
+  type: SET_MEMORY,
+  payload: { memory },
+})
 
 export const emit = (type, token, payload) =>
   socket && socket.emit('data', { type, token, payload })
 
 export const init = (uri, token) => dispatch => {
-  console.log('init')
   if (socket) {
     socket.disconnect()
   }
@@ -52,7 +57,7 @@ export const init = (uri, token) => dispatch => {
 
   socket.on('disconnect', () => {
     console.log('disconnection')
-    dispatch(addMessage('other', 'Disconnection', 'text'))
+    // dispatch(addMessage('other', 'Disconnection', 'text'))
     dispatch(setOnline(false))
   })
 
@@ -60,9 +65,13 @@ export const init = (uri, token) => dispatch => {
     if (type === 'registered') {
       clearTimeout(waitForResponse)
       dispatch(setOnline(true))
-      dispatch(addMessage('other', 'Connection established', 'text'))
+      if (context && context.id === 'try-connection') {
+        dispatch(addMessage('other', 'Connection established', 'text'))
+      }
     } else if (type === 'answer-answer') {
       dispatch(addMessage('other', payload.content, payload.format))
+      dispatch(setMemory(payload.memory))
+    } else if (type === 'set-data') {
     }
   })
 }
@@ -76,14 +85,16 @@ export const sendMessage = (format, content) => (dispatch, getState) => {
 
   const timeout = 1500
 
-  if (matchExact(format, content, 'clear')) {
+  if (matchExact(format, content, 'reset')) {
     setTimeout(() => {
       dispatch(
         addMessage('other', 'Do you really want to clear my memory?', 'text')
       )
       context = { id: 'confirmClear' }
     }, timeout)
-  } else if (matchExact(format, content, 'yes', 'confirmClear')) {
+  } else if (matchExact(format, content, 'clear')) {
+    dispatch(clearMessages())
+  } else if (matchExact(format, content, 'yes', 'confirmReset')) {
     setTimeout(() => {
       dispatch(addMessage('other', 'Ok. Clearing memory.', 'text'))
       setTimeout(() => {
@@ -94,6 +105,8 @@ export const sendMessage = (format, content) => (dispatch, getState) => {
         }, 1000)
       }, 2000)
     }, timeout)
+  } else if (matchExact(format, content, 'no', 'confirmReset')) {
+    context = null
   } else if (!isOnline(state)) {
     setTimeout(() => {
       if (!getHost(state)) {
@@ -148,4 +161,10 @@ export const tryConnection = () => (dispatch, getState) => {
   } else {
     dispatch(init(getHost(state), getToken(state)))
   }
+}
+
+export const setValue = (id, value) => (dispatch, getState) => {
+  console.log('setValue', id, value)
+  emit('set-value', getToken(getState()), value)
+  dispatch(setMemory({ [id]: value }))
 }
