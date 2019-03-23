@@ -3,7 +3,7 @@
 .Detail {
   height: 100%;
   box-sizing: border-box;
-  max-width: 800px;
+  max-width: $maxWidth;
   margin: auto;
   position: relative;
   overflow-x: auto;

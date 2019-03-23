@@ -6,7 +6,7 @@ import EventEmitter from 'events'
 export default class Core extends EventEmitter {
   constructor ({
     name = 'Assistant',
-    timeout = 1000 /* maximum accepted delay for a response by modules */,
+    timeout = 15000 /* maximum accepted delay for a response by modules */,
   } = {}) {
     super()
     this.timeout = timeout
@@ -48,7 +48,7 @@ export default class Core extends EventEmitter {
       this.emit('node', {
         type: 'answer-answer',
         id: this.context[messageId].adapter,
-        payload: { format: 'nothing' },
+        payload: { format: 'text', content: 'Sorry I didn\'t understand your message.' },
       })
     }
   }
@@ -82,6 +82,23 @@ export default class Core extends EventEmitter {
         this.emit('info', 'probability timeout')
         this.chooseAnswer(messageId)
       }, this.timeout)
+    } else if (type === 'set-value') {
+      const messageId = Math.floor(Math.random() * Math.floor(1000000))
+      // we store the information in the context
+      this.context[messageId] = {
+        adapter: id,
+      }
+
+      this.emit('info', `set value ${payload.id} ${payload.value}`)
+
+      this.emit('node', {
+        type: 'set-value',
+        group: 'module',
+        payload: {
+          ...payload,
+          messageId,
+        },
+      })
     }
   }
 
@@ -116,6 +133,7 @@ export default class Core extends EventEmitter {
         id: this.context[payload.messageId].adapter,
         payload,
       })
+    } else if (type === 'set-value') {
     }
   }
 
@@ -125,7 +143,11 @@ export default class Core extends EventEmitter {
       const { type, label } = payload
       this.nodes.push({ id, ...payload })
       this.emit('info', `${type} ${label} registered`)
-      this.emit('node', { type: 'registered', id })
+      this.emit('node', {
+        type: 'registered',
+        id,
+        payload: { name: this.identity.name },
+      })
 
       return
     }

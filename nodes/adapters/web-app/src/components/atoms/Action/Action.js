@@ -26,7 +26,6 @@ const Action = ({ className, icon, value, onChange }) => {
       type="button"
       className={style.button}
       onClick={() => {
-        console.log('value', !value)
         onChange(!value)
       }}
     >

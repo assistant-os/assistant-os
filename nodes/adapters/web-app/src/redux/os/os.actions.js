@@ -18,12 +18,22 @@ let waitForResponse = null
 
 let context = null
 
+let identity = { name: 'Assistant OS' }
+
 const matchExact = (format, content, pattern, contextIdRequired) => {
   return (
     format === 'text' &&
     content.toLowerCase() === pattern &&
     (!contextIdRequired || context || context.id === contextIdRequired)
   )
+}
+
+const showNotification = message => {
+  if (window.Notification && Notification.permission === 'granted') {
+    new Notification(identity.name, {
+      body: message,
+    })
+  }
 }
 
 export const SET_MEMORY = 'SET_MEMORY'
@@ -68,9 +78,34 @@ export const init = (uri, token) => dispatch => {
       if (context && context.id === 'try-connection') {
         dispatch(addMessage('other', 'Connection established', 'text'))
       }
+
+      identity.name = payload.name
+
+      // https://developer.mozilla.org/fr/docs/Web/API/notification/Using_Web_Notifications
+
+      const notificationReady =
+        window.Notification && Notification.permission === 'granted'
+
+      Notification.requestPermission(status => {
+        if (Notification.permission !== status) {
+          Notification.permission = status
+        }
+
+        if (!notificationReady) {
+          showNotification('Notifications are now authorized.')
+        } else {
+          showNotification(`${identity.name} ready to help you!`)
+        }
+      })
     } else if (type === 'answer-answer') {
       dispatch(addMessage('other', payload.content, payload.format))
       dispatch(setMemory(payload.memory))
+
+      // https://www.w3.org/TR/page-visibility/
+
+      if (document.visibilityState === 'hidden' && payload.format === 'text') {
+        showNotification(payload.content)
+      }
     } else if (type === 'set-data') {
     }
   })
@@ -164,7 +199,6 @@ export const tryConnection = () => (dispatch, getState) => {
 }
 
 export const setValue = (id, value) => (dispatch, getState) => {
-  console.log('setValue', id, value)
-  emit('set-value', getToken(getState()), value)
+  emit('set-value', getToken(getState()), { id, value })
   dispatch(setMemory({ [id]: value }))
 }

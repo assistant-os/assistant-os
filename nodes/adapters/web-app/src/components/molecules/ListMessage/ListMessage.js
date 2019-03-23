@@ -28,7 +28,7 @@ class ListMessage extends Component {
   handleClick (index2) {
     return () => {
       const { index, history } = this.props
-      history.push(`/detail/${index}/${index2}`)
+      history.push(`/messages/${index}/${index2}`)
     }
   }
 
@@ -78,7 +78,7 @@ ListMessage.defaultProps = {
   index: '',
   content: {},
   emitter: 'other',
-  history: null,
+  history: { push: () => {} },
 }
 
 ListMessage.propTypes = {

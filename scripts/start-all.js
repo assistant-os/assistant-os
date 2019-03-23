@@ -6,6 +6,7 @@ import chalk from 'chalk'
 import Os from '@assistant-os/os'
 import Hello from '@assistant-os/hello'
 import Movies from '@assistant-os/movies'
+import Prototype from '@assistant-os/prototype'
 
 if ('production' !== process.env.NODE_ENV) {
   fs.access(path.resolve(__dirname, '../.env'), fs.constants.F_OK, err => {
@@ -40,6 +41,14 @@ if ('production' !== process.env.NODE_ENV) {
         priority: 5,
       })
       movies.start()
+
+      const prototype = new Prototype({
+        token: process.env.TOKEN,
+        host: process.env.HOST,
+        port: process.env.PORT,
+        priority: 5,
+      })
+      prototype.start()
     }
   })
 }

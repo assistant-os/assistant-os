@@ -20,6 +20,8 @@ export default class Module extends WebSocketNode {
     })
   }
 
+  setValue ({ messageId, id, value }) {}
+
   start () {
     super.start()
 
@@ -40,6 +42,8 @@ export default class Module extends WebSocketNode {
             messageId,
           })
         })
+      } else if (type === 'set-value') {
+        this.setValue(payload)
       }
     })
   }
