@@ -20,6 +20,7 @@ echo $GIT_PUSH_SSH_KEY > .ssh_key
 # echo "  Hostname github.com" >> ~/.ssh/config
 # echo "  IdentityFile $PWD/.ssh_key" >> ~/.ssh/config
 
-GIT_SSH_COMMAND="ssh -i $PWD/.ssh_key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 
-git push -f deploy master
+# https://superuser.com/questions/232373/how-to-tell-git-which-private-key-to-use
+
+GIT_SSH_COMMAND="ssh -i $PWD/.ssh_key -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push -f deploy master
