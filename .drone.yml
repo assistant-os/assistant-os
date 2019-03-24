@@ -1,0 +1,32 @@
+kind: pipeline
+name: default
+
+trigger:
+  branch:
+    - version2
+  event:
+    - push
+
+steps:
+  web-app:
+    image: node
+    environment:
+      SSK_KEY:
+        from_secret: ssh_key
+    commands:
+      - cd nodes/adapters/web-app
+      - yarn install
+      - yarn build
+      - chmod 700 .drone/deploy.sh
+      - ./deploy.sh
+  git_push:
+    image: appleboy/drone-git-push
+    branch: master
+    remote: git@github.com:assistant-os/assistant-os.github.io.git
+    force: true
+    commit: true
+    path: nodes/adapters/web-app
+    local_branch: master
+    settings:
+      GIT_PUSH_SSH_KEY:
+        from_secret: GIT_PUSH_SSH_KEY
