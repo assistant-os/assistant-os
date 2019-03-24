@@ -18,6 +18,7 @@ steps:
       - yarn build
       - cd build
       - git init
+      - git commit -am "new files"
   - name: git_push
     image: appleboy/drone-git-push
     settings:
@@ -26,7 +27,7 @@ steps:
       force: true
       commit: true
       path: nodes/adapters/web-app/build
-      local_branch: version2
+      local_branch: master
     environment:
       GIT_PUSH_SSH_KEY:
         from_secret: GIT_PUSH_SSH_KEY
