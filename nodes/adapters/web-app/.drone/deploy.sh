@@ -13,6 +13,8 @@ git remote add deploy git@github.com:assistant-os/assistant-os.github.io.git
 
 echo $GIT_PUSH_SSH_KEY > .ssh_key
 
+chmod 700 .ssh_key
+
 # mkdir ~/.ssh
 # touch ~/.ssh/config
 # echo "Host github.com" > ~/.ssh/config
