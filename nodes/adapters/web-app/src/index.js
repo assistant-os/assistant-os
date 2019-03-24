@@ -2,19 +2,24 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
+import Loadable from 'react-loadable'
 
 import configureStore from 'redux/configureStore'
 
 import './index.css'
 import * as serviceWorker from './serviceWorker'
-import App from 'components/App'
 
 const { store, persistor } = configureStore()
+
+const Load = Loadable({
+  loader: () => import('components/App'),
+  loading: () => <div />,
+})
 
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <App />
+      <Load />
     </PersistGate>
   </Provider>,
   document.getElementById('root')

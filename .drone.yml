@@ -10,6 +10,8 @@ trigger:
 steps:
   - name: web-app
     image: node
+    environment:
+      NODE_PATH: ./src
     commands:
       - cd nodes/adapters/web-app
       - yarn install
