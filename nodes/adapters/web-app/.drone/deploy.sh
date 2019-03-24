@@ -13,6 +13,7 @@ git remote add deploy git@github.com:assistant-os/assistant-os.github.io.git
 
 echo $GIT_PUSH_SSH_KEY > .ssh_key
 
+touch ~/.ssh/config
 echo "Host github.com" > ~/.ssh/config
 echo "  User git" >> ~/.ssh/config
 echo "  Hostname github.com" >> ~/.ssh/config
