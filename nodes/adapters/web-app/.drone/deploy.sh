@@ -17,6 +17,8 @@ chmod 700 .ssh_key
 
 ssh-agent sh -c "ssh-add $PWD/.ssh_key; git push -f deploy master"
 
+
+
 # https://help.github.com/en/articles/error-permission-denied-publickey
 
 # mkdir ~/.ssh
