@@ -1,7 +1,7 @@
-<h1 text-align="center">
+<h1 align="center">
   Assistant OS
 </h1>
-<div text-align="center">
+<div align="center">
 <a href="https://lernajs.io/"><img src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg" alt="Maintained with lerna"/><a/>
 <a href="https://cloud.drone.io/assistant-os/assistant-os">
   <img src="https://cloud.drone.io/api/badges/assistant-os/assistant-os/status.svg" alt="Build status" />
