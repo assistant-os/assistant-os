@@ -8,18 +8,13 @@ trigger:
     - push
 
 steps:
-  web-app:
+  - name: web-app
     image: node
-    environment:
-      SSK_KEY:
-        from_secret: ssh_key
     commands:
       - cd nodes/adapters/web-app
       - yarn install
       - yarn build
-      - chmod 700 .drone/deploy.sh
-      - ./deploy.sh
-  git_push:
+  - name: git_push
     image: appleboy/drone-git-push
     branch: master
     remote: git@github.com:assistant-os/assistant-os.github.io.git
