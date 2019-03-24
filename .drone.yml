@@ -21,10 +21,9 @@ steps:
     settings:
       branch: master
       remote: git@github.com:assistant-os/assistant-os.github.io.git
-      remote_name: master
       force: true
       commit: true
       path: nodes/adapters/web-app
-      local_branch: master
+      local_branch: version2
       key:
         from_secret: GIT_PUSH_SSH_KEY
