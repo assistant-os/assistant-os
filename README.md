@@ -2,7 +2,10 @@
   Assistant OS
 </h1>
 <div text-align="center">
-[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/) [![Build Status](https://cloud.drone.io/api/badges/assistant-os/assistant-os/status.svg)](https://cloud.drone.io/assistant-os/assistant-os)
+<a href="https://lernajs.io/"><img src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg" alt="Maintained with lerna"/><a/>
+<a href="https://cloud.drone.io/assistant-os/assistant-os">
+  <img src="https://cloud.drone.io/api/badges/assistant-os/assistant-os/status.svg" alt="Build status" />
+</a>
 </div>
 
 <br>
