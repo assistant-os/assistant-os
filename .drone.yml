@@ -16,9 +16,5 @@ steps:
       - cd nodes/adapters/web-app
       - yarn install
       - yarn build
-      - ls -a
-      - pwd
-      - cd .drone
-      - ls
       - chmod 700 .drone/deploy.sh
       - .drone/deploy.sh
