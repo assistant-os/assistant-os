@@ -1,6 +1,11 @@
-# assistant-os
+<h1 text-align="center">
+  Assistant OS
+</h1>
+<div text-align="center">
+[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/) [![Build Status](https://cloud.drone.io/api/badges/assistant-os/assistant-os/status.svg)](https://cloud.drone.io/assistant-os/assistant-os)
+</div>
 
-[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lernajs.io/)
+<br>
 
 This project is a micro-services based chatbot to assist human beeing in repetitive and daily tasks. It also provided libraries to extends the capabilities.
 
