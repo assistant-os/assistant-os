@@ -25,5 +25,5 @@ steps:
       commit: true
       path: nodes/adapters/web-app
       local_branch: version2
-      key:
+      GIT_PUSH_SSH_KEY:
         from_secret: GIT_PUSH_SSH_KEY
