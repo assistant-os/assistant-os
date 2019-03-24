@@ -20,6 +20,6 @@ echo "  User git" >> ~/.ssh/config
 echo "  Hostname github.com" >> ~/.ssh/config
 echo '  IdentityFile $PWD/.ssh_key' >> ~/.ssh/config
 
-# ssh-agent
+ssh-agent
 # ssh-add .ssh_key
 git push -f deploy master
