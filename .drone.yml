@@ -20,6 +20,7 @@ steps:
     image: appleboy/drone-git-push
     branch: master
     remote: git@github.com:assistant-os/assistant-os.github.io.git
+    remote_name: master
     force: true
     commit: true
     path: nodes/adapters/web-app
