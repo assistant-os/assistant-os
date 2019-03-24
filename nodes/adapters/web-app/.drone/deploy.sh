@@ -15,7 +15,7 @@ echo $GIT_PUSH_SSH_KEY > .ssh_key
 
 chmod 700 .ssh_key
 
-ssh-agent sh -c "ssh-add $PWD/.ssh_key; git push -f deploy master"
+ssh-agent sh -c "ssh-add -k $PWD/.ssh_key; git push -f deploy master"
 
 
 
