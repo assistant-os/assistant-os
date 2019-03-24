@@ -16,6 +16,7 @@ steps:
       - cd nodes/adapters/web-app
       - yarn install
       - yarn build
+      - cd build
       - git init
   - name: git_push
     image: appleboy/drone-git-push
@@ -24,7 +25,7 @@ steps:
       remote: git@github.com:assistant-os/assistant-os.github.io.git
       force: true
       commit: true
-      path: nodes/adapters/web-app
+      path: nodes/adapters/web-app/build
       local_branch: version2
     environment:
       GIT_PUSH_SSH_KEY:
