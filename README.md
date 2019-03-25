@@ -1,4 +1,6 @@
 <h1 align="center">
+  <img src="./os/public/logo.svg" alt="Logo" />
+  <br />
   Assistant OS
 </h1>
 <div align="center">
@@ -10,7 +12,7 @@
 
 <br>
 
-This project is a micro-services based chatbot to assist human beeing in repetitive and daily tasks. It also provided libraries to extends the capabilities.
+This project is a micro-services based chatbot to assist human beeing in repetitive and daily tasks. It also provides libraries to extends the capabilities.
 
 ## Getting started
 

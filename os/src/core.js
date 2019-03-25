@@ -48,7 +48,10 @@ export default class Core extends EventEmitter {
       this.emit('node', {
         type: 'answer-answer',
         id: this.context[messageId].adapter,
-        payload: { format: 'text', content: 'Sorry I didn\'t understand your message.' },
+        payload: {
+          format: 'text',
+          content: 'Sorry I didn\'t understand your message.',
+        },
       })
     }
   }

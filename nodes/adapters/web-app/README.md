@@ -4,6 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Getting started
 
+Need to have `NODE_PATH` equal to `./src` in your environment variables. You can also create a file _.env_ with it.
+
 ```bash
 $ yarn
 $ yarn start

@@ -51,6 +51,10 @@ export default class Nexus extends EventEmitter {
     this.server = http.Server(this.http)
     this.io = socketIo(this.server)
 
+    this.http.get('/', (res, req) => {
+      req.send('ok')
+    })
+
     this.server.listen(this.port, () => {
       this.emit('info', `listening on port ${this.port}`)
     })
