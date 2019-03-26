@@ -1,11 +1,11 @@
 {
   "name": "@assistant-os/utils",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "All internal libraries usable by other components",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@assistant-os/config": "^0.3.0",
+    "@assistant-os/config": "^0.3.1",
     "winston": "^3.2.1"
   },
   "gitHead": "65ae6d0ab2f8c037acd4307eb5fd47794f4d2c68"

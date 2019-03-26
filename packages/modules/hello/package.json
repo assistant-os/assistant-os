@@ -1,7 +1,7 @@
 {
   "name": "@assistant-os/hello",
   "description": "A module for assistant-os to welcome the user",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "main": "index.js",
   "license": "MIT",
   "keywords": [
@@ -9,7 +9,7 @@
     "hello"
   ],
   "dependencies": {
-    "@assistant-os/utils": "^0.3.0",
+    "@assistant-os/utils": "^0.3.1",
     "natural": "^0.6.3"
   },
   "scripts": {

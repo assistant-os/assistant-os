@@ -1,6 +1,6 @@
 {
   "name": "@assistant-os/os",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "The operating system of the assistant",
   "main": "src/assistant.js",
   "license": "MIT",
@@ -9,12 +9,12 @@
     "webpack": "npx webpack --config webpack.config.js"
   },
   "dependencies": {
-    "@assistant-os/utils": "^0.3.0",
+    "@assistant-os/utils": "^0.3.1",
     "express": "^4.16.4",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
-    "@assistant-os/config": "^0.3.0"
+    "@assistant-os/config": "^0.3.1"
   },
   "gitHead": "65ae6d0ab2f8c037acd4307eb5fd47794f4d2c68"
 }
