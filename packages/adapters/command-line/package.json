@@ -12,5 +12,9 @@
   },
   "scripts": {
     "start": "npx babel-node --exclude dist/ --config-file ./.babelrc.js index.js"
-  }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "ead8332db76ed4e642a18b3d31256f03783b9687"
 }

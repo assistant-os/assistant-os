@@ -1,5 +1,5 @@
 {
-  "name": "web-app",
+  "name": "@assistant-os/web-app",
   "description": "Web applicatiojn to interact with an assistant-os implementation.",
   "version": "0.3.1",
   "dependencies": {
@@ -34,5 +34,9 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "ead8332db76ed4e642a18b3d31256f03783b9687"
 }

@@ -8,5 +8,8 @@
     "@assistant-os/config": "^0.3.1",
     "winston": "^3.2.1"
   },
-  "gitHead": "65ae6d0ab2f8c037acd4307eb5fd47794f4d2c68"
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "ead8332db76ed4e642a18b3d31256f03783b9687"
 }
