@@ -1,13 +1,12 @@
 {
   "lerna": "3.13.1",
-  "packages": [
-    "packages/os",
-    "packages/utils",
-    "packages/config",
-    "packages/adapters/*",
-    "packages/modules/*"
-  ],
+  "packages": ["packages/*"],
   "npmClient": "yarn",
   "version": "0.3.2-alpha.0",
+  "command": {
+    "publish": {
+      "allowBranch": "version2"
+    }
+  },
   "useWorkspaces": true
 }

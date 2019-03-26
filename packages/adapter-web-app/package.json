@@ -1,6 +1,6 @@
 {
   "name": "@assistant-os/web-app",
-  "description": "Web applicatiojn to interact with an assistant-os implementation.",
+  "description": "Web application to interact with an assistant-os implementation.",
   "version": "0.3.2-alpha.0",
   "dependencies": {
     "@assistant-os/config": "^0.3.2-alpha.0",
@@ -38,5 +38,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "gitHead": "ead8332db76ed4e642a18b3d31256f03783b9687"
+  "gitHead": "dd2ae1649422efd0e3e580edfb622590615e0851"
 }

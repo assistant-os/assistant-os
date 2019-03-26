@@ -26,11 +26,7 @@
     "url": "https://github.com/assistant-os/assistant-os/issues"
   },
   "workspaces": [
-    "packages/config",
-    "packages/utils",
-    "packages/os",
-    "packages/adapters/*",
-    "packages/modules/*"
+    "packages/*"
   ],
   "homepage": "https://github.com/assistant-os/assistant-os#readme",
   "private": true,
