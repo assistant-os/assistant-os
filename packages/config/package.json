@@ -1,6 +1,6 @@
 {
   "name": "@assistant-os/config",
-  "version": "0.3.1",
+  "version": "0.3.2-alpha.0",
   "description": "The common configuration of most of packages of assistant-os",
   "main": "index.js",
   "license": "MIT",

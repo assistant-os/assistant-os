@@ -1,6 +1,6 @@
 {
   "name": "@assistant-os/os",
-  "version": "0.3.1",
+  "version": "0.3.2-alpha.0",
   "description": "The operating system of the assistant",
   "main": "src/assistant.js",
   "license": "MIT",
@@ -9,12 +9,12 @@
     "webpack": "npx webpack --config webpack.config.js"
   },
   "dependencies": {
-    "@assistant-os/utils": "^0.3.1",
+    "@assistant-os/utils": "^0.3.2-alpha.0",
     "express": "^4.16.4",
     "socket.io": "^2.2.0"
   },
   "devDependencies": {
-    "@assistant-os/config": "^0.3.1"
+    "@assistant-os/config": "^0.3.2-alpha.0"
   },
   "publishConfig": {
     "access": "public"
