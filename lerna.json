@@ -1,11 +1,11 @@
 {
   "lerna": "3.13.1",
   "packages": [
-    "./config",
-    "./utils",
-    "./os",
-    "nodes/adapters/*",
-    "nodes/modules/*"
+    "packages/os",
+    "packages/utils",
+    "packages/config",
+    "packages/adapters/*",
+    "packages/modules/*"
   ],
   "npmClient": "yarn",
   "version": "0.2.0",

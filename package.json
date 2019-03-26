@@ -7,7 +7,8 @@
     "test": "mocha test/test-parser.js",
     "dev": "npx babel-node --config-file ./.babelrc.js scripts/start-all.js",
     "cli": "npx babel-node --config-file ./.babelrc.js nodes/adapters/command-line/index.js",
-    "build": "NODE_ENV=production lerna exec -- babel *.js --ignore dist -d dist"
+    "build": "NODE_ENV=production lerna exec -- babel *.js --ignore dist -d dist",
+    "webpack": "webpack --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -25,11 +26,11 @@
     "url": "https://github.com/assistant-os/assistant-os/issues"
   },
   "workspaces": [
-    "config",
-    "utils",
-    "nodes/adapters/*",
-    "nodes/modules/*",
-    "os"
+    "packages/config",
+    "packages/utils",
+    "packages/os",
+    "packages/adapters/*",
+    "packages/modules/*"
   ],
   "homepage": "https://github.com/assistant-os/assistant-os#readme",
   "private": true,

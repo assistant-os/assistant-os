@@ -1,7 +1,7 @@
 {
   "name": "@assistant-os/config",
   "version": "1.0.0",
-  "description": "The common configuration of most of packages in this repo",
+  "description": "The common configuration of most of packages of assistant-os",
   "main": "index.js",
   "license": "MIT",
   "files": [
@@ -23,6 +23,8 @@
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
     "eslint": "^5.12.1",
-    "webpack": "^4.29.6"
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0",
+    "webpack-node-externals": "^1.7.2"
   }
 }

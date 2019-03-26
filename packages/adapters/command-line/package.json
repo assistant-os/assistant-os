@@ -1,5 +1,6 @@
 {
   "name": "@assistant-os/command-line",
+  "description": "Command line interface to interact with an assistant-os implementation.",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
