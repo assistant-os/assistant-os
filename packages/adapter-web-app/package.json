@@ -1,10 +1,10 @@
 {
   "name": "@assistant-os/web-app",
   "description": "Web application to interact with an assistant-os implementation.",
-  "version": "0.3.2-alpha.0",
+  "version": "0.3.2",
   "dependencies": {
-    "@assistant-os/config": "^0.3.2-alpha.0",
-    "@assistant-os/utils": "^0.3.2-alpha.0",
+    "@assistant-os/config": "^0.3.2",
+    "@assistant-os/utils": "^0.3.2",
     "js-cookie": "^2.2.0",
     "node-sass": "^4.11.0",
     "react": "^16.8.3",

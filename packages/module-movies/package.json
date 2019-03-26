@@ -1,7 +1,7 @@
 {
   "name": "@assistant-os/movies",
   "description": "A module for assistant-os to find movies, save favorites and remember release date",
-  "version": "0.3.2-alpha.0",
+  "version": "0.3.2",
   "main": "index.js",
   "license": "MIT",
   "keywords": [
@@ -9,7 +9,7 @@
     "movies"
   ],
   "dependencies": {
-    "@assistant-os/utils": "^0.3.2-alpha.0",
+    "@assistant-os/utils": "^0.3.2",
     "axios": "^0.18.0"
   },
   "scripts": {
