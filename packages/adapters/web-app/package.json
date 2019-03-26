@@ -2,7 +2,6 @@
   "name": "web-app",
   "description": "Web applicatiojn to interact with an assistant-os implementation.",
   "version": "0.3.0",
-  "private": true,
   "dependencies": {
     "@assistant-os/config": "^0.3.0",
     "@assistant-os/utils": "^0.3.0",

@@ -15,5 +15,6 @@
   },
   "devDependencies": {
     "@assistant-os/config": "^0.3.0"
-  }
+  },
+  "gitHead": "65ae6d0ab2f8c037acd4307eb5fd47794f4d2c68"
 }
