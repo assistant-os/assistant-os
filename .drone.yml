@@ -13,7 +13,7 @@ steps:
     environment:
       NODE_PATH: ./src
     commands:
-      - cd nodes/adapters/web-app
+      - cd packages/adapters/web-app
       - yarn install
       - yarn build
       - cd build
@@ -25,7 +25,7 @@ steps:
       remote: git@github.com:assistant-os/assistant-os.github.io.git
       force: true
       commit: true
-      path: nodes/adapters/web-app/build
+      path: packages/adapters/web-app/build
     environment:
       GIT_PUSH_SSH_KEY:
         from_secret: GIT_PUSH_SSH_KEY
