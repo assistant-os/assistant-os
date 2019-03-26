@@ -1,11 +1,11 @@
 {
   "name": "web-app",
   "description": "Web applicatiojn to interact with an assistant-os implementation.",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "private": true,
   "dependencies": {
-    "@assistant-os/config": "^1.0.0",
-    "@assistant-os/utils": "^1.0.0",
+    "@assistant-os/config": "^0.3.0",
+    "@assistant-os/utils": "^0.3.0",
     "js-cookie": "^2.2.0",
     "node-sass": "^4.11.0",
     "react": "^16.8.3",

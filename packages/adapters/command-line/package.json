@@ -1,13 +1,13 @@
 {
   "name": "@assistant-os/command-line",
   "description": "Command line interface to interact with an assistant-os implementation.",
-  "version": "1.0.0",
+  "version": "0.3.0",
   "main": "index.js",
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@assistant-os/config": "^1.0.0",
-    "@assistant-os/utils": "^1.0.0",
+    "@assistant-os/config": "^0.3.0",
+    "@assistant-os/utils": "^0.3.0",
     "chalk": "^2.4.2",
     "enquirer": "^2.3.0"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@assistant-os/prototype",
   "description": "A module for assistant-os to prototype new features that use Web Api",
-  "version": "1.0.0",
+  "version": "0.3.0",
   "main": "index.js",
   "license": "MIT",
   "keywords": [
@@ -9,7 +9,7 @@
     "api"
   ],
   "dependencies": {
-    "@assistant-os/utils": "^1.0.0"
+    "@assistant-os/utils": "^0.3.0"
   },
   "scripts": {
     "start:": "npx babel-node --config-file ./.babelrc.js index.js"
