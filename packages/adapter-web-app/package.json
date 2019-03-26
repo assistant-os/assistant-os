@@ -35,8 +35,5 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "gitHead": "dd2ae1649422efd0e3e580edfb622590615e0851"
+  "gitHead": "f7201f8d12087aff9c723558f31df50e5287e38a"
 }
