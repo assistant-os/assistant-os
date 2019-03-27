@@ -9,3 +9,10 @@ COPY webpack.config.js .
 COPY lerna.json .
 COPY package.json .
 COPY yarn.lock .
+
+
+RUN npx lerna bootstrap
+RUN yarn webpack
+
+RUN rm -rf packages
+CMD ["node", "dist/app.js"]

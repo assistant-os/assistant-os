@@ -1,6 +1,4 @@
 <h1 align="center">
-  <img src="./os/public/logo.svg" alt="Logo" />
-  <br />
   Assistant OS
 </h1>
 <div align="center">
@@ -24,6 +22,14 @@ This project is maintained with lerna
 ```bash
 $ npx lerna bootstrap
 $ yarn start
+```
+
+Or you can use docker
+
+```bash
+$ docker build -t assistant-os/os
+$ docker run --env-file .env -d assistant-os/os -p 8080:8080
+
 ```
 
 ## Roadmap
