@@ -18,4 +18,4 @@ RUN yarn webpack
 RUN rm -rf packages
 CMD ["node", "dist/app.js"]
 
-EXPOSE 8080/udp
+EXPOSE 8080/tcp
