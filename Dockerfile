@@ -10,9 +10,12 @@ COPY lerna.json .
 COPY package.json .
 COPY yarn.lock .
 
+ENV PORT=8080
 
 RUN npx lerna bootstrap
 RUN yarn webpack
 
 RUN rm -rf packages
 CMD ["node", "dist/app.js"]
+
+EXPOSE 8080/udp
