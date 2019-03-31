@@ -6,6 +6,9 @@
 <a href="https://cloud.drone.io/assistant-os/assistant-os">
   <img src="https://cloud.drone.io/api/badges/assistant-os/assistant-os/status.svg" alt="Build status" />
 </a>
+<a href="./LICENSE">
+  <img srchttps://img.shields.io/github/license/assistant-os/assistant-os.svg" alt="MIT License" />
+</a>
 </div>
 
 <br>

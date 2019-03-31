@@ -12,7 +12,7 @@ export default class extends WebSocketModule {
 
     this.favorites = {}
 
-    this.filename = path.join(__dirname, 'data.json')
+    this.filename = path.join(__dirname, '../../data/movies.json')
 
     fs.readFile(this.filename, 'utf8', (err, data) => {
       if (!err) {
