@@ -6,10 +6,12 @@ FROM node:9-alpine AS builder
 # Define working directory and copy source
 WORKDIR /home/node/app
 COPY . .
+
+RUN yarn config set cache ~/.yarn-cache
 # Install dependencies and build whatever you have to build
 # (babel, grunt, webpack, etc.)
 RUN npx lerna bootstrap
-
+run yarn webpack
 
 ###############################################################################
 # Step 2 : Run image
