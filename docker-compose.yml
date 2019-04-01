@@ -6,14 +6,14 @@ services:
     environment:
       - THEMOVIEDB_API_KEY
       - TOKEN
-      - HOST=127.0.0.1 # all nodes are in the same host
+      - HOST
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - '$PWD/data:/data'
       - '$PWD/logs:/logs'
     labels:
       - traefik.enable=true
-      # - traefik.frontend.rule=Host:<host>
+      - 'traefik.frontend.rule=Host:${HOST}'
       - traefik.backend=assistant-os
       - traefik.port=8080
       - traefik.frontend.entryPoints=https
