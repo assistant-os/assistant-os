@@ -1,10 +1,11 @@
 version: '3.2'
 services:
   assistant-os:
-    image: techmindio/assistant-os
+    build: .
     restart: always
     environment:
-      - PORT=8080
+      - THEMOVIEDB_API_KEY
+      - TOKEN
       - HOST=127.0.0.1 # all nodes are in the same host
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

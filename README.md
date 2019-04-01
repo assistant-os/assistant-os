@@ -7,7 +7,7 @@
   <img src="https://cloud.drone.io/api/badges/assistant-os/assistant-os/status.svg" alt="Build status" />
 </a>
 <a href="./LICENSE">
-  <img srchttps://img.shields.io/github/license/assistant-os/assistant-os.svg" alt="MIT License" />
+  <img src="https://img.shields.io/github/license/assistant-os/assistant-os.svg" alt="MIT License" />
 </a>
 </div>
 
@@ -20,12 +20,16 @@ This project is a micro-services based chatbot to assist human beeing in repetit
 First of all, be sure to have environment containing the proper
 variables.
 
-This project is maintained with lerna
+Create a .env file containing credentials. Cf [./doc/env.md](./doc/env.md).
+
+Then
 
 ```bash
 $ npx lerna bootstrap
 $ yarn start
 ```
+
+> This project is maintained with lerna.
 
 Or you can use docker
 
@@ -38,3 +42,7 @@ $ docker run --env-file .env -d assistant-os/os -p 8080:8080
 ## Roadmap
 
 - see [here](https://github.com/orgs/assistant-os/projects/1).
+
+## Linkds
+
+- [Adapters](./doc/adapters.md)
