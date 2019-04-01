@@ -39,6 +39,8 @@ $ docker-compose -f docker-compose.yml up -d
 
 ```
 
+It will start a chatbot that can be remotely controlled from [assistant-os.github.io](https://assistant-os.github.io).
+
 ## Roadmap
 
 - see [here](https://github.com/orgs/assistant-os/projects/1).

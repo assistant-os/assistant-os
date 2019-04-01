@@ -51,6 +51,8 @@ export default class Nexus extends EventEmitter {
     this.server = http.Server(this.http)
     this.io = socketIo(this.server)
 
+    this.io.origins([ 'https://assistant-os.github.io' ]) // https://socket.io/docs/server-api/#server-origins-value
+
     this.http.get('/', (res, req) => {
       req.send('ok')
     })
