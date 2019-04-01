@@ -1,12 +1,16 @@
 ###############################################################################
 # Step 1 : Builder image
 #
-FROM node:9-alpine AS builder
+FROM mhart/alpine-node:10 AS builder
 
 # Define working directory and copy source
-WORKDIR /home/node/app
-COPY . .
-
+WORKDIR /app
+COPY packages packages	
+COPY scripts scripts
+COPY webpack.config.js .
+COPY lerna.json .
+COPY package.json .
+COPY yarn.lock .
 RUN yarn config set cache ~/.yarn-cache
 # Install dependencies and build whatever you have to build
 # (babel, grunt, webpack, etc.)
