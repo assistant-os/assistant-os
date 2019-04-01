@@ -1,6 +1,7 @@
 import EventEmitter from 'events'
 
 import express from 'express'
+import cors from 'cors'
 import http from 'http'
 import socketIo from 'socket.io'
 
@@ -48,6 +49,9 @@ export default class Nexus extends EventEmitter {
     }
 
     this.http = express()
+
+    this.http.use(cors())
+
     this.server = http.Server(this.http)
     this.io = socketIo(this.server)
 

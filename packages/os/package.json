@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@assistant-os/utils": "^0.3.2",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "socket.io": "^2.2.0"
   },
