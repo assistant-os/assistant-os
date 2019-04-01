@@ -24,10 +24,8 @@ FROM node:9-alpine
 ENV NODE_ENV=production
 WORKDIR /home/node/app
 
-# Install deps for production only
-COPY ./package* ./
 # Copy builded source from the upper builder stage
-COPY --from=builder /app/build ./build
+COPY --from=builder /app/dist ./dist
 
 # Expose ports (for orchestrators and dynamic reverse proxies)
 EXPOSE 8080
