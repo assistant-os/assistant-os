@@ -34,8 +34,8 @@ $ yarn start
 Or you can use docker
 
 ```bash
-$ docker build -t assistant-os/os
-$ docker run --env-file .env -d assistant-os/os -p 8080:8080
+$ docker-compose -f docker-compose.yml build
+$ docker-compose -f docker-compose.yml up -d
 
 ```
 
