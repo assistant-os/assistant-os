@@ -27,7 +27,7 @@ WORKDIR /home/node/app
 # Install deps for production only
 COPY ./package* ./
 # Copy builded source from the upper builder stage
-COPY --from=builder /build ./build
+COPY --from=builder /app/build ./build
 
 # Expose ports (for orchestrators and dynamic reverse proxies)
 EXPOSE 8080
