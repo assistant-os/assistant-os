@@ -5,7 +5,7 @@ FROM mhart/alpine-node:10 AS builder
 
 # Define working directory and copy source
 WORKDIR /app
-COPY packages packages	
+COPY packages packages
 COPY scripts scripts
 COPY webpack.config.js .
 COPY lerna.json .
@@ -14,7 +14,7 @@ COPY yarn.lock .
 RUN yarn config set cache ~/.yarn-cache
 # Install dependencies and build whatever you have to build
 # (babel, grunt, webpack, etc.)
-RUN npx lerna bootstrap
+RUN npx lerna bootstrap --mutex network
 run yarn webpack
 
 ###############################################################################
