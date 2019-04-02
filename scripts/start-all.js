@@ -15,7 +15,7 @@ os.start()
 
 const hello = new Hello({
   token: process.env.TOKEN,
-  host: process.env.HOST,
+  host: 'http://localhost',
   port: process.env.PORT,
   priority: 5,
 })
@@ -24,7 +24,7 @@ hello.start()
 const movies = new Movies({
   token: process.env.TOKEN,
   apiKey: process.env.THEMOVIEDB_API_KEY,
-  host: process.env.HOST,
+  host: 'http://localhost',
   port: process.env.PORT,
   priority: 5,
 })
@@ -32,7 +32,7 @@ movies.start()
 
 const prototype = new Prototype({
   token: process.env.TOKEN,
-  host: process.env.HOST,
+  host: 'http://localhost',
   port: process.env.PORT,
   priority: 5,
 })
