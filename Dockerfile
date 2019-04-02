@@ -24,10 +24,11 @@ FROM node:9-alpine
 ENV NODE_ENV=production
 WORKDIR /home/node/app
 
-RUN npx lerna bootstrap --production
+# RUN npx lerna bootstrap --production
 
 # Copy builded source from the upper builder stage
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
 
 # Expose ports (for orchestrators and dynamic reverse proxies)
 EXPOSE 8080
