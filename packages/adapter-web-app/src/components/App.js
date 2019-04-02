@@ -3,7 +3,6 @@ import { BrowserRouter, Route } from 'react-router-dom'
 
 import Chat from 'components/pages/Chat'
 import Detail from 'components/pages/Detail'
-import Welcome from 'components/pages/Welcome'
 
 import style from './App.module.scss'
 
@@ -13,8 +12,7 @@ class App extends Component {
       <BrowserRouter>
         <div className={style.App}>
           <Route path="/messages/:messageIndex/:detailId" component={Detail} />
-          <Route path="/messages" component={Chat} />
-          <Route path="/" component={Welcome} />
+          <Route path="/" component={Chat} />
         </div>
       </BrowserRouter>
     )

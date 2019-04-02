@@ -50,12 +50,22 @@ export default class Nexus extends EventEmitter {
 
     this.http = express()
 
-    this.http.use(cors())
+    this.http.use((req, res, next) => {
+      res.header('Access-Control-Allow-Origin', '*')
+      res.header(
+        'Access-Control-Allow-Headers',
+        'Origin, X-Requested-With, Content-Type, Accept'
+      )
+      next()
+    })
+
+    // this.http.use(cors())
 
     this.server = http.Server(this.http)
     this.io = socketIo(this.server)
 
-    this.io.origins([ 'https://assistant-os.github.io' ]) // https://socket.io/docs/server-api/#server-origins-value
+    // https://socket.io/docs/server-api/#server-origins-value
+    // this.io.origins([ 'https://assistant-os.github.io', 'http://localhost:3000' ])
 
     this.http.get('/', (res, req) => {
       req.send('ok')

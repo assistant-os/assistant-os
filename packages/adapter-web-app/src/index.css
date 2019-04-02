@@ -11,6 +11,12 @@ html {
   background: black;
 }
 
+body {
+  /* block scroll to refresh on android */
+
+  /* overscroll-behavior: contain;  */
+}
+
 code {
   font-family: "Courier New", monospace;
 }

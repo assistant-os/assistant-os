@@ -8,6 +8,7 @@ import {
   setHost,
   setToken,
   isOnline,
+  setStarted,
 } from 'redux/credentials'
 
 import { addMessage, clearMessages } from 'redux/discussion'
@@ -119,8 +120,12 @@ export const sendMessage = (format, content) => (dispatch, getState) => {
   dispatch(addMessage('me', content, format))
 
   const timeout = 1500
-
-  if (matchExact(format, content, 'reset')) {
+  if (
+    matchExact(format, content, 'exit') ||
+    matchExact(format, content, 'quit')
+  ) {
+    dispatch(setStarted(false))
+  } else if (matchExact(format, content, 'reset')) {
     setTimeout(() => {
       dispatch(
         addMessage('other', 'Do you really want to clear my memory?', 'text')
@@ -181,7 +186,7 @@ export const tryConnection = () => (dispatch, getState) => {
     dispatch(
       addMessage(
         'other',
-        'In order to connect, I need to have the url of your assistant.',
+        'Please provide me the url of a virtual assistant to connect to.',
         'text'
       )
     )
@@ -189,7 +194,7 @@ export const tryConnection = () => (dispatch, getState) => {
     dispatch(
       addMessage(
         'other',
-        'I need a token to be authorized by your assistant.',
+        'Please provide me the token of the assistant.',
         'text'
       )
     )

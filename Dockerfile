@@ -24,6 +24,8 @@ FROM node:9-alpine
 ENV NODE_ENV=production
 WORKDIR /home/node/app
 
+RUN npx lerna bootstrap --production
+
 # Copy builded source from the upper builder stage
 COPY --from=builder /app/dist ./dist
 

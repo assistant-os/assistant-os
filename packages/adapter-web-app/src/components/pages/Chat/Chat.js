@@ -4,6 +4,8 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 import Input from 'components/atoms/Input'
 import Message from 'components/organisms/Message'
+import Welcome from 'components/organisms/Welcome'
+
 import { ReactComponent as Send } from 'assets/send.svg'
 
 import style from './Chat.module.scss'
@@ -75,7 +77,10 @@ class Chat extends Component {
 
   render () {
     const { query } = this.state
-    const { messages } = this.props
+    const { messages, started } = this.props
+    if (!started) {
+      return <Welcome />
+    }
     return (
       <div className={style.Chat}>
         <div className={style.discussion} ref={e => (this.discussion = e)}>
@@ -126,6 +131,7 @@ Chat.defaultProps = {
   clearMemory: () => {},
   connect: () => {},
   sendMessage: () => {},
+  isStarted: false,
 }
 
 Chat.propTypes = {
@@ -139,6 +145,7 @@ Chat.propTypes = {
   ),
   connect: PropTypes.func,
   sendMessage: PropTypes.func,
+  isStarted: PropTypes.bool,
 }
 
 export default Chat

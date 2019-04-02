@@ -26,3 +26,11 @@ export const setOnline = online => ({
     online,
   },
 })
+
+export const SET_STARTED = 'SET_STARTED'
+export const setStarted = started => ({
+  type: SET_STARTED,
+  payload: {
+    started,
+  },
+})
