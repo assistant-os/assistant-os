@@ -145,6 +145,8 @@ export const sendMessage = (format, content) => (dispatch, getState) => {
         }, 1000)
       }, 2000)
     }, timeout)
+  } else if (matchExact(format, content, 'notification')) {
+    showNotification('Hello !')
   } else if (matchExact(format, content, 'no', 'confirmReset')) {
     context = null
   } else if (!isOnline(state)) {
