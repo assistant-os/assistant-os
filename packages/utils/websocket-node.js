@@ -1,4 +1,5 @@
 import io from 'socket.io-client'
+import { logger } from '@assistant-os/utils'
 import Node from './node'
 
 /**
@@ -29,6 +30,8 @@ export default class WebSocketNode extends Node {
 
   register () {
     this.socket = io(`${this.host}:${this.port}`)
+
+    logger.plug(this.socket)
 
     this.socket.on('connect', () => {
       this.send('register', {

@@ -6,6 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "@assistant-os/config": "^0.3.2",
+    "@assistant-os/utils": "^0.3.2",
     "winston": "^3.2.1"
   },
   "gitHead": "f7201f8d12087aff9c723558f31df50e5287e38a"
