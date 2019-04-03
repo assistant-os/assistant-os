@@ -1,5 +1,5 @@
 import io from 'socket.io-client'
-import { logger } from '@assistant-os/utils'
+import logger from './logger'
 import Node from './node'
 
 /**
