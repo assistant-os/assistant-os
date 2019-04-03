@@ -33,6 +33,9 @@
   "devDependencies": {
     "@assistant-os/config": "^0.3.2",
     "@assistant-os/os": "^0.3.2",
+    "@assistant-os/hello": "^0.3.2",
+    "@assistant-os/movies": "^0.3.2",
+    "@assistant-os/prototype": "^0.3.2",
     "@assistant-os/utils": "^0.3.2",
     "chai": "^4.2.0",
     "dotenv": "^6.2.0",
