@@ -2,6 +2,9 @@ const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 const babel = require('@assistant-os/config/.babelrc.js')
 module.exports = {
+  node: {
+    __dirname: true,
+  },
   mode: 'production',
   target: 'node',
   entry: {
