@@ -14,7 +14,7 @@ html {
 body {
   /* block scroll to refresh on android */
 
-  /* overscroll-behavior: contain;  */
+  overscroll-behavior: contain;
 }
 
 code {
