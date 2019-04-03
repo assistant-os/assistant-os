@@ -7,10 +7,11 @@ services:
       - THEMOVIEDB_API_KEY
       - TOKEN
       - HOST
+      - PORT
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - '$PWD/data:/data'
-      - '$PWD/logs:/logs'
+      - '$PWD/data:/home/node/app/data'
+      - '$PWD/logs:/home/node/app/logs'
     labels:
       - traefik.enable=true
       - 'traefik.frontend.rule=Host:${HOST}'

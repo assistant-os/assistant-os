@@ -4,8 +4,6 @@ import fs from 'fs'
 
 const filename = path.resolve(__dirname, '../../logs/combined.log')
 
-console.log('filename', filename)
-
 try {
   fs.mkdirSync(path.dirname(filename))
 } catch {}
