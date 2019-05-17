@@ -4,7 +4,6 @@ import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 import Input from 'components/atoms/Input'
 import Message from 'components/organisms/Message'
-import Welcome from 'components/organisms/Welcome'
 
 import { ReactComponent as Send } from 'assets/send.svg'
 
@@ -77,10 +76,7 @@ class Chat extends Component {
 
   render () {
     const { query } = this.state
-    const { messages, started } = this.props
-    if (!started) {
-      return <Welcome />
-    }
+    const { messages } = this.props
     return (
       <div className={style.Chat}>
         <div className={style.discussion} ref={e => (this.discussion = e)}>

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import Loadable from 'react-loadable'
+import { HashRouter } from 'react-router-dom'
 
 import configureStore from 'redux/configureStore'
 
@@ -12,14 +13,16 @@ import * as serviceWorker from './serviceWorker'
 const { store, persistor } = configureStore()
 
 const Load = Loadable({
-  loader: () => import('components/App'),
+  loader: () => import('components/App.container'),
   loading: () => <div />,
 })
 
 ReactDOM.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <Load />
+      <HashRouter>
+        <Load />
+      </HashRouter>
     </PersistGate>
   </Provider>,
   document.getElementById('root')
