@@ -26,12 +26,16 @@ $margin: 100px;
   flex: 1 1 auto;
   width: auto;
   padding: $paddingVertical $paddingVertical $paddingVertical $paddingHorizontal;
+  // background: lighten(black, 10%);
+  // border-radius: 0.6rem;
 }
 
 .form {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  margin: 0.5rem 0;
+  box-sizing: border-box;
 }
 
 .submit {
@@ -39,12 +43,17 @@ $margin: 100px;
   background: transparent;
   border: 0;
   outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0.5rem;
 }
 
 .icon {
   width: 24px;
   height: 24px;
   stroke: white;
+  margin-left: 1rem;
 }
 
 /* stylelint-disable-next-line */

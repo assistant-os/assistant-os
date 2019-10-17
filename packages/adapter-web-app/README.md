@@ -12,10 +12,6 @@ $ yarn start
 $ yarn build
 ```
 
-## Roadmap
-
-- remove os/os.js -> put into os.actions.js
-
 ## Design
 
 ### Graphical
