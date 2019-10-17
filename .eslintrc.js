@@ -1,1 +1,7 @@
-module.exports = require("@assistant-os/config/.eslintrc.js");
+module.exports = {
+  parser: 'babel-eslint',
+  extends: ['prettier', 'eslint:recommended', 'plugin:node/recommended'],
+  parserOptions: {
+    ecmaVersion: 6
+  }
+};
