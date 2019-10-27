@@ -1,26 +1,23 @@
-import Core from './core'
-import Nexus from './nexus'
+// import Core from './core'
+// import Nexus from './nexus'
 
 import { logger } from '@assistant-os/utils'
 
-export default class Os {
-  constructor (options) {
-    this.core = new Core(options)
-    this.nexus = new Nexus(options)
-    this.nexus.on('node', message => {
-      this.core.processMessage(message)
-    })
-
-    this.core.on('node', message => {
-      this.nexus.send(message)
-    })
-
-    logger.plug(this.core)
-    logger.plug(this.nexus)
+export default class Assistant {
+  constructor({
+    name = 'Assistant',
+    timeout = 15000 /* maximum accepted delay for a response by modules */
+  } = {}) {
+    this.identity = { name }
+    this.timeout = timeout
   }
 
-  start () {
-    this.nexus.start()
-    this.core.start()
+  start() {
+    logger.info(`started ${this.identity.name}`)
+    setInterval(() => {}, 1000)
+  }
+
+  stop() {
+    logger.info(`stopped ${this.identity.name}`)
   }
 }
