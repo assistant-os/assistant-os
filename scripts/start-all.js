@@ -39,19 +39,20 @@
 // prototype.start();
 
 import dotenv from 'dotenv'
+import Os from '@assistant-os/os'
 
 dotenv.config()
 
-import Os from '@assistant-os/os'
 const os = new Os({
   name: process.env.NAME,
   port: process.env.PORT,
-  token: process.env.TOKEN
+  token: process.env.TOKEN,
 })
-os.start()
 
 process.on('SIGINT', () => {
   os.stop()
   // eslint-disable-next-line no-process-exit
   process.exit(0)
 })
+
+os.start()

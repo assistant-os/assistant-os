@@ -4,6 +4,7 @@
   "description": "Operating System and dependencies ready to assist human beings in automatizable tasks",
   "main": "src/assistant.js",
   "scripts": {
+    "bootstrap": "lerna bootstrap",
     "test": "mocha test/test-parser.js",
     "start": "babel-node --config-file ./.babelrc.js scripts/start-all.js",
     "cli": "npx babel-node --config-file ./.babelrc.js nodes/adapters/command-line/index.js",
@@ -33,7 +34,9 @@
     "url": "https://github.com/assistant-os/assistant-os/issues"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/adapters/*",
+    "packages/modules/*"
   ],
   "husky": {
     "hooks": {
@@ -44,7 +47,6 @@
   "private": true,
   "devDependencies": {
     "@assistant-os/config": "^0.3.2",
-    "@assistant-os/hello": "^0.3.2",
     "@assistant-os/movies": "^0.3.2",
     "@assistant-os/os": "^0.3.2",
     "@assistant-os/prototype": "^0.3.2",
@@ -56,8 +58,8 @@
     "@babel/plugin-proposal-export-default-from": "^7.2.0",
     "@babel/plugin-proposal-export-namespace-from": "^7.5.2",
     "@babel/plugin-proposal-object-rest-spread": "^7.3.2",
-    "@babel/plugin-transform-runtime": "^7.3.4",
-    "@babel/polyfill": "^7.2.5",
+    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.3.1",
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.0.0",
