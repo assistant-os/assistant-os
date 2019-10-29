@@ -10,5 +10,4 @@
 export logger from './logger'
 export Adapter from './adapter'
 export Users from './users'
-export * as id from './id'
 export Module from './module'

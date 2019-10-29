@@ -4,6 +4,7 @@
   "description": "Operating System and dependencies ready to assist human beings in automatizable tasks",
   "main": "src/assistant.js",
   "scripts": {
+    "postinstall": "yarn bootstrap",
     "bootstrap": "lerna bootstrap",
     "test": "mocha test/test-parser.js",
     "start": "babel-node --config-file ./.babelrc.js scripts/start-all.js",

@@ -1,46 +1,66 @@
-import { generateRandomToken } from './id'
+import uuidv1 from 'uuid/v1'
 
-const users = {
-  friedrit: {
-    id: 'friedrit',
-    adapters: {
-      slack: {
-        id: 'D2TRY4S15',
-        meta: { channel: 'DPUKWK4G0' },
-      },
-    },
-  },
+import db from './db'
+
+if (!db.has('users').value()) {
+  db.set('users', []).write()
 }
 
-const addUser = (adapter, adapterUserId) => {
-  const id = generateRandomToken()
-  users[id] = {
-    id,
-    name: 'unknown',
-    token: generateRandomToken(),
-    adapters: {
-      [adapter]: {
-        id: adapterUserId,
-      },
+db.set('users.friedrit', {
+  id: 'friedrit',
+  adapters: {
+    slack: {
+      id: 'D2TRY4S15',
+      meta: { channel: 'DPUKWK4G0' },
     },
-  }
+  },
+})
 
-  return users[id]
+const addUser = (adapter, adapterUserId, meta = {}) => {
+  return db
+    .get('users')
+    .push({
+      id: uuidv1(),
+      name: 'unknown',
+      token: uuidv1(),
+      adapters: {
+        [adapter]: {
+          id: adapterUserId,
+          meta,
+        },
+      },
+    })
+    .write()
 }
 
 const findOrCreateUSerByAdapter = (adapter, adapterUserId, meta) => {
-  let user = null
-  let userId = Object.keys(users).find(
-    userId => (users[userId].adapters[adapter].id = adapterUserId)
-  )
+  let user = db
+    .get('users')
+    .find(
+      ({ adapters }) =>
+        adapters[adapter] && adapters[adapter].id === adapterUserId
+    )
+    .value()
 
-  if (userId === undefined) {
-    user = addUser(adapter, adapterUserId)
+  if (user === null) {
+    user = addUser(adapter, adapterUserId, meta)
   } else {
-    user = users[userId]
+    const adapters = {
+      ...user.adapters,
+      [adapter]: {
+        ...user.adapters[adapter],
+        meta,
+      },
+    }
+    user = db
+      .get('user')
+      .find(
+        ({ adapters }) =>
+          adapters[adapter] && adapters[adapter].id === adapterUserId
+      )
+      .assign({ adapters })
+      .write()
   }
-
-  user.adapters[adapter].meta = meta
 
   return user
 }
@@ -52,7 +72,10 @@ const clearUser = (user, adapter) => {
 }
 
 const findUserById = (id, adapter = null) => {
-  const user = users[id]
+  const user = db
+    .get('users')
+    .find(user => user.id === id)
+    .value()
 
   return adapter ? clearUser(user, adapter) : user
 }

@@ -8,6 +8,7 @@
     "@assistant-os/utils": "^0.3.2",
     "@assistant-os/slack": "^1.0.0",
     "@assistant-os/hello": "^0.3.2",
+    "@assistant-os/oups": "^1.0.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "socket.io": "^2.2.0"

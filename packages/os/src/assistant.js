@@ -4,6 +4,7 @@
 import { logger } from '@assistant-os/utils'
 import Slack from '@assistant-os/slack'
 import Hello from '@assistant-os/hello'
+import Oups from '@assistant-os/oups'
 
 export default class Assistant {
   constructor({
@@ -14,7 +15,7 @@ export default class Assistant {
     this.timeout = timeout
 
     this.adapters = [new Slack()]
-    this.modules = [new Hello()]
+    this.modules = [new Hello(), new Oups()]
 
     this.threads = {}
   }
@@ -51,6 +52,7 @@ export default class Assistant {
   installAdapter(adapter) {
     adapter.on('message', async ({ userId, ...message }) => {
       this.storeMetaMessage(message, userId, adapter)
+      this.threads[message.id] = { userId, message, adapterName: adapter.name }
       const module = await this.chooseModule(message)
       module.respond(message)
     })
@@ -70,9 +72,9 @@ export default class Assistant {
     await Promise.all(this.modules.map(module => module.start()))
     logger.info(`started ${this.identity.name}`)
 
-    this.adapters.forEach(this.installAdapter)
+    this.adapters.forEach(a => this.installAdapter(a))
 
-    this.modules.forEach(this.installModule)
+    this.modules.forEach(m => this.installModule(m))
 
     this.adapters[0].sendMessage('friedrit', { text: 'Ready' })
   }

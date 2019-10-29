@@ -1,4 +1,5 @@
-import { Adapter, Users, id } from '@assistant-os/utils'
+import uuidv1 from 'uuid/v1'
+import { Adapter, Users } from '@assistant-os/utils'
 import { WebClient } from '@slack/web-api'
 // import { createEventAdapter } from '@slack/events-api'
 import { RTMClient } from '@slack/rtm-api'
@@ -40,7 +41,7 @@ export default class Slack extends Adapter {
         })
         this.emit('message', {
           userId: user.id,
-          id: id.generateRandomToken(),
+          id: uuidv1(),
           text: event.text,
         })
       })
