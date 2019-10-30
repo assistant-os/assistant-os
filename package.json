@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "description": "Operating System and dependencies ready to assist human beings in automatizable tasks",
   "main": "src/assistant.js",
+  "private": true,
   "scripts": {
     "postinstall": "yarn bootstrap",
     "bootstrap": "lerna bootstrap",
@@ -12,12 +13,22 @@
     "build:2": "NODE_ENV=production lerna exec -- babel *.js --ignore dist -d dist",
     "build": "webpack --config webpack.config.js",
     "start:build": "node dist/app.js",
+    "start:build:watch": "nodemon --exec yarn start:build",
     "commitlint": "commitlint --from 04bf72d3d3d5e176b0df2d68adcd91370a14af92",
     "lint": "eslint '**/*.js'",
     "lint:fix": "eslint --fix **/*.js",
     "format": "prettier --check '**/*.js'",
     "format:fix": "prettier --write '**/*.js'",
     "release": "standard-version"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/node_modules/*",
+      "data/*",
+      "dist/",
+      "logs/"
+    ],
+    "delay": "10000"
   },
   "repository": {
     "type": "git",
@@ -45,7 +56,6 @@
     }
   },
   "homepage": "https://github.com/assistant-os/assistant-os#readme",
-  "private": true,
   "devDependencies": {
     "@assistant-os/config": "^0.3.2",
     "@assistant-os/movies": "^0.3.2",
@@ -75,6 +85,10 @@
     "husky": "^3.0.0",
     "lerna": "^3.13.1",
     "mocha": "^5.2.0",
-    "prettier": "1.18.2"
+    "nodemon": "^1.19.4",
+    "prettier": "1.18.2",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9",
+    "webpack-node-externals": "^1.7.2"
   }
 }

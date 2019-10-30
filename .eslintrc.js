@@ -4,9 +4,10 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 6,
     sourceType: 'module',
-    allowImportExportEverywhere: true
+    allowImportExportEverywhere: true,
   },
   rules: {
-    'node/no-unsupported-features/es-syntax': 'off'
-  }
+    'node/no-unsupported-features/es-syntax': 'off',
+    'node/no-unpublished-require': 'off',
+  },
 }

@@ -23,8 +23,6 @@
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
     "eslint": "^5.12.1",
-    "webpack": "^4.29.6",
-    "webpack-cli": "^3.3.0",
     "webpack-node-externals": "^1.7.2"
   },
   "gitHead": "f7201f8d12087aff9c723558f31df50e5287e38a"

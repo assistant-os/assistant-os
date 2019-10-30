@@ -3,18 +3,20 @@ import uuidv1 from 'uuid/v1'
 import db from './db'
 
 if (!db.has('users').value()) {
-  db.set('users', []).write()
-}
-
-db.set('users.friedrit', {
-  id: 'friedrit',
-  adapters: {
-    slack: {
-      id: 'D2TRY4S15',
-      meta: { channel: 'DPUKWK4G0' },
+  db.set('users', [
+    {
+      id: 'friedrit',
+      name: 'Thibault',
+      token: uuidv1(),
+      adapters: {
+        slack: {
+          id: 'U2TS4D7NW',
+          meta: { channel: 'DPUKWK4G0' },
+        },
+      },
     },
-  },
-})
+  ]).write()
+}
 
 const addUser = (adapter, adapterUserId, meta = {}) => {
   return db
@@ -42,10 +44,10 @@ const findOrCreateUSerByAdapter = (adapter, adapterUserId, meta) => {
     )
     .value()
 
-  if (user === null) {
+  if (user === null || user === undefined) {
     user = addUser(adapter, adapterUserId, meta)
   } else {
-    const adapters = {
+    const newAdapters = {
       ...user.adapters,
       [adapter]: {
         ...user.adapters[adapter],
@@ -58,7 +60,7 @@ const findOrCreateUSerByAdapter = (adapter, adapterUserId, meta) => {
         ({ adapters }) =>
           adapters[adapter] && adapters[adapter].id === adapterUserId
       )
-      .assign({ adapters })
+      .assign({ ...user, adapters: newAdapters })
       .write()
   }
 
