@@ -2,24 +2,31 @@ import uuidv1 from 'uuid/v1'
 
 import db from './db'
 
-if (!db.has('users').value()) {
-  db.set('users', [
-    {
-      id: 'friedrit',
-      name: 'Thibault',
-      token: uuidv1(),
-      adapters: {
-        slack: {
-          id: 'U2TS4D7NW',
-          meta: { channel: 'DPUKWK4G0' },
+if (
+  db() &&
+  !db()
+    .has('users')
+    .value()
+) {
+  db()
+    .set('users', [
+      {
+        id: 'friedrit',
+        name: 'Thibault',
+        token: uuidv1(),
+        adapters: {
+          slack: {
+            id: 'U2TS4D7NW',
+            meta: { channel: 'DPUKWK4G0' },
+          },
         },
       },
-    },
-  ]).write()
+    ])
+    .write()
 }
 
 const addUser = (adapter, adapterUserId, meta = {}) => {
-  return db
+  return db()
     .get('users')
     .push({
       id: uuidv1(),
@@ -36,7 +43,7 @@ const addUser = (adapter, adapterUserId, meta = {}) => {
 }
 
 const findOrCreateUSerByAdapter = (adapter, adapterUserId, meta) => {
-  let user = db
+  let user = db()
     .get('users')
     .find(
       ({ adapters }) =>
@@ -54,7 +61,7 @@ const findOrCreateUSerByAdapter = (adapter, adapterUserId, meta) => {
         meta,
       },
     }
-    user = db
+    user = db()
       .get('user')
       .find(
         ({ adapters }) =>
@@ -74,7 +81,7 @@ const clearUser = (user, adapter) => {
 }
 
 const findUserById = (id, adapter = null) => {
-  const user = db
+  const user = db()
     .get('users')
     .find(user => user.id === id)
     .value()

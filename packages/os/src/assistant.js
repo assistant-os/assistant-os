@@ -5,6 +5,7 @@ import { logger } from '@assistant-os/utils'
 import Slack from '@assistant-os/slack'
 import Hello from '@assistant-os/hello'
 import Oups from '@assistant-os/oups'
+import Emails from '@assistant-os/emails'
 
 export default class Assistant {
   constructor({
@@ -15,7 +16,7 @@ export default class Assistant {
     this.timeout = timeout
 
     this.adapters = [new Slack()]
-    this.modules = [new Hello(), new Oups()]
+    this.modules = [new Hello(), new Oups(), new Emails()]
 
     this.threads = {}
   }
@@ -31,10 +32,10 @@ export default class Assistant {
     return { userId, adapter }
   }
 
-  async chooseModule(message) {
+  async chooseModule(message, userId) {
     const modules = [...this.modules] // we use copy just in case modules change during the request
     const probabilities = await Promise.all(
-      modules.map(m => m.evaluateProbability(message))
+      modules.map(m => m.evaluateProbability(message, userId))
     )
 
     const bestModuleIndex = probabilities.reduce(
@@ -53,8 +54,8 @@ export default class Assistant {
     adapter.on('message', async ({ userId, ...message }) => {
       this.storeMetaMessage(message, userId, adapter)
       this.threads[message.id] = { userId, message, adapterName: adapter.name }
-      const module = await this.chooseModule(message)
-      module.respond(message)
+      const module = await this.chooseModule(message, userId)
+      module.respond(message, userId)
     })
   }
 

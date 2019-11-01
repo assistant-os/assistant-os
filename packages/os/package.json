@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "license": "MIT",
   "dependencies": {
+    "@assistant-os/emails": "^1.0.0",
     "@assistant-os/utils": "^0.3.2",
     "@assistant-os/slack": "^1.0.0",
     "@assistant-os/hello": "^0.3.2",

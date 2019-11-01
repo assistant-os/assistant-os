@@ -4,8 +4,16 @@
   "description": "All internal libraries usable by other components",
   "main": "index.js",
   "license": "MIT",
+  "files": [
+    "db.js",
+    "adapter.js",
+    "module.js",
+    "users.js",
+    "message"
+  ],
   "dependencies": {
     "lowdb": "^1.0.0",
+    "natural": "^0.6.3",
     "uuid": "^3.3.3",
     "winston": "^3.2.1"
   },

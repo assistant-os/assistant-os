@@ -4,10 +4,15 @@ export default class Module extends EventEmitter {
   constructor(name) {
     super()
     this.name = name
+    this.context = {}
   }
 
   start() {
     throw new Error('Not implemented')
+  }
+
+  hasStatus(userId, state) {
+    return userId in this.context && this.context[userId].status === state
   }
 
   stop() {

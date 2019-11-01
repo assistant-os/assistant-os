@@ -10,4 +10,4 @@ const db = low(adapter)
 // Set some defaults
 db.defaults({}).write()
 
-export default db
+export default () => db

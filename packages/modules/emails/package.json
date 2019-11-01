@@ -1,0 +1,9 @@
+{
+  "name": "@assistant-os/emails",
+  "version": "1.0.0",
+  "main": "emails.module.js",
+  "license": "MIT",
+  "dependencies": {
+    "@assistant-os/utils": "^0.3.2"
+  }
+}
