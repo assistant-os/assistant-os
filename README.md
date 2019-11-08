@@ -45,6 +45,7 @@ It will start a chatbot that can be remotely controlled from [assistant-os.githu
 
 - see [here](https://github.com/orgs/assistant-os/projects/1).
 
-## Linkds
+## Links
 
 - [Adapters](./doc/adapters.md)
+- [Kinds of chatbots](https://medium.com/the-chatbot-guru/the-3-types-of-chatbots-acc5cdf6bb4e)

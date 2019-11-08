@@ -9,7 +9,7 @@
     "adapter.js",
     "module.js",
     "users.js",
-    "message"
+    "message.js"
   ],
   "dependencies": {
     "lowdb": "^1.0.0",

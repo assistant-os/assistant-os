@@ -9,8 +9,7 @@
     "hello"
   ],
   "dependencies": {
-    "@assistant-os/utils": "^0.3.2",
-    "natural": "^0.6.3"
+    "@assistant-os/utils": "^0.3.2"
   },
   "gitHead": "f7201f8d12087aff9c723558f31df50e5287e38a"
 }

@@ -9,6 +9,8 @@
 - [question classifier](https://github.com/superscriptjs/qtypes)
 - https://wit.ai
 - [extract type of words](https://github.com/moos/wordpos)
+- [superscriptjs](http://superscriptjs.com/)
+- [Compromise](https://github.com/spencermountain/compromise)
 
 ## time
 

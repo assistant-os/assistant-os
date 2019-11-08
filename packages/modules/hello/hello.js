@@ -1,7 +1,5 @@
-import { JaroWinklerDistance } from 'natural'
 import { Module } from '@assistant-os/utils'
-
-import config from './config'
+import * as Message from '@assistant-os/utils/message'
 
 export default class Hello extends Module {
   constructor() {
@@ -13,12 +11,9 @@ export default class Hello extends Module {
 
   evaluateProbability(message) {
     return new Promise(resolve => {
-      if ('text' in message) {
-        const distance = JaroWinklerDistance(message.text, 'hello')
-        if (distance > config.minimal_distance) {
-          resolve(1)
-          return
-        }
+      if (Message.isCloseTo(message, 'hello')) {
+        resolve(1)
+        return
       }
 
       resolve(0)
@@ -26,6 +21,7 @@ export default class Hello extends Module {
   }
 
   respond(message) {
-    this.emit('message', { text: 'Hello!', previousMessage: message.id })
+    const context = this.getContext(message)
+    context.sendTextMessage('Hello!')
   }
 }

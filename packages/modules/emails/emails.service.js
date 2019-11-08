@@ -18,15 +18,33 @@ export const initializeTable = () => {
 export const add = (email, userId) => {
   db()
     .get(TABLE_NAME)
-    .push({ email, userId })
+    .push({ email, userId, hacks: [] })
     .write()
 }
 
-export const has = (expectedEmail, expectedUserId) =>
+export const remove = (email, userId) => {
   db()
     .get(TABLE_NAME)
-    .find(
-      ({ email, userId }) =>
-        email === expectedEmail && userId === expectedUserId
-    )
+    .remove({ email, userId })
+    .write()
+}
+
+export const update = ({ email, userId, hacks }) =>
+  db()
+    .get(TABLE_NAME)
+    .find({ email, userId })
+    .assign({ email, userId, hacks })
+    .write()
+
+export const getAll = () =>
+  db()
+    .get(TABLE_NAME)
     .value()
+
+export const get = (email, userId) =>
+  db()
+    .get(TABLE_NAME)
+    .find({ email, userId })
+    .value()
+
+export const has = (...args) => Boolean(get(...args))

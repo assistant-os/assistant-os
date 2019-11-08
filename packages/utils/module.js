@@ -1,18 +1,16 @@
 import EventEmitter from 'events'
 
+import Context from './context'
+
 export default class Module extends EventEmitter {
   constructor(name) {
     super()
     this.name = name
-    this.context = {}
+    this.globalContext = {}
   }
 
   start() {
     throw new Error('Not implemented')
-  }
-
-  hasStatus(userId, state) {
-    return userId in this.context && this.context[userId].status === state
   }
 
   stop() {
@@ -25,5 +23,16 @@ export default class Module extends EventEmitter {
 
   async respond(/* message */) {
     throw new Error('Not implemented')
+  }
+
+  getContext(message, userId = null) {
+    return new Context(this, userId, message)
+  }
+
+  sendMessage(message, meta = {}) {
+    this.emit('message', {
+      ...message,
+      ...meta,
+    })
   }
 }
