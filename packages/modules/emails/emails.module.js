@@ -7,7 +7,7 @@ import {
   extractEmail,
   checkEmails,
   groupByUser,
-  changeHacksStatus,
+  fixHacks,
 } from './utils'
 
 const INTERVAL = 1000 * 60 // * 60 * 24
@@ -24,7 +24,9 @@ export default class EmailsWatcher extends Module {
     this.startInterval()
   }
 
-  stop() {}
+  stop() {
+    this.stopInterval()
+  }
 
   startInterval() {
     if (this.interval) {
@@ -35,7 +37,7 @@ export default class EmailsWatcher extends Module {
       checkEmails(emails).then(emailsWithUpdatedHacks => {
         const newHacks = (email, index) =>
           email.hacks.length !== emails[index].hacks.length ||
-          email.hacks.some(hack => hack.status)
+          email.hacks.some(hack => !hack.fixed)
 
         emailsWithUpdatedHacks
           .filter(newHacks)
@@ -126,7 +128,7 @@ export default class EmailsWatcher extends Module {
         if (found) {
           Emails.update({
             ...found,
-            hacks: changeHacksStatus(found.hacks, false),
+            hacks: fixHacks(found.hacks),
           })
           context.sendTextMessage(`Ok. Roger that!`)
           context.setDefaultStatus()

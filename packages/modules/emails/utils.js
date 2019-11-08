@@ -51,7 +51,7 @@ export const checkEmail = ({ email, hacks = [], ...rest }) =>
           ...rest,
           email,
           hacks: newHacks.map(i => ({
-            status: true,
+            fixed: true,
             name: i.Name,
             ...hacks.find(hack => hack.name === i.Name),
             updatedAt: new Date(),
@@ -117,5 +117,5 @@ export const groupByUser = (acc, { email, hacks, userId }) => {
   return result
 }
 
-export const changeHacksStatus = (hacks, status) =>
-  hacks.map(hack => ({ ...hack, status }))
+export const fixHacks = (hacks, fixed = true) =>
+  hacks.map(hack => ({ ...hack, fixed }))
