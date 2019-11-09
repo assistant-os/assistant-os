@@ -1,0 +1,9 @@
+node_modules
+data
+dist
+logs
+doc
+.drone.yml
+.env
+*.log
+*.old

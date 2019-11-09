@@ -1,6 +1,7 @@
 version: '3.2'
 services:
   assistant-os:
+    image: assistant-os:latest
     build: .
     restart: always
     environment:
