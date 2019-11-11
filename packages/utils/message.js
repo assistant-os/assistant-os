@@ -53,4 +53,4 @@ export const isConfirm = message => equals(message, getSynonyms('yes'))
 
 export const isCancel = message => equals(message, getSynonyms('no'))
 
-export const link = (text, url) => `[${url}](${text})`
+export const link = (text, url) => `[${text}](${url})`

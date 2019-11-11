@@ -42,22 +42,22 @@ const addUser = (adapter, adapterUserId, meta = {}) => {
     .write()
 }
 
-const findOrCreateUSerByAdapter = (adapter, adapterUserId, meta) => {
+const findOrCreateUserByAdapter = (adapterName, adapterUserId, meta = {}) => {
   let user = db()
     .get('users')
     .find(
       ({ adapters }) =>
-        adapters[adapter] && adapters[adapter].id === adapterUserId
+        adapters[adapterName] && adapters[adapterName].id === adapterUserId
     )
     .value()
 
   if (user === null || user === undefined) {
-    user = addUser(adapter, adapterUserId, meta)
+    user = addUser(adapterName, adapterUserId, meta)
   } else {
     const newAdapters = {
       ...user.adapters,
-      [adapter]: {
-        ...user.adapters[adapter],
+      [adapterName]: {
+        ...user.adapters[adapterName],
         meta,
       },
     }
@@ -65,7 +65,7 @@ const findOrCreateUSerByAdapter = (adapter, adapterUserId, meta) => {
       .get('user')
       .find(
         ({ adapters }) =>
-          adapters[adapter] && adapters[adapter].id === adapterUserId
+          adapters[adapterName] && adapters[adapterName].id === adapterUserId
       )
       .assign({ ...user, adapters: newAdapters })
       .write()
@@ -90,7 +90,7 @@ const findUserById = (id, adapter = null) => {
 }
 
 export default class Users {
-  static findOrCreateByAdapter = findOrCreateUSerByAdapter
+  static findOrCreateByAdapter = findOrCreateUserByAdapter
   static findById = findUserById
 
   constructor(adapterName) {

@@ -1,0 +1,16 @@
+{
+  "name": "@assistant-os/cli",
+  "description": "Command line interface to interact with an assistant-os implementation.",
+  "version": "0.3.2",
+  "main": "cli.js",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "dotenv": "^8.2.0",
+    "socket.io-client": "^2.3.0"
+  },
+  "scripts": {
+    "start": "npx babel-node cli.js"
+  },
+  "gitHead": "f7201f8d12087aff9c723558f31df50e5287e38a"
+}

@@ -3,6 +3,7 @@
 
 import { logger, Users } from '@assistant-os/utils'
 import Slack from '@assistant-os/slack'
+import Http from '@assistant-os/http'
 import Hello from '@assistant-os/hello'
 import Oups from '@assistant-os/oups'
 import Emails from '@assistant-os/emails'
@@ -17,12 +18,13 @@ export default class Assistant {
     this.identity = { name }
     this.timeout = timeout
 
-    this.adapters = [new Slack()]
+    this.adapters = [new Slack(), new Http()]
     this.actions = [new Hello(), new Oups(), new Emails(), new Contracts()]
 
     this.threads = {}
 
     this.lastAdaptersUsed = {} // TODO save if in data base
+    this.users = new Users()
   }
 
   storeMetaMessage(message, userId, adapter) {
@@ -33,7 +35,7 @@ export default class Assistant {
     let lastAdapterUsed = this.lastAdaptersUsed[userId]
 
     if (!lastAdapterUsed) {
-      const user = Users.findById(userId)
+      const user = this.users.findById(userId)
       if (user && Object.keys(user.adapters).length > 0) {
         lastAdapterUsed = Object.keys(user.adapters)[0]
       }
