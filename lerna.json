@@ -1,6 +1,6 @@
 {
   "lerna": "3.13.1",
-  "packages": ["packages/**/*", "packages/adapters/*", "packages/modules/*"],
+  "packages": ["packages/**/*", "packages/adapters/*", "packages/actions/*"],
   "npmClient": "yarn",
   "version": "0.3.2",
   "command": {

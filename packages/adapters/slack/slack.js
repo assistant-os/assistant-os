@@ -56,7 +56,11 @@ export default class Slack extends Adapter {
 
   async sendMessage(userId, message) {
     const user = this.users.findById(userId)
+
+    let { text } = message
+    text = text.replace(/\[(.+?)\]\((.+?)\)/g, '<$1|$2>')
+
     // this.web.chat.postMessage({ channel: user.channel, ...message })
-    this.rtm.sendMessage(message.text, user.adapter.meta.channel)
+    this.rtm.sendMessage(text, user.adapter.meta.channel)
   }
 }

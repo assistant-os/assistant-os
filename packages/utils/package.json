@@ -14,6 +14,7 @@
   "dependencies": {
     "lowdb": "^1.0.0",
     "natural": "^0.6.3",
+    "thesaurus": "^0.0.1",
     "uuid": "^3.3.3",
     "winston": "^3.2.1"
   },

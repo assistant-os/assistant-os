@@ -1,10 +1,10 @@
 {
-  "name": "@assistant-os/emails",
+  "name": "@assistant-os/contracts",
   "version": "1.0.0",
-  "main": "emails.module.js",
+  "main": "contracts.js",
   "license": "MIT",
   "dependencies": {
     "@assistant-os/utils": "^0.3.2",
-    "request": "^2.88.0"
+    "cheerio": "^1.0.0-rc.3"
   }
 }

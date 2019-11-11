@@ -6,18 +6,19 @@ import Slack from '@assistant-os/slack'
 import Hello from '@assistant-os/hello'
 import Oups from '@assistant-os/oups'
 import Emails from '@assistant-os/emails'
+import Contracts from '@assistant-os/contracts'
 import * as Message from '@assistant-os/utils/message'
 
 export default class Assistant {
   constructor({
     name = 'Assistant',
-    timeout = 15000 /* maximum accepted delay for a response by modules */,
+    timeout = 15000 /* maximum accepted delay for a response by actions */,
   } = {}) {
     this.identity = { name }
     this.timeout = timeout
 
     this.adapters = [new Slack()]
-    this.modules = [new Hello(), new Oups(), new Emails()]
+    this.actions = [new Hello(), new Oups(), new Emails(), new Contracts()]
 
     this.threads = {}
 
@@ -54,9 +55,9 @@ export default class Assistant {
   }
 
   async chooseModule(message, userId) {
-    const modules = [...this.modules] // we use copy just in case modules change during the request
+    const actions = [...this.actions] // we use copy just in case actions change during the request
     const probabilities = await Promise.all(
-      modules.map(m => m.evaluateProbability(message, userId))
+      actions.map(m => m.evaluateProbability(message, userId))
     )
 
     const bestModuleIndex = probabilities.reduce(
@@ -68,7 +69,7 @@ export default class Assistant {
       },
       0
     )
-    return this.modules[bestModuleIndex]
+    return this.actions[bestModuleIndex]
   }
 
   installAdapter(adapter) {
@@ -94,10 +95,10 @@ export default class Assistant {
 
   async start() {
     this.adapters.forEach(a => this.installAdapter(a))
-    this.modules.forEach(m => this.installModule(m))
+    this.actions.forEach(m => this.installModule(m))
 
     await Promise.all(this.adapters.map(adapter => adapter.start()))
-    await Promise.all(this.modules.map(module => module.start()))
+    await Promise.all(this.actions.map(module => module.start()))
     logger.info(`started ${this.identity.name}`)
 
     this.adapters[0].sendMessage('friedrit', Message.fix({ text: 'Ready' }))

@@ -1,0 +1,48 @@
+import thesaurus from 'thesaurus'
+
+import db from '@assistant-os/utils/db'
+
+const TABLE_NAME = 'hello'
+
+const initializeTable = () => {
+  if (
+    db() &&
+    !db()
+      .has(TABLE_NAME)
+      .value()
+  ) {
+    db()
+      .set(TABLE_NAME, [])
+      .write()
+  }
+}
+
+export const getSynonyms = word => {
+  initializeTable()
+
+  let found = db()
+    .get(TABLE_NAME)
+    .find({ word })
+    .value()
+
+  if (found) {
+    return found.synonyms
+  }
+
+  const synonyms = [...thesaurus.find(word), word]
+
+  db()
+    .get(TABLE_NAME)
+    .push({ word, synonyms })
+    .write()
+
+  return synonyms
+}
+
+export default word => {
+  const synonyms = getSynonyms(word)
+
+  const index = Math.floor(Math.random() * synonyms.length)
+
+  return synonyms[index]
+}

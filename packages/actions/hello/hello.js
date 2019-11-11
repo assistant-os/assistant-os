@@ -1,4 +1,4 @@
-import { Module } from '@assistant-os/utils'
+import { Module, getASynonym } from '@assistant-os/utils'
 import * as Message from '@assistant-os/utils/message'
 
 export default class Hello extends Module {
@@ -22,6 +22,7 @@ export default class Hello extends Module {
 
   respond(message) {
     const context = this.getContext(message)
-    context.sendTextMessage('Hello!')
+
+    context.sendTextMessage(`${getASynonym('hello')}!`)
   }
 }

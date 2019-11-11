@@ -10,7 +10,7 @@ import {
   fixHacks,
 } from './utils'
 
-const INTERVAL = 1000 * 60 // * 60 * 24
+const INTERVAL = 1000 * 60 * 60 * 24
 const READY_TO_WATCH = 'ready-to-watch'
 const READY_TO_UNWATCH = 'ready-to-unwatch'
 
@@ -68,15 +68,9 @@ export default class EmailsWatcher extends Module {
       }
 
       if (
-        context.hasStatus(READY_TO_WATCH) &&
-        Message.equals(message, ['yes', 'no'])
-      ) {
-        return resolve(1)
-      }
-
-      if (
-        context.hasStatus(READY_TO_WATCH) &&
-        Message.equals(message, ['yes', 'no'])
+        (context.hasStatus(READY_TO_WATCH) ||
+          context.hasStatus(READY_TO_UNWATCH)) &&
+        (Message.isConfirm(message) || Message.isCancel(message))
       ) {
         return resolve(1)
       }
@@ -95,12 +89,12 @@ export default class EmailsWatcher extends Module {
   respond(message, userId) {
     const context = this.getContext(message, userId)
     if (context.hasStatus(READY_TO_WATCH)) {
-      if (Message.equals(message, 'yes')) {
+      if (Message.isConfirm(message)) {
         context.sendTextMessage('ok I remember it')
         Emails.add(context.get('email'), userId)
         context.setDefaultStatus()
         return
-      } else if (Message.equals(message, 'no')) {
+      } else if (Message.isCancel(message)) {
         context.sendTextMessage('ok as you want')
         context.setDefaultStatus()
         return
@@ -108,12 +102,12 @@ export default class EmailsWatcher extends Module {
     }
 
     if (context.hasStatus(READY_TO_UNWATCH)) {
-      if (Message.equals(message, 'yes')) {
+      if (Message.isConfirm(message)) {
         context.sendTextMessage('ok I forget it')
         Emails.remove(context.get('email'), userId)
         context.setDefaultStatus()
         return
-      } else if (Message.equals(message, 'no')) {
+      } else if (Message.isCancel(message)) {
         context.sendTextMessage('ok as you want')
         context.setDefaultStatus()
         return

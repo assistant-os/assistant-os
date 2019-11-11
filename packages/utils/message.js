@@ -1,4 +1,5 @@
 import { JaroWinklerDistance } from 'natural'
+import { getSynonyms } from './synonyms'
 
 import config from './config'
 
@@ -47,3 +48,9 @@ export const fix = message => {
     text: `${text.replace(/^[a-z]/, text[0].toUpperCase())}${punctuation}`,
   }
 }
+
+export const isConfirm = message => equals(message, getSynonyms('yes'))
+
+export const isCancel = message => equals(message, getSynonyms('no'))
+
+export const link = (text, url) => `[${url}](${text})`
