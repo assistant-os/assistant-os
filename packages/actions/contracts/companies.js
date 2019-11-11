@@ -56,10 +56,12 @@ export const getCompaniesByName = companyName =>
             $(category)
               .find('a.txt-no-underline')
               .each((n, item) => {
-                const name = $(item)
+                let name = $(item)
                   .find('.resultat .lien')
                   .text()
                   .toLowerCase()
+
+                name = `${name.charAt(0).toUpperCase()}${name.slice(1)}`
 
                 if (name) {
                   results.push({

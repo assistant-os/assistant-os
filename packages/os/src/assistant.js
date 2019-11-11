@@ -1,7 +1,7 @@
 // import Core from './core'
 // import Nexus from './nexus'
 
-import { logger } from '@assistant-os/utils'
+import { logger, Users } from '@assistant-os/utils'
 import Slack from '@assistant-os/slack'
 import Hello from '@assistant-os/hello'
 import Oups from '@assistant-os/oups'
@@ -22,15 +22,22 @@ export default class Assistant {
 
     this.threads = {}
 
-    this.lastAdaptersUsed = {}
+    this.lastAdaptersUsed = {} // TODO save if in data base
   }
 
   storeMetaMessage(message, userId, adapter) {
     this.threads[message.id] = { userId, message, adapterName: adapter.name }
   }
 
-  findLastAdapter(userId) {
-    const lastAdapterUsed = this.lastAdaptersUsed[userId]
+  findLastAdapterUsed(userId) {
+    let lastAdapterUsed = this.lastAdaptersUsed[userId]
+
+    if (!lastAdapterUsed) {
+      const user = Users.findById(userId)
+      if (user && Object.keys(user.adapters).length > 0) {
+        lastAdapterUsed = Object.keys(user.adapters)[0]
+      }
+    }
 
     if (lastAdapterUsed) {
       return this.adapters.find(a => a.name === lastAdapterUsed)
@@ -47,7 +54,7 @@ export default class Assistant {
     }
 
     if (message.userId) {
-      const adapter = this.findLastAdapter(message.userId)
+      const adapter = this.findLastAdapterUsed(message.userId)
       return { userId: message.userId, adapter }
     }
 
