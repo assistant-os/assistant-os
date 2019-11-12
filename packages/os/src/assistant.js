@@ -8,6 +8,8 @@ import Hello from '@assistant-os/hello'
 import Oups from '@assistant-os/oups'
 import Emails from '@assistant-os/emails'
 import Contracts from '@assistant-os/contracts'
+import Movies from '@assistant-os/movies'
+
 import * as Message from '@assistant-os/utils/message'
 
 export default class Assistant {
@@ -19,7 +21,13 @@ export default class Assistant {
     this.timeout = timeout
 
     this.adapters = [new Slack(), new Http()]
-    this.actions = [new Hello(), new Oups(), new Emails(), new Contracts()]
+    this.actions = [
+      new Hello(),
+      new Oups(),
+      new Emails(),
+      new Contracts(),
+      new Movies(),
+    ]
 
     this.threads = {}
 
@@ -110,7 +118,7 @@ export default class Assistant {
     await Promise.all(this.actions.map(module => module.start()))
     logger.info(`started ${this.identity.name}`)
 
-    this.adapters[0].sendMessage('friedrit', Message.fix({ text: 'Ready' }))
+    // this.adapters[0].sendMessage('friedrit', Message.fix({ text: 'Ready' }))
   }
 
   stop() {

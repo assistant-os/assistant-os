@@ -19,6 +19,8 @@ const port = process.env.PORT
 
 const url = `${host}:${port}`
 
+const prompt = '> '
+
 const socket = io(url)
 
 printLine(`Connecting to ${url}...`)
@@ -29,16 +31,15 @@ const rl = readline.createInterface({
 })
 
 socket.on('connect', () => {
-  printLine('Connected.')
-  printLine('Type "quit" to quit the cli')
-  process.stdout.write('$> ')
+  printLine('Connected. Type "quit" to quit the cli.')
+  process.stdout.write(prompt)
   socket.emit('start', { secret, token })
 })
 
 socket.on('message', ({ text }) => {
   text = text.replace(/\[(.+?)\]\((.+?)\)/g, '$1 ($2)')
   process.stdout.write(`${chalk.blue(text)}\n`)
-  process.stdout.write('$> ')
+  process.stdout.write(prompt)
 })
 
 rl.on('line', text => {
@@ -49,7 +50,7 @@ rl.on('line', text => {
   if (text !== '') {
     socket.emit('message', { secret, token, text })
   }
-  process.stdout.write('$> ')
+  process.stdout.write(prompt)
 })
 
 rl.on('SIGINT', () => {
@@ -59,16 +60,17 @@ rl.on('SIGINT', () => {
 })
 
 socket.on('connect_error', error => {
-  console.error('connect_error', error)
+  process.stderr.write(`${chalk.red('Disconnected')}\n`)
+  process.stdout.write(prompt)
 })
-
-socket.on('connect_timeout', timeout => {
-  console.error('connect_timeout', timeout)
-})
-
-socket.on('error', error => {
-  console.error('error', error)
-})
+//
+// socket.on('connect_timeout', timeout => {
+//   console.error('connect_timeout', timeout)
+// })
+//
+// socket.on('error', error => {
+//   console.error('error', error)
+// })
 
 /*
 import { WebSocketAdapter, env } from '@assistant-os/utils'
