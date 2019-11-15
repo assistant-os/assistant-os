@@ -10,8 +10,6 @@ import Emails from '@assistant-os/emails'
 import Contracts from '@assistant-os/contracts'
 import Movies from '@assistant-os/movies'
 
-import * as Message from '@assistant-os/utils/message'
-
 export default class Assistant {
   constructor({
     name = 'Assistant',
