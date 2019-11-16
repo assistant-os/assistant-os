@@ -63,4 +63,11 @@ export default class Slack extends Adapter {
     // this.web.chat.postMessage({ channel: user.channel, ...message })
     this.rtm.sendMessage(text, user.adapter.meta.channel)
   }
+
+  async sendAction(userId, action) {
+    const user = this.users.findById(userId)
+    if (action.type === 'typing') {
+      this.rtm.sendTyping(user.adapter.meta.channel)
+    }
+  }
 }

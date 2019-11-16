@@ -72,8 +72,11 @@ export default class Assistant {
   async chooseModule(message, userId) {
     const actions = [...this.actions] // we use copy just in case actions change during the request
     const probabilities = await Promise.all(
-      actions.map(m => m.evaluateProbability(message, userId))
+      actions.map(m => m.evaluateProbability(message))
     )
+
+    const adapter = this.findLastAdapterUsed(userId)
+    adapter.sendAction(userId, { type: 'typing' })
 
     const bestModuleIndex = probabilities.reduce(
       (bestProbabilityIndex, probability, index) => {
