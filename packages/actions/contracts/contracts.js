@@ -1,4 +1,4 @@
-import { Module, Cache } from '@assistant-os/utils'
+import { Action, Cache } from '@assistant-os/utils'
 import * as Message from '@assistant-os/utils/message'
 
 import {
@@ -9,7 +9,7 @@ import {
 
 const READY_TO_ADD_INVOICE = 'ready-to-add-invoice'
 
-export default class Contracts extends Module {
+export default class Contracts extends Action {
   constructor() {
     super('contracts')
 

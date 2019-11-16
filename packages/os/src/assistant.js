@@ -69,7 +69,7 @@ export default class Assistant {
     return {}
   }
 
-  async chooseModule(message, userId) {
+  async chooseAction(message, userId) {
     const actions = [...this.actions] // we use copy just in case actions change during the request
     const probabilities = await Promise.all(
       actions.map(m => m.evaluateProbability(message))
@@ -94,13 +94,13 @@ export default class Assistant {
     adapter.on('message', async ({ userId, ...message }) => {
       this.storeMetaMessage(message, userId, adapter)
       this.threads[message.id] = { userId, message, adapterName: adapter.name }
-      const module = await this.chooseModule(message, userId)
-      module.respond(message, userId)
+      const action = await this.chooseAction(message, userId)
+      action.respond(message, userId)
     })
   }
 
-  installModule(module) {
-    module.on('message', message => {
+  installModule(action) {
+    action.on('message', message => {
       const { adapter, userId } = this.findMetaMessage(message)
       if (adapter && userId) {
         this.lastAdaptersUsed[userId] = adapter.name

@@ -2,7 +2,7 @@ import EventEmitter from 'events'
 
 import Context from './context'
 
-export default class Module extends EventEmitter {
+export default class Action extends EventEmitter {
   constructor(name) {
     super()
     this.name = name

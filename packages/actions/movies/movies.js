@@ -1,8 +1,8 @@
-import { Module, Cache } from '@assistant-os/utils'
+import { Action, Cache } from '@assistant-os/utils'
 import { initializeTable } from './movies.service'
 import searchMovies from './themoviedb'
 
-export default class Movies extends Module {
+export default class Movies extends Action {
   constructor() {
     super('movies')
 

@@ -1,6 +1,6 @@
-import { Module } from '@assistant-os/utils'
+import { Action } from '@assistant-os/utils'
 
-export default class Oups extends Module {
+export default class Oups extends Action {
   constructor() {
     super('oups')
   }

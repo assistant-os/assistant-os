@@ -1,4 +1,4 @@
-import { Module } from '@assistant-os/utils'
+import { Action } from '@assistant-os/utils'
 import * as Message from '@assistant-os/utils/message'
 
 import * as Emails from './emails.service'
@@ -14,7 +14,7 @@ const INTERVAL = 1000 * 60 * 60 * 24
 const READY_TO_WATCH = 'ready-to-watch'
 const READY_TO_UNWATCH = 'ready-to-unwatch'
 
-export default class EmailsWatcher extends Module {
+export default class EmailsWatcher extends Action {
   constructor() {
     super('emails')
   }

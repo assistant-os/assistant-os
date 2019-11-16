@@ -1,7 +1,7 @@
-import { Module, getASynonym } from '@assistant-os/utils'
+import { Action, getASynonym } from '@assistant-os/utils'
 import * as Message from '@assistant-os/utils/message'
 
-export default class Hello extends Module {
+export default class Hello extends Action {
   constructor() {
     super('hello')
   }
