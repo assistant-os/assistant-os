@@ -14,9 +14,9 @@ export default class Slack extends Adapter {
   start() {
     return new Promise(async resolve => {
       // https://github.com/slackapi/node-slack-sdk
-      this.web = new WebClient(process.env.SLACK_TOKEN)
+      this.web = new WebClient(process.env.ADAPTER_SLACK_TOKEN)
       /*
-      this.slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET)
+      this.slackEvents = createEventAdapter(process.env.ADAPTER_SLACK_SIGNING_SECRET)
 
       this.slackEvents.on('message', event => {
         const message = { text: event.text }
@@ -28,10 +28,10 @@ export default class Slack extends Adapter {
         this.emit('error', error)
       })
 
-      await this.slackEvents.start(process.env.SLACK_PORT || 3000)
+      await this.slackEvents.start(process.env.ADAPTER_SLACK_PORT || 3000)
       */
 
-      this.rtm = new RTMClient(process.env.SLACK_TOKEN)
+      this.rtm = new RTMClient(process.env.ADAPTER_SLACK_TOKEN)
 
       await this.rtm.start()
 

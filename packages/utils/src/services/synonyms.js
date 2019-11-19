@@ -1,6 +1,6 @@
 import thesaurus from 'thesaurus'
 
-import db from '@assistant-os/utils/db'
+import db from './db'
 
 const TABLE_NAME = 'hello'
 

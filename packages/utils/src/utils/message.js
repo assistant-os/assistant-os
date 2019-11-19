@@ -1,7 +1,7 @@
 import { JaroWinklerDistance } from 'natural'
-import { getSynonyms } from './synonyms'
+import { getSynonyms } from '../services'
 
-import config from './config'
+import config from '../../config'
 
 const isTextMessage = message => message && message.text
 

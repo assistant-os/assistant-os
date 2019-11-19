@@ -1,6 +1,6 @@
 import EventEmitter from 'events'
 
-import Context from './context'
+import Context from '../utils/context'
 
 export default class Action extends EventEmitter {
   constructor(name) {

@@ -2,7 +2,7 @@
   "name": "@assistant-os/os",
   "version": "0.3.2",
   "description": "The operating system of the assistant",
-  "main": "src/index.js",
+  "main": "src/os.js",
   "license": "MIT",
   "dependencies": {
     "@assistant-os/emails": "^1.0.0",

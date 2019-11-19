@@ -1,6 +1,3 @@
-// import Core from './core'
-// import Nexus from './nexus'
-
 import { logger, Users } from '@assistant-os/utils'
 import Slack from '@assistant-os/slack'
 import Http from '@assistant-os/http'

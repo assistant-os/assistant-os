@@ -5,7 +5,7 @@ import { Adapter, Users, logger } from '@assistant-os/utils'
 
 const secure = callback => {
   return ({ secret, ...data }) => {
-    if (secret === process.env.HTTP_ADAPTER_SECRET) {
+    if (secret === process.env.ADAPTER_HTTP_SECRET) {
       callback && callback(data)
     }
   }
@@ -22,7 +22,7 @@ export default class Http extends Adapter {
 
   start() {
     return new Promise(resolve => {
-      this.io = new Server(process.env.HTTP_ADAPTER_PORT)
+      this.io = new Server(process.env.ADAPTER_HTTP_PORT)
 
       this.io.on('connection', socket => {
         socket.on(

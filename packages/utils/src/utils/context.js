@@ -1,4 +1,4 @@
-import * as Message from '@assistant-os/utils/message'
+import * as Message from './message'
 
 export default class Context {
   constructor(module, userId, message = {}) {

@@ -5,14 +5,18 @@ services:
     build: .
     restart: always
     environment:
+      - HTTP_ADAPTER_SECRET
+      - HTTP_ADAPTER_PORT
       - THEMOVIEDB_API_KEY
+      - NAME
+      - SLACK_TOKEN
+      -
       - TOKEN
       - HOST
       - PORT
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - '$PWD/data:/home/node/app/data'
-      - '$PWD/logs:/home/node/app/logs'
     labels:
       - traefik.enable=true
       - 'traefik.frontend.rule=Host:${HOST}'

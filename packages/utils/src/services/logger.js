@@ -2,7 +2,7 @@ import path from 'path'
 import winston from 'winston'
 import fs from 'fs'
 
-const filename = path.resolve(__dirname, '../../logs/combined.log')
+const filename = path.resolve(__dirname, '../../../../data/combined.log')
 const dirname = path.dirname(filename)
 
 try {
@@ -19,9 +19,9 @@ const logger = winston.createLogger({
     new winston.transports.Console(),
     new winston.transports.File({
       timestamp: true,
-      filename
-    })
-  ]
+      filename,
+    }),
+  ],
 })
 
 logger.plug = emitter => {

@@ -1,4 +1,4 @@
-import db from '@assistant-os/utils/db'
+import { db } from '@assistant-os/utils'
 
 const TABLE_NAME = 'emails'
 
