@@ -13,14 +13,11 @@
 
 <br>
 
-This project is a micro-services based chatbot to assist human beeing in repetitive and daily tasks. It also provides libraries to extends the capabilities.
+This project is a chatbot to assist human beeing in repetitive and daily tasks.
 
 ## Getting started
 
-First of all, be sure to have environment containing the proper
-variables.
-
-Create a .env file containing credentials. Cf [./doc/env.md](./doc/env.md).
+Create a .env file containing credentials. An example is provided [.env.example](.env.example). You can also set the variables globally depending on your OS.
 
 Then
 
@@ -34,18 +31,32 @@ $ yarn start
 Or you can use docker
 
 ```bash
-$ docker-compose -f docker-compose.yml build
-$ docker-compose -f docker-compose.yml up -d
-
+$ docker-compose build
+$ docker-compose up -d
 ```
 
+<!--
 It will start a chatbot that can be remotely controlled from [assistant-os.github.io](https://assistant-os.github.io).
+-->
+
+## Contribute
+
+Please read [development guidelines](./CONTRIBUTING.md) before proposing a pull request.
 
 ## Roadmap
 
-- see [here](https://github.com/orgs/assistant-os/projects/1).
+These are the next features to come:
+
+- [movies, tv shows]: notify the user for a release
+- [urls]: save url and propose automatic behaviors like auto watch
+- [timelog]: help the user to log his spend time
+- [contracts]: generate invoice automatically in google drive
+
+<!--
 
 ## Links
 
 - [Adapters](./doc/adapters.md)
 - [Kinds of chatbots](https://medium.com/the-chatbot-guru/the-3-types-of-chatbots-acc5cdf6bb4e)
+
+-->
