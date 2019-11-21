@@ -18,7 +18,9 @@
     "lint:fix": "eslint --fix **/*.js",
     "format": "prettier --check '**/*.js'",
     "format:fix": "prettier --write '**/*.js'",
-    "release": "standard-version"
+    "release": "standard-version",
+    "docker:build": "docker-compose build",
+    "docker:start": "docker-compose up"
   },
   "nodemonConfig": {
     "ignore": [
