@@ -5,15 +5,15 @@ services:
     build: .
     restart: always
     environment:
-      - HTTP_ADAPTER_SECRET
-      - HTTP_ADAPTER_PORT
+      - ADAPTER_HTTP_SECRET
+      - ADAPTER_HTTP_PORT
+      - ADAPTER_SLACK_TOKEN
+      - ADAPTER_SLACK_CHANNEL
+      - ADAPTER_SLACK_SIGNING_SECRET
+      - ADAPTER_SLACK_PORT
       - THEMOVIEDB_API_KEY
       - NAME
-      - SLACK_TOKEN
-      -
-      - TOKEN
-      - HOST
-      - PORT
+      - HAVE_I_BEEN_PWNED_API_KEY
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - '$PWD/data:/home/node/app/data'

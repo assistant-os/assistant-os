@@ -10,7 +10,8 @@ RUN yarn config set cache ~/.yarn-cache
 # Install dependencies and build whatever you have to build
 # (babel, grunt, webpack, etc.)
 RUN yarn --mutex network
-RUN yarn webpack
+RUN yarn
+RUN yarn build
 
 ###############################################################################
 # Step 2 : Run image

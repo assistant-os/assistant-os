@@ -7,11 +7,9 @@
   "scripts": {
     "postinstall": "yarn bootstrap",
     "bootstrap": "lerna bootstrap",
-    "test": "mocha test/test-parser.js",
     "start": "babel-node --config-file ./.babelrc.js scripts/start-all.js",
     "start:watch": "nodemon --watch packages --exec yarn start",
     "cli": "npx babel-node --config-file ./.babelrc.js packages/interfaces/cli/cli.js",
-    "build:2": "NODE_ENV=production lerna exec -- babel *.js --ignore dist -d dist",
     "build": "webpack --config webpack.config.js",
     "start:build": "node dist/app.js",
     "start:build:watch": "nodemon --exec yarn start:build",

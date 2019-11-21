@@ -39,7 +39,7 @@ export const getSynonyms = word => {
   return synonyms
 }
 
-export default word => {
+export const getASynonym = word => {
   const synonyms = getSynonyms(word)
 
   const index = Math.floor(Math.random() * synonyms.length)

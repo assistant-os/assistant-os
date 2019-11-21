@@ -25,7 +25,7 @@ Create a .env file containing credentials. Cf [./doc/env.md](./doc/env.md).
 Then
 
 ```bash
-$ npx lerna bootstrap
+$ yarn
 $ yarn start
 ```
 
