@@ -15,7 +15,7 @@ export default class Assistant {
     this.identity = { name }
     this.timeout = timeout
 
-    this.adapters = [new Slack(), new Http()]
+    this.adapters = [/*new Slack(),*/ new Http()]
     this.actions = [
       new Hello(),
       new Oups(),

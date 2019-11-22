@@ -10,6 +10,7 @@
     "start": "babel-node --config-file ./.babelrc.js scripts/start-all.js",
     "start:watch": "nodemon --watch packages --exec yarn start",
     "cli": "npx babel-node --config-file ./.babelrc.js packages/interfaces/cli/cli.js",
+    "cli:watch": "nodemon --exec yarn cli",
     "build": "webpack --config webpack.config.js",
     "start:build": "node dist/app.js",
     "start:build:watch": "nodemon --exec yarn start:build",
