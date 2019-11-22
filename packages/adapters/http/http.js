@@ -52,6 +52,7 @@ export default class Http extends Adapter {
 
   async sendMessage(userId, message) {
     const user = this.users.findById(userId)
+    console.log('user', user)
 
     if (this.sockets[user.adapter.id]) {
       this.sockets[user.adapter.id].emit('message', message)

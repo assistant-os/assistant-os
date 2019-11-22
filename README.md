@@ -47,7 +47,6 @@ Please read [development guidelines](./CONTRIBUTING.md) before proposing a pull 
 
 These are the next features to come:
 
-- [hello]: Welcome the user and know better the user
 - [movies, tv shows]: notify the user for a release
 - [urls]: save url and propose automatic behaviors like auto watch
 - [timelog]: help the user to log his spend time

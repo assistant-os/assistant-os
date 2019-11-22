@@ -2,20 +2,22 @@ import uuidv1 from 'uuid/v1'
 
 import db from './db'
 
+const TABLE_NAME = 'users'
+
 if (
   db() &&
   !db()
-    .has('users')
+    .has(TABLE_NAME)
     .value()
 ) {
   db()
-    .set('users', [])
+    .set(TABLE_NAME, [])
     .write()
 }
 
 const addUser = (adapterName, adapterUserId, meta = {}) =>
   db()
-    .get('users')
+    .get(TABLE_NAME)
     .push({
       id: uuidv1(),
       name: 'unknown',
@@ -31,7 +33,7 @@ const addUser = (adapterName, adapterUserId, meta = {}) =>
 
 const findOrCreateUserByAdapter = (adapterName, adapterUserId, meta = {}) => {
   let user = db()
-    .get('users')
+    .get(TABLE_NAME)
     .find(
       ({ adapters }) =>
         adapters[adapterName] && adapters[adapterName].id === adapterUserId
@@ -50,7 +52,7 @@ const findOrCreateUserByAdapter = (adapterName, adapterUserId, meta = {}) => {
       },
     }
     user = db()
-      .get('user')
+      .get(TABLE_NAME)
       .find(
         ({ adapters }) =>
           adapters[adapterName] && adapters[adapterName].id === adapterUserId
@@ -70,7 +72,7 @@ const clearUser = (user, adapter) => {
 
 const findUserById = (id, adapterName = null) => {
   const user = db()
-    .get('users')
+    .get(TABLE_NAME)
     .find(user => user.id === id)
     .value()
 
@@ -91,5 +93,13 @@ export default class Users {
 
   findById(userId) {
     return Users.findById(userId, this.adapterName)
+  }
+
+  update(id, toUpdate) {
+    return db()
+      .get('users')
+      .find({ id })
+      .assign(toUpdate)
+      .write()
   }
 }

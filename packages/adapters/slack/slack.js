@@ -1,5 +1,5 @@
 import uuidv1 from 'uuid/v1'
-import { Adapter, Users } from '@assistant-os/common'
+import { Adapter, Users, logger } from '@assistant-os/common'
 import { WebClient } from '@slack/web-api'
 // import { createEventAdapter } from '@slack/events-api'
 import { RTMClient } from '@slack/rtm-api'
@@ -35,11 +35,25 @@ export default class Slack extends Adapter {
 
       await this.rtm.start()
 
-      this.rtm.on('message', event => {
-        const user = this.users.findOrCreateByAdapter(event.user, {
+      this.rtm.on('message', async event => {
+        let user = this.users.findOrCreateByAdapter(event.user, {
           channel: event.channel,
         })
-        this.emit('message', {
+
+        if (user.name === 'unknown') {
+          try {
+            const { user: slackUser } = await this.web.users.info({
+              user: event.user,
+            })
+            this.users.update(user.id, {
+              name: slackUser.profile.real_name_normalized,
+            })
+          } catch (error) {
+            logger.error('error while getting user info', { error })
+          }
+        }
+
+        user = this.emit('message', {
           userId: user.id,
           id: uuidv1(),
           text: event.text,

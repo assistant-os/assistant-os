@@ -18,7 +18,5 @@ export default class Adapter extends EventEmitter {
     throw new Error('Not implemented')
   }
 
-  async sendAction(/* adapterUserId, action */) {
-    throw new Error('Not implemented')
-  }
+  async sendAction(/* adapterUserId, action */) {}
 }
