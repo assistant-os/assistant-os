@@ -1,7 +1,7 @@
 import Server from 'socket.io'
 import uuidv1 from 'uuid/v1'
 
-import { Adapter, Users, logger } from '@assistant-os/utils'
+import { Adapter, Users, logger } from '@assistant-os/common'
 
 const secure = callback => {
   return ({ secret, ...data }) => {

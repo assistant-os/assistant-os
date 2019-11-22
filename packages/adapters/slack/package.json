@@ -4,7 +4,7 @@
   "main": "slack.js",
   "license": "MIT",
   "dependencies": {
-    "@assistant-os/utils": "^0.3.2",
+    "@assistant-os/common": "^0.3.2",
     "@slack/events-api": "^2.3.0",
     "@slack/rtm-api": "^5.0.3",
     "@slack/web-api": "^5.3.0",

@@ -1,5 +1,5 @@
 {
-  "name": "@assistant-os/utils",
+  "name": "@assistant-os/common",
   "version": "0.3.2",
   "description": "All internal libraries usable by other components",
   "main": "src/index.js",

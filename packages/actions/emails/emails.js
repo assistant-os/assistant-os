@@ -1,4 +1,4 @@
-import { Action, Message } from '@assistant-os/utils'
+import { Action, Message } from '@assistant-os/common'
 
 import * as Emails from './emails.service'
 import {

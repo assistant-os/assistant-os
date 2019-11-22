@@ -1,4 +1,4 @@
-import { Action, Cache, Message } from '@assistant-os/utils'
+import { Action, Cache, Message } from '@assistant-os/common'
 
 import {
   getCompaniesByName,

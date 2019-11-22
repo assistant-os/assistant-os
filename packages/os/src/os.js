@@ -1,4 +1,4 @@
-import { logger, Users } from '@assistant-os/utils'
+import { logger, Users } from '@assistant-os/common'
 import Slack from '@assistant-os/slack'
 import Http from '@assistant-os/http'
 import Hello from '@assistant-os/hello'

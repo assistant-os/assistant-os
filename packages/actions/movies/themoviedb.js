@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { logger } from '@assistant-os/utils'
+import { logger } from '@assistant-os/common'
 
 export default query =>
   axios

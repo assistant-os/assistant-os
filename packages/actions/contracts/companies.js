@@ -2,7 +2,7 @@ import https from 'https'
 import url from 'url'
 import cheerio from 'cheerio' // https://github.com/cheeriojs/cheerio
 
-import { logger } from '@assistant-os/utils'
+import { logger } from '@assistant-os/common'
 
 const defaultUrl = {
   protocol: 'https',

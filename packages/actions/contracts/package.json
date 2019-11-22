@@ -4,7 +4,7 @@
   "main": "contracts.js",
   "license": "MIT",
   "dependencies": {
-    "@assistant-os/utils": "^0.3.2",
+    "@assistant-os/common": "^0.3.2",
     "cheerio": "^1.0.0-rc.3"
   }
 }

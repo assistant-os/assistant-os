@@ -5,3 +5,4 @@ data/
 dist/
 yarn-error.log
 logs
+*.old*

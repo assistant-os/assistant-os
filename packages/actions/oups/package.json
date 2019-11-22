@@ -4,6 +4,6 @@
   "main": "oups.js",
   "license": "MIT",
   "dependencies": {
-    "@assistant-os/utils": "^0.3.2"
+    "@assistant-os/common": "^0.3.2"
   }
 }

@@ -17,7 +17,7 @@ This project is a chatbot to assist human beeing in repetitive and daily tasks.
 
 ## Getting started
 
-Create a .env file containing credentials. An example is provided [.env.example](.env.example). You can also set the variables globally depending on your OS.
+Create a _.env_ file containing credentials. An example is provided in [.env.example](.env.example). You can also set the variables globally depending on your OS.
 
 Then
 
@@ -47,6 +47,7 @@ Please read [development guidelines](./CONTRIBUTING.md) before proposing a pull 
 
 These are the next features to come:
 
+- [hello]: Welcome the user and know better the user
 - [movies, tv shows]: notify the user for a release
 - [urls]: save url and propose automatic behaviors like auto watch
 - [timelog]: help the user to log his spend time

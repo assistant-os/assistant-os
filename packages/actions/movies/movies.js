@@ -1,4 +1,4 @@
-import { Action, Cache } from '@assistant-os/utils'
+import { Action, Cache } from '@assistant-os/common'
 import { initializeTable } from './movies.service'
 import searchMovies from './themoviedb'
 

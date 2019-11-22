@@ -1,4 +1,4 @@
-import { db } from '@assistant-os/utils'
+import { db } from '@assistant-os/common'
 
 const TABLE_NAME = 'movies'
 

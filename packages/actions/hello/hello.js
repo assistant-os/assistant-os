@@ -1,4 +1,4 @@
-import { Action, getASynonym, Message } from '@assistant-os/utils'
+import { Action, getASynonym, Message } from '@assistant-os/common'
 
 export default class Hello extends Action {
   constructor() {

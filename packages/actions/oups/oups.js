@@ -1,4 +1,4 @@
-import { Action } from '@assistant-os/utils'
+import { Action } from '@assistant-os/common'
 
 export default class Oups extends Action {
   constructor() {

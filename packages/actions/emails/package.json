@@ -4,7 +4,7 @@
   "main": "emails.js",
   "license": "MIT",
   "dependencies": {
-    "@assistant-os/utils": "^0.3.2",
+    "@assistant-os/common": "^0.3.2",
     "request": "^2.88.0"
   }
 }
