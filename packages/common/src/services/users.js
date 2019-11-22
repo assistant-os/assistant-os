@@ -9,38 +9,25 @@ if (
     .value()
 ) {
   db()
-    .set('users', [
-      {
-        id: 'friedrit',
-        name: 'Thibault',
-        token: uuidv1(),
-        adapters: {
-          slack: {
-            id: 'U2TS4D7NW',
-            meta: { channel: 'DPUKWK4G0' },
-          },
-        },
-      },
-    ])
+    .set('users', [])
     .write()
 }
 
-const addUser = (adapter, adapterUserId, meta = {}) => {
-  return db()
+const addUser = (adapterName, adapterUserId, meta = {}) =>
+  db()
     .get('users')
     .push({
       id: uuidv1(),
       name: 'unknown',
       token: uuidv1(),
       adapters: {
-        [adapter]: {
+        [adapterName]: {
           id: adapterUserId,
           meta,
         },
       },
     })
-    .write()
-}
+    .write()[0]
 
 const findOrCreateUserByAdapter = (adapterName, adapterUserId, meta = {}) => {
   let user = db()
@@ -53,6 +40,7 @@ const findOrCreateUserByAdapter = (adapterName, adapterUserId, meta = {}) => {
 
   if (user === null || user === undefined) {
     user = addUser(adapterName, adapterUserId, meta)
+    console.log('user', user)
   } else {
     const newAdapters = {
       ...user.adapters,
@@ -80,20 +68,20 @@ const clearUser = (user, adapter) => {
   return { id, name, token, adapter: adapters[adapter] }
 }
 
-const findUserById = (id, adapter = null) => {
+const findUserById = (id, adapterName = null) => {
   const user = db()
     .get('users')
     .find(user => user.id === id)
     .value()
 
-  return adapter ? clearUser(user, adapter) : user
+  return adapterName ? clearUser(user, adapterName) : user
 }
 
 export default class Users {
   static findOrCreateByAdapter = findOrCreateUserByAdapter
   static findById = findUserById
 
-  constructor(adapterName) {
+  constructor(adapterName = null) {
     this.adapterName = adapterName
   }
 
