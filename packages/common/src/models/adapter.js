@@ -1,9 +1,11 @@
 import EventEmitter from 'events'
+import Users from '../services/users'
 
 export default class Adapter extends EventEmitter {
   constructor(name) {
     super()
     this.name = name
+    this.users = new Users(this.name)
   }
 
   start() {

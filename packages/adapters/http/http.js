@@ -1,23 +1,22 @@
 import Server from 'socket.io'
 import uuidv1 from 'uuid/v1'
 
-import { Adapter, Users, logger } from '@assistant-os/common'
+import { Adapter, logger } from '@assistant-os/common'
 
-const secure = callback => {
-  return ({ secret, ...data }) => {
-    if (secret === process.env.ADAPTER_HTTP_SECRET) {
-      callback && callback(data)
-    }
-  }
-}
+import Sockets from './sockets'
 
 export default class Http extends Adapter {
   constructor() {
     super('http')
+  }
 
-    this.users = new Users(this.name)
-
-    this.sockets = {}
+  secure(callback) {
+    return ({ secret, token, ...data }) => {
+      if (secret === process.env.ADAPTER_HTTP_SECRET) {
+        const user = this.users.findOrCreateByAdapter(token)
+        callback && callback(user, data)
+      }
+    }
   }
 
   start() {
@@ -25,17 +24,11 @@ export default class Http extends Adapter {
       this.io = new Server(process.env.ADAPTER_HTTP_PORT)
 
       this.io.on('connection', socket => {
-        socket.on(
-          'start',
-          secure(({ token }) => {
-            this.sockets[token] = socket
-          })
-        )
+        socket.on('start', this.secure(user => Sockets.add(user, socket)))
 
         socket.on(
           'message',
-          secure(({ token, text }) => {
-            const user = this.users.findOrCreateByAdapter(token)
+          this.secure((user, { text }) => {
             this.emit('message', {
               userId: user.id,
               id: uuidv1(),
@@ -52,10 +45,8 @@ export default class Http extends Adapter {
 
   async sendMessage(userId, message) {
     const user = this.users.findById(userId)
-    console.log('user', user)
-
-    if (this.sockets[user.adapter.id]) {
-      this.sockets[user.adapter.id].emit('message', message)
+    if (Sockets.get(user)) {
+      Sockets.get(user).emit('message', message)
     } else {
       logger.error('impossible to send message on http')
     }

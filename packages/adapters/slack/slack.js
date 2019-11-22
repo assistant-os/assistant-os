@@ -79,7 +79,6 @@ export default class Slack extends Adapter {
   }
 
   async sendAction(userId, action) {
-    console.log('sendAction, userId', userId, action)
     const user = this.users.findById(userId)
     if (action.type === 'typing') {
       this.rtm.sendTyping(user.adapter.meta.channel)

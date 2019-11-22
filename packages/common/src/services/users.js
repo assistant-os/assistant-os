@@ -42,7 +42,6 @@ const findOrCreateUserByAdapter = (adapterName, adapterUserId, meta = {}) => {
 
   if (user === null || user === undefined) {
     user = addUser(adapterName, adapterUserId, meta)
-    console.log('user', user)
   } else {
     const newAdapters = {
       ...user.adapters,
@@ -61,7 +60,7 @@ const findOrCreateUserByAdapter = (adapterName, adapterUserId, meta = {}) => {
       .write()
   }
 
-  return user
+  return findUserById(user.id, adapterName)
 }
 
 const clearUser = (user, adapter) => {
