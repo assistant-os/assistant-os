@@ -6,6 +6,7 @@ import Oups from '@assistant-os/oups'
 import Emails from '@assistant-os/emails'
 import Contracts from '@assistant-os/contracts'
 import Movies from '@assistant-os/movies'
+import Memory from '@assistant-os/memory'
 
 export default class Assistant {
   constructor({
@@ -22,6 +23,7 @@ export default class Assistant {
       new Emails(),
       new Contracts(),
       new Movies(),
+      new Memory(),
     ]
 
     this.threads = {}
@@ -69,7 +71,7 @@ export default class Assistant {
   async chooseAction(message, userId) {
     const actions = [...this.actions] // we use copy just in case actions change during the request
     const probabilities = await Promise.all(
-      actions.map(m => m.evaluateProbability(message))
+      actions.map(m => m.evaluateProbability(message, userId))
     )
 
     const adapter = this.findLastAdapterUsed(userId)
@@ -92,6 +94,9 @@ export default class Assistant {
       this.storeMetaMessage(message, userId, adapter)
       this.threads[message.id] = { userId, message, adapterName: adapter.name }
       const action = await this.chooseAction(message, userId)
+      this.actions
+        .filter(a => a.name !== action.name)
+        .map(a => a.forgetStatus(userId))
       action.respond(message, userId)
     })
   }

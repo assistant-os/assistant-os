@@ -35,4 +35,10 @@ export default class Action extends EventEmitter {
       ...meta,
     })
   }
+
+  forgetStatus(userId) {
+    if (userId in this.globalContext) {
+      this.globalContext[userId].status = null
+    }
+  }
 }

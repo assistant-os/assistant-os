@@ -48,7 +48,7 @@ export default class EmailsWatcher extends Action {
           .forEach(({ list, userId }) => {
             const emails = list.map(({ email }) => `"${email}"`).join(', ')
             const text = `Sorry to bother you but it seems that your emails ${emails} have been hacked. Use valid <email> when you have changed the password.`
-            this.sendMessage(Message.fix({ text }), { userId })
+            this.sendMessage({ text: Message.fix(text) }, { userId })
           })
       })
     }, INTERVAL)

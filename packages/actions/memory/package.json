@@ -1,0 +1,13 @@
+{
+  "name": "@assistant-os/memory",
+  "description": "A module for assistant-os to save information for the user",
+  "version": "1.0.0",
+  "main": "memory.js",
+  "license": "MIT",
+  "keywords": [
+    "memory"
+  ],
+  "dependencies": {
+    "@assistant-os/common": "^0.3.2"
+  }
+}

@@ -31,22 +31,11 @@ export const isCloseTo = (message, expected) => {
   }
 }
 
-export const fix = message => {
-  if (!isTextMessage(message)) {
-    return message
-  }
-
-  let { text } = message
-
-  text = Array.isArray(text) ? text.join(' ') : text
-
+export const fix = text => {
   const finishByPunctuation = /[.?!]$/.test(text[text.length - 1])
   const punctuation = finishByPunctuation ? '' : '.'
 
-  return {
-    ...message,
-    text: `${text.replace(/^[a-z]/, text[0].toUpperCase())}${punctuation}`,
-  }
+  return `${text.replace(/^[a-z]/, text[0].toUpperCase())}${punctuation}`
 }
 
 export const isConfirm = message => equals(message, getSynonyms('yes'))
