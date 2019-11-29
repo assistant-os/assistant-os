@@ -105,10 +105,10 @@ export default class EmailsWatcher extends Action {
       }
     }
 
-    const validEmail = await parse(message.text, 'valid {email:email}')
+    const wantToValidEmail = await parse(message.text, 'valid {email:email}')
 
-    if (validEmail) {
-      const { email } = validEmail
+    if (wantToValidEmail) {
+      const { email } = wantToValidEmail
       const found = Emails.get(email, userId)
       if (found) {
         Emails.update({
