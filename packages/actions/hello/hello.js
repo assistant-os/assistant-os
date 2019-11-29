@@ -1,3 +1,4 @@
+import { parse as isClose } from 'natural-script'
 import { Action, getASynonym, Message, Users } from '@assistant-os/common'
 
 const READY_TO_SET_NAME = 'ready-to-set-name'
@@ -29,7 +30,7 @@ export default class Hello extends Action {
         return
       }
 
-      if (Message.isCloseTo(message, 'hello')) {
+      if (isClose(message.text, 'hello')) {
         resolve(1)
         return
       }
@@ -59,13 +60,15 @@ export default class Hello extends Action {
 
     let user = this.users.findById(userId)
 
+    const helloSynonym = getASynonym('hello')
+
     if (user.name === 'unknown') {
-      context.sendTextMessage(`${getASynonym('hello')}!`)
+      context.sendTextMessage(`${helloSynonym}!`)
       await new Promise(resolve => setTimeout(() => resolve(), 1000))
       context.sendTextMessage('What is your name?')
       context.setStatus(READY_TO_SET_NAME)
     } else {
-      context.sendTextMessage(`${getASynonym('hello')} ${user.name}!`)
+      context.sendTextMessage(`${helloSynonym} ${user.name}!`)
     }
   }
 }
