@@ -2866,6 +2866,13 @@ chrome-trace-event@^1.0.2:
   dependencies:
     tslib "^1.9.0"
 
+chrono-node@^1.2.5:
+  version "1.3.11"
+  resolved "https://registry.yarnpkg.com/chrono-node/-/chrono-node-1.3.11.tgz#b86a26b7e3157edcc4fe3374e1b6f90caedc8e39"
+  integrity sha512-jDWRnY6nYvzfV3HPYBqo+tot7tcsUs9i3arGbMdI0TouPSXP2C2y/Ctp27rxKTQDi6yuTxAB2cw+Q6igGhOhdQ==
+  dependencies:
+    moment "2.21.0"
+
 ci-info@^1.5.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-1.6.0.tgz#2ca20dbb9ceb32d4524a683303313f0304b1e497"
@@ -5855,6 +5862,11 @@ kuler@1.0.x:
   dependencies:
     colornames "^1.1.1"
 
+later@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/later/-/later-1.2.0.tgz#f2cf6c4dd7956dd2f520adf0329836e9876bad0f"
+  integrity sha1-8s9sTdeVbdL1IK3wMpg26YdrrQ8=
+
 latest-version@^3.0.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/latest-version/-/latest-version-3.1.0.tgz#a205383fea322b33b5ae3b18abee0dc2f356ee15"
@@ -6111,6 +6123,11 @@ lru-cache@^5.1.1:
   integrity sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==
   dependencies:
     yallist "^3.0.2"
+
+luxon@^1.3.3:
+  version "1.21.3"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.21.3.tgz#f1d5c2a7e855d039836cf4954f883ecac8fc4727"
+  integrity sha512-lLRwNcNnkZLuv13A1FUuZRZmTWF7ro2ricYvb0L9cvBYHPvZhQdKwrYnZzi103D2XKmlVmxWpdn2wfIiOt2YEw==
 
 macos-release@^2.0.0:
   version "2.0.0"
@@ -6461,6 +6478,11 @@ modify-values@^1.0.0:
   resolved "https://registry.yarnpkg.com/modify-values/-/modify-values-1.0.1.tgz#b3939fa605546474e3e3e3c63d64bd43b4ee6022"
   integrity sha512-xV2bxeN6F7oYjZWTe/YPAy6MN2M+sL4u/Rlm2AHCIVGfo2p1yGmBHQ6vHehl4bRTZBdHu3TSkWdYgkwpYzAGSw==
 
+moment@2.21.0:
+  version "2.21.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.21.0.tgz#2a114b51d2a6ec9e6d83cf803f838a878d8a023a"
+  integrity sha512-TCZ36BjURTeFTM/CwRcViQlfkMvL1/vFISuNLO5GkcVm1+QHfbSiNqZuWeMFjj1/3+uAjXswgRk30j1kkLYJBQ==
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -6529,6 +6551,16 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
+
+natural-script@0.5.3:
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/natural-script/-/natural-script-0.5.3.tgz#56944e803dfca952240fd18dd6b19e215d2377b2"
+  integrity sha512-fz48tiaPwacwXjOOJkfYPI2M4sHMDFlufnFVRYcgaVmw4fENq7Pv3CM+dGjEipGxunpRo/n52+1i96qjd30tcA==
+  dependencies:
+    chrono-node "^1.2.5"
+    later "^1.2.0"
+    natural "^0.6.3"
+    rrule "^2.1.0"
 
 natural@^0.6.3:
   version "0.6.3"
@@ -8078,6 +8110,15 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
   dependencies:
     hash-base "^3.0.0"
     inherits "^2.0.1"
+
+rrule@^2.1.0:
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/rrule/-/rrule-2.6.3.tgz#a6bce01f71844208e9500052a6e6671c0d179296"
+  integrity sha512-wWypJiQekvgZLGNKSI8OvC8KtAvA/L/CtF1EjI9qmZEkT/6WIyRL5rdIy5FfeC4z33aRp90/0KuAdHmLdw0KgA==
+  dependencies:
+    tslib "^1.9.0"
+  optionalDependencies:
+    luxon "^1.3.3"
 
 run-async@^2.2.0:
   version "2.3.0"

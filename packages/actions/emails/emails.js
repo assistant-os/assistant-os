@@ -1,13 +1,8 @@
+import { parse } from 'natural-script'
 import { Action, Message } from '@assistant-os/common'
 
 import * as Emails from './emails.service'
-import {
-  isEmail,
-  extractEmail,
-  checkEmails,
-  groupByUser,
-  fixHacks,
-} from './utils'
+import { checkEmails, groupByUser, fixHacks } from './utils'
 
 const INTERVAL = 1000 * 60 * 60 * 24
 const READY_TO_WATCH = 'ready-to-watch'
@@ -60,9 +55,9 @@ export default class EmailsWatcher extends Action {
   }
 
   evaluateProbability(message, userId) {
-    return new Promise(resolve => {
+    return new Promise(async resolve => {
       const context = this.getContext(message, userId)
-      if (isEmail(message.text)) {
+      if (await parse(message.text, '{email}')) {
         return resolve(1)
       }
 
@@ -74,18 +69,15 @@ export default class EmailsWatcher extends Action {
         return resolve(1)
       }
 
-      if (message.text.toLowerCase().startsWith('valid')) {
-        const rest = message.text.toLowerCase().replace('valid ', '')
-        if (isEmail(rest)) {
-          return resolve(1)
-        }
+      if (await parse(message.text, 'valid {email}')) {
+        return resolve(1)
       }
 
       return resolve(0)
     })
   }
 
-  respond(message, userId) {
+  async respond(message, userId) {
     const context = this.getContext(message, userId)
     if (context.hasStatus(READY_TO_WATCH)) {
       if (Message.isConfirm(message)) {
@@ -113,28 +105,28 @@ export default class EmailsWatcher extends Action {
       }
     }
 
-    if (message.text.toLowerCase().startsWith('valid')) {
-      const rest = message.text.toLowerCase().replace('valid ', '')
-      const email = extractEmail(rest)
-      if (email) {
-        const found = Emails.get(email, userId)
-        if (found) {
-          Emails.update({
-            ...found,
-            hacks: fixHacks(found.hacks),
-          })
-          context.sendTextMessage(`Ok. Roger that!`)
-          context.setDefaultStatus()
-          return
-        } else {
-          context.sendTextMessage(`sorry but I don't keep an eye of this email`)
-          context.setDefaultStatus()
-          return
-        }
+    const validEmail = await parse(message.text, 'valid {email:email}')
+
+    if (validEmail) {
+      const { email } = validEmail
+      const found = Emails.get(email, userId)
+      if (found) {
+        Emails.update({
+          ...found,
+          hacks: fixHacks(found.hacks),
+        })
+        context.sendTextMessage(`Ok. Roger that!`)
+        context.setDefaultStatus()
+        return
+      } else {
+        context.sendTextMessage(`sorry but I don't keep an eye of this email`)
+        context.setDefaultStatus()
+        return
       }
     }
 
-    const email = extractEmail(message.text)
+    const { email = '' } = await parse(message.text, '{email:email}')
+
     const found = Emails.get(email, userId)
 
     if (found) {

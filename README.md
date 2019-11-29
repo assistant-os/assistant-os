@@ -47,9 +47,9 @@ Please read [development guidelines](./CONTRIBUTING.md) before proposing a pull 
 
 These are the next features to come:
 
+- [timelog]: help the user to log his spend time
 - [movies, tv shows]: notify the user for a release
 - [urls]: save url and propose automatic behaviors like auto watch
-- [timelog]: help the user to log his spend time
 - [contracts]: generate invoice automatically in google drive
 
 <!--

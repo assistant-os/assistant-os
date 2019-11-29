@@ -5,6 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@assistant-os/common": "^0.3.2",
+    "natural-script": "0.5.3",
     "request": "^2.88.0"
   }
 }

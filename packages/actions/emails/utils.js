@@ -2,24 +2,6 @@ import request from 'request'
 
 import { logger } from '@assistant-os/common'
 
-export const extractEmail = email => {
-  const regex = /^(([^<>()[].,;:s@"]+(.[^<>()[]\.,;:s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/gim
-
-  if (regex.test(email)) {
-    return email
-  }
-
-  // slack transform an email into an mailto link automatically when there is en email
-  const isEmailLink = email.match(/^<mailto:(.*)\|.*>$/)
-  if (isEmailLink) {
-    return isEmailLink[1]
-  }
-
-  return null
-}
-
-export const isEmail = (...args) => Boolean(extractEmail(...args))
-
 // https://haveibeenpwned.com/
 
 const requestFormatted = request.defaults({

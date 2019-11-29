@@ -1,4 +1,4 @@
-import { Action, getASynonym, Message, Users } from '@assistant-os/common'
+import { Action, Users } from '@assistant-os/common'
 
 import * as Memories from './memories'
 
@@ -16,9 +16,7 @@ export default class Memory extends Action {
 
   evaluateProbability(message, userId) {
     return new Promise(resolve => {
-      const context = this.getContext(message)
-
-      if (message.text && message.text.startsWith('save')) {
+      if (message.text && message.text.startsWith('timelog start')) {
         resolve(1)
         return
       }
