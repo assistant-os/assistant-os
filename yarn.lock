@@ -6552,10 +6552,10 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
-natural-script@0.5.3:
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/natural-script/-/natural-script-0.5.3.tgz#56944e803dfca952240fd18dd6b19e215d2377b2"
-  integrity sha512-fz48tiaPwacwXjOOJkfYPI2M4sHMDFlufnFVRYcgaVmw4fENq7Pv3CM+dGjEipGxunpRo/n52+1i96qjd30tcA==
+natural-script@^0.5.5:
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/natural-script/-/natural-script-0.5.5.tgz#f789266499c898b519dc3bd7f8b3fbb27a4f6b6b"
+  integrity sha512-qsxuo8bNMy6cxH9ZTQE1R5+aYS2fLCqzJsi6nOqM6Vq9DCHRsPxNCFfQqIIkxvn/a75hjBGmpTsmrpSrL8zMjw==
   dependencies:
     chrono-node "^1.2.5"
     later "^1.2.0"

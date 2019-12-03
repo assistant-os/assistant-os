@@ -10,8 +10,9 @@ export default class Context {
 
   hasStatus(status) {
     return (
-      this.userId in this.globalContext &&
-      this.globalContext[this.userId].status === status
+      (!(this.userId in this.globalContext) && status === null) ||
+      (this.userId in this.globalContext &&
+        this.globalContext[this.userId].status === status)
     )
   }
 

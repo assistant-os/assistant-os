@@ -1,4 +1,4 @@
-import { logger, Users } from '@assistant-os/common'
+import { logger, Users, Action } from '@assistant-os/common'
 import Slack from '@assistant-os/slack'
 import Http from '@assistant-os/http'
 import Hello from '@assistant-os/hello'
@@ -17,19 +17,30 @@ export default class Assistant {
     this.timeout = timeout
 
     this.adapters = [/*new Slack(),*/ new Http()]
-    this.actions = [
-      new Hello(),
-      new Oups(),
-      new Emails(),
-      new Contracts(),
-      new Movies(),
-      new Memory(),
-    ]
+    this.actions = []
+
+    this.addAction(Hello)
+    this.addAction(Oups)
+    this.addAction(Emails)
+    this.addAction(Contracts)
+    this.addAction(Movies)
+    this.addAction(Memory)
 
     this.threads = {}
 
     this.lastAdaptersUsed = {} // TODO save if in data base
     this.users = new Users()
+  }
+
+  addAction(action) {
+    let instance = null
+    if (typeof action === 'function') {
+      instance = new action()
+    } else if (action instanceof Action) {
+      instance = action
+    }
+
+    this.actions.push(instance)
   }
 
   storeMetaMessage(message, userId, adapter) {

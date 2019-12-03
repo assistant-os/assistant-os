@@ -1,28 +1,92 @@
 import EventEmitter from 'events'
+import { parse } from 'natural-script'
 
 import Context from '../utils/context'
+import CallToAction from './call-to-action'
+
+const match = (text, condition, userId) => {
+  if (typeof condition === 'string') {
+    return parse(text, condition)
+  } else if (typeof condition === 'function') {
+    return condition(text, userId)
+  } else if (Array.isArray(condition)) {
+    const promises = condition.map(c => match(text, c, userId))
+    return Promise.all(promises).then(matches =>
+      matches.reduce((acc, current) => acc && current, true)
+    )
+  }
+  return Promise.resolve(true)
+}
 
 export default class Action extends EventEmitter {
-  constructor(name) {
+  constructor(name, actions = []) {
     super()
     this.name = name
     this.globalContext = {}
+
+    this.actions = actions
   }
 
-  start() {
-    throw new Error('Not implemented')
+  start() {}
+
+  stop() {}
+
+  if(status) {
+    return new CallToAction(status, callToAction =>
+      this.actions.push(callToAction)
+    )
   }
 
-  stop() {
-    throw new Error('Not implemented')
+  when(condition, probability = 1) {
+    const callToAction = new CallToAction(null, callToAction =>
+      this.actions.push(callToAction)
+    )
+
+    callToAction.when(condition)
+    callToAction.probability = probability
+    return callToAction
   }
 
-  async evaluateProbability(/* message */) {
-    throw new Error('Not implemented')
+  async findAction(message, userId) {
+    if (!message.text) {
+      return null
+    }
+
+    const context = this.getContext(message)
+
+    for (const action of this.actions) {
+      const results = await match(message.text, action.conditions, userId)
+      if (context.hasStatus(action.status) && results) {
+        return {
+          action,
+          results,
+          context,
+          text: message.text,
+        }
+      }
+    }
+    return null
   }
 
-  async respond(/* message */) {
-    throw new Error('Not implemented')
+  async evaluateProbability(message, userId) {
+    return this.findAction(message, userId).then(found => {
+      const probability = found ? found.action.probability : 0
+      return probability
+    })
+  }
+
+  async respond(message, userId) {
+    if (!message.text) {
+      return
+    }
+
+    const found = await this.findAction(message, userId)
+
+    if (found) {
+      const { action, context, results, text } = found
+
+      action.callback({ ...results, message, context, userId, text })
+    }
   }
 
   getContext(message, userId = null) {

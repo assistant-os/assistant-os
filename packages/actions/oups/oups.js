@@ -1,21 +1,9 @@
 import { Action } from '@assistant-os/common'
 
-export default class Oups extends Action {
-  constructor() {
-    super('oups')
-  }
+const action = new Action('oups')
 
-  start() {}
-  stop() {}
+action.when(null, 0.1).then(({ context }) => {
+  context.sendTextMessage(`Sorry I don't understand your request.`)
+})
 
-  evaluateProbability(/* message */) {
-    return Promise.resolve(0.1)
-  }
-
-  respond(message) {
-    this.emit('message', {
-      text: `Sorry I don't understand your request.`,
-      previousMessage: message.id,
-    })
-  }
-}
+export default action

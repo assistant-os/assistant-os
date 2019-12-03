@@ -1,4 +1,5 @@
 import { JaroWinklerDistance } from 'natural'
+import { parse } from 'natural-script'
 import { getSynonyms } from '../services'
 
 import config from '../../config'
@@ -43,3 +44,13 @@ export const isConfirm = message => equals(message, getSynonyms('yes'))
 export const isCancel = message => equals(message, getSynonyms('no'))
 
 export const link = (text, url) => `[${text}](${url})`
+
+export const isCloseToWord = expected => text => {
+  const synonymes = getSynonyms(expected)
+
+  const promises = synonymes.map(s => parse(text, s))
+
+  return Promise.all(promises).then(matches =>
+    matches.reduce((acc, current) => acc && current, true)
+  )
+}

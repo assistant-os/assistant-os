@@ -1,62 +1,34 @@
-import { Action, Users } from '@assistant-os/common'
+import { Action } from '@assistant-os/common'
 
 import * as Memories from './memories'
 
-export default class Memory extends Action {
-  constructor() {
-    super('hello')
+const action = new Action('memory')
 
-    this.users = new Users()
+const hasToken = (text, userId) => Memories.has(text, userId)
+
+action
+  .when('save {word:key} {.*:value}')
+  .then(({ key, value, context, userId }) => {
+    Memories.add(key, value, userId)
+    context.sendTextMessage(`Ok I saved "${key}".`)
+  })
+
+action.when('rm {word:key}').then(({ key, context, userId, text }) => {
+  if (hasToken(text, userId)) {
+    Memories.remove(key, userId)
+    context.sendTextMessage(`Ok I removed "${key}".`)
+  } else {
+    context.sendTextMessage(`Sorry it didn't remember "${key}" yet.`)
   }
+})
 
-  start() {
-    Memories.initializeTable()
-  }
-  stop() {}
-
-  evaluateProbability(message, userId) {
-    return new Promise(resolve => {
-      if (message.text && message.text.startsWith('timelog start')) {
-        resolve(1)
-        return
-      }
-
-      if (message.text && message.text.startsWith('rm')) {
-        resolve(1)
-        return
-      }
-
-      if (message.text && Memories.has(message.text, userId)) {
-        resolve(1)
-        return
-      }
-
-      resolve(0)
+action
+  .when('{word:key}')
+  .and(hasToken)
+  .then(({ text, context, userId }) => {
+    context.sendTextMessage(Memories.get(text, userId).value, {
+      straight: true,
     })
-  }
+  })
 
-  async respond(message, userId) {
-    const context = this.getContext(message)
-    if (message.text && message.text.startsWith('save')) {
-      let text = message.text.replace('save', '').trim()
-      const [key] = text.split(' ')
-      const value = text.replace(key, '').trim()
-      Memories.add(key, value, userId)
-      context.sendTextMessage(`Ok I saved "${key}".`)
-      return
-    }
-
-    if (message.text && message.text.startsWith('rm')) {
-      let key = message.text.replace('rm', '').trim()
-      Memories.remove(key, userId)
-      context.sendTextMessage(`Ok I removed "${key}".`)
-      return
-    }
-
-    if (message.text && Memories.has(message.text, userId)) {
-      context.sendTextMessage(Memories.get(message.text, userId).value, {
-        straight: true,
-      })
-    }
-  }
-}
+export default action
