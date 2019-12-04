@@ -82,7 +82,11 @@ export default class Action extends EventEmitter {
 
   async evaluateProbability(message, userId) {
     return this.findAction(message, userId).then(found => {
-      const probability = found ? found.action.probability : 0
+      const probability = found
+        ? typeof found.action.probability === 'function'
+          ? found.action.probability(found)
+          : found.action.probability
+        : 0
       return probability
     })
   }
