@@ -8,6 +8,7 @@ export default class CallToAction {
     }
     this.attach = attach
     this.probability = 0.5
+    this.processEvaluation = null
   }
 
   if(status) {

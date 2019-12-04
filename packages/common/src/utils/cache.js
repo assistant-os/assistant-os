@@ -15,4 +15,8 @@ export default class Cache {
   get(message) {
     return this.cache[message.id]
   }
+
+  has(message) {
+    return Boolean(this.cache[message.id])
+  }
 }

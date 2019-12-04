@@ -6,6 +6,8 @@ const action = new Action('memory')
 
 const hasToken = (text, userId) => Memories.has(text, userId)
 
+action.onStart = Memories.initializeTable
+
 action
   .when('save {word:key} {.*:value}')
   .then(({ key, value, context, userId }) => {

@@ -4,13 +4,13 @@ import { parse } from 'natural-script'
 import Context from '../utils/context'
 import CallToAction from './call-to-action'
 
-const match = (text, condition, userId) => {
+const match = (text, condition, userId, message) => {
   if (typeof condition === 'string') {
     return parse(text, condition)
   } else if (typeof condition === 'function') {
-    return condition(text, userId)
+    return condition(text, userId, message)
   } else if (Array.isArray(condition)) {
-    const promises = condition.map(c => match(text, c, userId))
+    const promises = condition.map(c => match(text, c, userId, message))
     return Promise.all(promises).then(matches =>
       matches.reduce((acc, current) => acc && current, true)
     )
@@ -25,11 +25,17 @@ export default class Action extends EventEmitter {
     this.globalContext = {}
 
     this.actions = actions
+    this.onStart = () => {}
+    this.onStop = () => {}
   }
 
-  start() {}
+  start() {
+    this.onStart()
+  }
 
-  stop() {}
+  stop() {
+    this.onStop()
+  }
 
   if(status) {
     return new CallToAction(status, callToAction =>
@@ -55,13 +61,19 @@ export default class Action extends EventEmitter {
     const context = this.getContext(message)
 
     for (const action of this.actions) {
-      const results = await match(message.text, action.conditions, userId)
+      const results = await match(
+        message.text,
+        action.conditions,
+        userId,
+        message
+      )
       if (context.hasStatus(action.status) && results) {
         return {
           action,
           results,
           context,
           text: message.text,
+          message,
         }
       }
     }

@@ -3,7 +3,7 @@ import { Action, getASynonym, Message, Users } from '@assistant-os/common'
 const READY_TO_SET_NAME = 'ready-to-set-name'
 const READY_TO_CONFIRM = 'ready-to-confirm'
 
-const action = new Action('oups')
+const action = new Action('hello')
 
 const users = new Users()
 
