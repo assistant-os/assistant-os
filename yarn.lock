@@ -6562,6 +6562,16 @@ natural-script@^0.5.5:
     natural "^0.6.3"
     rrule "^2.1.0"
 
+natural-script@^0.5.7:
+  version "0.5.7"
+  resolved "https://registry.yarnpkg.com/natural-script/-/natural-script-0.5.7.tgz#460ea45edd818a6e3fd17dfa5573788f963f5d3e"
+  integrity sha512-aj7Z+xc6JEfnuN/jTBk8fj4jtFdTbzDrBYZV4/Jh8VxSckDLhweiv/8anMhKE1DN11geeYgNKWlNBVTQAVvOqg==
+  dependencies:
+    chrono-node "^1.2.5"
+    later "^1.2.0"
+    natural "^0.6.3"
+    rrule "^2.1.0"
+
 natural@^0.6.3:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/natural/-/natural-0.6.3.tgz#62f56db82fbfddcf9e1f5810c5e39135fdbc1355"

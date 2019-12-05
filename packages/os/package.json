@@ -14,6 +14,7 @@
     "@assistant-os/contracts": "^1.0.0",
     "@assistant-os/movies": "^1.0.0",
     "@assistant-os/memory": "^1.0.0",
+    "@assistant-os/timelog": "^1.0.0",
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "socket.io": "^2.2.0"

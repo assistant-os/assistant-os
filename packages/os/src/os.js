@@ -7,6 +7,7 @@ import Emails from '@assistant-os/emails'
 import Contracts from '@assistant-os/contracts'
 import Movies from '@assistant-os/movies'
 import Memory from '@assistant-os/memory'
+import Timelog from '@assistant-os/timelog'
 
 export default class Assistant {
   constructor({
@@ -25,6 +26,7 @@ export default class Assistant {
     this.addAction(Contracts)
     this.addAction(Movies)
     this.addAction(Memory)
+    this.addAction(Timelog)
 
     this.threads = {}
 

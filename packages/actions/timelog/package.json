@@ -1,0 +1,9 @@
+{
+  "name": "@assistant-os/timelog",
+  "version": "1.0.0",
+  "main": "timelog.js",
+  "license": "MIT",
+  "dependencies": {
+    "@assistant-os/common": "^0.3.2"
+  }
+}

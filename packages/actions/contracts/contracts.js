@@ -51,7 +51,7 @@ action
 //   })
 
 action
-  .when(findCompanies, found => (found ? found.results.probability : 0))
+  .when(findCompanies, found => (found ? found.results.probability * 0.8 : 0))
   .then(({ context, company }) => {
     getCompanyDetails(company).then(fullCompany => {
       const text = Message.link(displayCompany(fullCompany), fullCompany.link)
