@@ -30,8 +30,8 @@ action
   .add('get-key-value')
   .when('{word:key}')
   .and(Memories.has)
-  .then(({ key, context, userId }) => {
-    context.sendTextMessage(Memories.get(key, userId).value, {
+  .then(({ text, context, userId }) => {
+    context.sendTextMessage(Memories.get(text, userId).value, {
       straight: true,
     })
   })

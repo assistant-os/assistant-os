@@ -56,7 +56,7 @@ export default class Slack extends Adapter {
         user = this.emit('message', {
           userId: user.id,
           id: uuidv1(),
-          text: event.text,
+          text: event.text.replace(/<(.+?)|.+?>/g, '$1'),
         })
       })
 
