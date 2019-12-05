@@ -112,18 +112,21 @@ action.when('{email:email}').then(({ email, context, userId }) => {
   }
 })
 
-action.when('valid {email:email}').then(({ email, context, userId }) => {
-  const found = Emails.get(email, userId)
-  if (found) {
-    Emails.update({
-      ...found,
-      hacks: fixHacks(found.hacks),
-    })
-    context.sendTextMessage(`Ok. Roger that!`)
-  } else {
-    context.sendTextMessage(`sorry but I don't keep an eye of this email`)
-  }
-  context.setDefaultStatus()
-})
+action
+  .add('valid-email')
+  .when('valid {email:email}')
+  .then(({ email, context, userId }) => {
+    const found = Emails.get(email, userId)
+    if (found) {
+      Emails.update({
+        ...found,
+        hacks: fixHacks(found.hacks),
+      })
+      context.sendTextMessage(`Ok. Roger that!`)
+    } else {
+      context.sendTextMessage(`sorry but I don't keep an eye of this email`)
+    }
+    context.setDefaultStatus()
+  })
 
 export default action

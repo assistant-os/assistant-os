@@ -1,5 +1,5 @@
 export default class CallToAction {
-  constructor(status, attach = () => {}, type = 'text') {
+  constructor(status = null, attach = () => {}, type = 'text') {
     this.conditions = []
     this.type = type
     this.status = status
@@ -9,11 +9,16 @@ export default class CallToAction {
     this.attach = attach
     this.probability = 0.5
     this.processEvaluation = null
+    this.name = ''
   }
 
   if(status) {
     this.status = status
     return this
+  }
+
+  withPriority(priority) {
+    this.probability = priority
   }
 
   when(condition) {

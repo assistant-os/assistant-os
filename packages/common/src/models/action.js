@@ -43,13 +43,18 @@ export default class Action extends EventEmitter {
     )
   }
 
-  when(condition, probability = 1) {
+  add(actionName = '') {
     const callToAction = new CallToAction(null, callToAction =>
       this.actions.push(callToAction)
     )
+    callToAction.name = actionName
+    return callToAction
+  }
 
+  when(condition, priority = 1) {
+    const callToAction = this.add()
     callToAction.when(condition)
-    callToAction.probability = probability
+    callToAction.withPriority(priority)
     return callToAction
   }
 

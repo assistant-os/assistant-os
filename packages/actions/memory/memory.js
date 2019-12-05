@@ -4,31 +4,34 @@ import * as Memories from './memories'
 
 const action = new Action('memory')
 
-const hasToken = (text, userId) => Memories.has(text, userId)
-
 action.onStart = Memories.initializeTable
 
 action
+  .add('save-key-value')
   .when('save {word:key} {.*:value}')
   .then(({ key, value, context, userId }) => {
     Memories.add(key, value, userId)
     context.sendTextMessage(`Ok I saved "${key}".`)
   })
 
-action.when('rm {word:key}').then(({ key, context, userId, text }) => {
-  if (hasToken(text, userId)) {
-    Memories.remove(key, userId)
-    context.sendTextMessage(`Ok I removed "${key}".`)
-  } else {
-    context.sendTextMessage(`Sorry it didn't remember "${key}" yet.`)
-  }
-})
+action
+  .add('remove-key-value')
+  .when('rm {word:key}')
+  .then(({ key, context, userId }) => {
+    if (Memories.has(key, userId)) {
+      Memories.remove(key, userId)
+      context.sendTextMessage(`Ok I removed "${key}".`)
+    } else {
+      context.sendTextMessage(`Sorry it didn't remember "${key}" yet.`)
+    }
+  })
 
 action
+  .add('get-key-value')
   .when('{word:key}')
-  .and(hasToken)
-  .then(({ text, context, userId }) => {
-    context.sendTextMessage(Memories.get(text, userId).value, {
+  .and(Memories.has)
+  .then(({ key, context, userId }) => {
+    context.sendTextMessage(Memories.get(key, userId).value, {
       straight: true,
     })
   })
