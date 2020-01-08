@@ -1,0 +1,26 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: Jost, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  background: black;
+}
+
+body {
+  /* block scroll to refresh on android */
+
+  overscroll-behavior: contain;
+}
+
+code {
+  font-family: 'Courier New', monospace;
+}
+
+#root {
+  height: 100%;
+}

@@ -6,4 +6,3 @@ dist/
 yarn-error.log
 logs
 *.old*
-web-app

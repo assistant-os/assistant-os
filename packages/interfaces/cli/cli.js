@@ -31,9 +31,12 @@ const rl = readline.createInterface({
 })
 
 socket.on('connect', () => {
+  socket.emit('start', { secret, token })
+})
+
+socket.on('started', () => {
   printLine('Connected. Type "quit" to quit the cli.')
   process.stdout.write(prompt)
-  socket.emit('start', { secret, token })
 })
 
 socket.on('message', ({ text }) => {

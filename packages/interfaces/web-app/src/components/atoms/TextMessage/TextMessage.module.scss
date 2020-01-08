@@ -1,0 +1,36 @@
+$paddingHorizontal: 15px;
+$paddingVertical: 10px;
+
+.TextMessage {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding-top: 0.5rem;
+  text-align: left;
+
+  &.user {
+    justify-content: flex-end;
+
+    text-align: right;
+  }
+
+  &.assistant {
+    justify-content: flex-start;
+  }
+}
+
+.bubble {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  max-width: 60%;
+  border-radius: 1rem;
+  color: black;
+
+  &.user {
+    background-color: #5893d4;
+  }
+
+  &.assistant {
+    background-color: rgb(241, 240, 240);
+  }
+}

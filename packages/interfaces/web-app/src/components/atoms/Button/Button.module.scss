@@ -1,0 +1,17 @@
+@import "~styles/index.scss";
+
+.Button {
+  background: transparent;
+  color: $foreground;
+  border: 1px solid $foreground;
+  cursor: pointer;
+  padding: 5px 20px;
+  font-size: 1em;
+  text-transform: uppercase;
+  outline: none;
+
+  &:hover {
+    color: $background;
+    background: $foreground;
+  }
+}

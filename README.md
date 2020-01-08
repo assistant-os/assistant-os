@@ -13,7 +13,7 @@
 
 <br>
 
-This project is a chatbot to assist human beeing in repetitive and daily tasks.
+This project is a virtual assistant to assist users in repetitive and daily tasks.
 
 ## Getting started
 
@@ -48,8 +48,10 @@ Please read [development guidelines](./CONTRIBUTING.md) before proposing a pull 
 These are the next features to come:
 
 - [timelog]: help the user to log his spend time and store on google drive
+- [identity]: auto configuration of the virtual assistant
 - [web app]: refactor to make action more automatic
 - [movies, tv shows]: notify the user for a release
+- [memory]: save information
 - [urls]: save url and propose automatic behaviors like auto watch
 - [contracts]: generate invoice automatically in google drive
 

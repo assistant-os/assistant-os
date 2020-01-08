@@ -3,9 +3,7 @@ import Os from '@assistant-os/os'
 
 dotenv.config()
 
-const os = new Os({
-  name: process.env.NAME,
-})
+const os = new Os()
 
 process.on('SIGINT', () => {
   os.stop()

@@ -1,0 +1,12 @@
+@import "~styles/index.scss";
+
+.button {
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.Action {
+  fill: $foreground;
+  cursor: pointer;
+}

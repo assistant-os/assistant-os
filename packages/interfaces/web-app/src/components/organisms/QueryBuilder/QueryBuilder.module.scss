@@ -1,0 +1,48 @@
+@import '~styles/index.scss';
+
+.newMessage {
+  flex: 0 0 auto;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  // margin: 0.5rem 0 0.5rem 0;
+  box-sizing: border-box;
+
+  border-radius: 999em;
+  background-color: lighten(black, 10%);
+}
+
+.submit {
+  @include disableDefaultButtonStyle;
+
+  padding: $paddingVertical $paddingHorizontal $paddingVertical 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0.5rem;
+
+  &.disabled {
+    opacity: 0.1;
+    cursor: default;
+  }
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  stroke: white;
+  margin-left: 1rem;
+}
+
+.input {
+  font-size: 1em;
+  flex: 1 1 auto;
+  width: auto;
+  padding: $paddingVertical $paddingVertical $paddingVertical $paddingHorizontal;
+  // background: lighten(black, 10%);
+  // border-radius: 0.6rem;
+}

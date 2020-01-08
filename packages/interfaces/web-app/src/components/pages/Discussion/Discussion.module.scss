@@ -1,0 +1,39 @@
+@import '~styles/index.scss';
+
+$margin: 100px;
+
+.Discussion {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  box-sizing: border-box;
+
+  @include breakpoint(lg) {
+    max-width: $maxWidth;
+    margin: auto;
+  }
+}
+
+.messages {
+  position: relative;
+  flex: 1 1 auto;
+  overflow: auto;
+  padding: 0 0.5rem 0.5rem 0.5rem;
+
+  &::before {
+    display: block;
+    content: ' ';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 0.5rem;
+    background: linear-gradient(black, transparent);
+  }
+}
+
+.newMessage {
+  padding: 0 0.5rem 0.5rem 0.5rem;
+}

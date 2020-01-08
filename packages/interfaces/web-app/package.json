@@ -1,0 +1,41 @@
+{
+  "name": "@assistant-os/web-app",
+  "description": "Web application to interact with an assistant-os implementation.",
+  "version": "0.3.2",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "js-cookie": "^2.2.0",
+    "node-sass": "^4.11.0",
+    "react": "^16.8.3",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-dom": "^16.8.3",
+    "react-loadable": "^5.5.0",
+    "react-redux": "^7.1.3",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.5",
+    "redux": "^4.0.1",
+    "redux-persist": "^5.10.0",
+    "redux-thunk": "^2.3.0",
+    "siriwave": "^1.2.4",
+    "socket.io-client": "^2.2.0",
+    "stylelint": "^9.10.1",
+    "stylelint-config-standard": "^18.2.0",
+    "stylelint-scss": "^3.5.4"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^6.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "gitHead": "f7201f8d12087aff9c723558f31df50e5287e38a"
+}

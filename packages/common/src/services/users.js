@@ -43,6 +43,7 @@ const findOrCreateUserByAdapter = (adapterName, adapterUserId, meta = {}) => {
   if (user === null || user === undefined) {
     user = addUser(adapterName, adapterUserId, meta)
   } else {
+    console.log('user.adapters', user.adapters[adapterName])
     const newAdapters = {
       ...user.adapters,
       [adapterName]: {

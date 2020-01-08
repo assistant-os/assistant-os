@@ -1,0 +1,44 @@
+$background: black;
+$foreground: white;
+
+$paddingHorizontal: 15px;
+$paddingVertical: 7px;
+
+$maxWidth: 800px;
+
+@mixin breakpoint($class) {
+  @if $class == xs {
+    @media (max-width: 767px) {
+      @content;
+    }
+  } @else if $class == sm {
+    @media (min-width: 768px) {
+      @content;
+    }
+  } @else if $class == md {
+    @media (min-width: 992px) {
+      @content;
+    }
+  } @else if $class == lg {
+    @media (min-width: 1200px) {
+      @content;
+    }
+  } @else {
+    @warn "Breakpoint mixin supports: xs, sm, md, lg";
+  }
+}
+
+@mixin disableDefaultButtonStyle {
+  border: 0;
+  cursor: pointer;
+  font-family: Jost, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: all linear 0.1s;
+  opacity: 1;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-focus-ring-color: white;
+  outline: none;
+}

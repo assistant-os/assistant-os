@@ -1,0 +1,72 @@
+@import "~styles/index.scss";
+
+$margin: 100px;
+
+.Chat {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  max-width: $maxWidth;
+  margin: auto;
+}
+
+.discussion {
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.newMessage {
+  flex: 0 0 30px;
+}
+
+.input {
+  font-size: 1em;
+  flex: 1 1 auto;
+  width: auto;
+  padding: $paddingVertical $paddingVertical $paddingVertical $paddingHorizontal;
+  // background: lighten(black, 10%);
+  // border-radius: 0.6rem;
+}
+
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0.5rem 0;
+  box-sizing: border-box;
+}
+
+.submit {
+  padding: $paddingVertical $paddingHorizontal $paddingVertical 0;
+  background: transparent;
+  border: 0;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 0.5rem;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  stroke: white;
+  margin-left: 1rem;
+}
+
+/* stylelint-disable-next-line */
+:global {
+  .example-enter {
+    position: relative;
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  .example-enter.example-enter-active {
+    transform: translateY(0);
+    opacity: 1;
+    transition: opacity 250ms ease-in;
+  }
+}

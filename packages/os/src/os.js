@@ -11,13 +11,13 @@ import Timelog from '@assistant-os/timelog'
 
 export default class Assistant {
   constructor({
-    name = 'Assistant',
+    name = 'Unknown',
     timeout = 15000 /* maximum accepted delay for a response by actions */,
   } = {}) {
     this.identity = { name }
     this.timeout = timeout
 
-    this.adapters = [new Slack(), new Http()]
+    this.adapters = [/*new Slack(),*/ new Http()]
     this.actions = []
 
     this.addAction(Hello)
