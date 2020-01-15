@@ -1,5 +1,4 @@
 import {
-  setOnline,
   clearCredentials,
   getSecret,
   setSecret,
@@ -7,11 +6,12 @@ import {
   getToken,
   setHost,
   setToken,
-  isOnline,
-  setStarted,
 } from 'redux/credentials'
-import { addAssistantMessage, addUserMessage } from 'redux/messages'
-import { getStage } from './os.selectors'
+import {
+  addAssistantMessage,
+  addUserMessage,
+  clearMessages,
+} from 'redux/messages'
 import { connect, onMessage } from 'utils/socket'
 
 import {
@@ -103,14 +103,65 @@ export const handleStage = () => (dispatch, getState) => {
 
 const startConversation = () => (dispatch, getState) => {
   onMessage(message => {
-    console.log('message')
     dispatch(addAssistantMessage(message))
   })
 }
 
+const context = { previous: '' }
+
+const processCommand = message => (dispatch, getState) => {
+  const say = text => dispatch(addAssistantMessage({ text }))
+
+  if (context.previous === 'clear') {
+    if (message.text.toLowerCase() === 'yes') {
+      dispatch(addUserMessage(message, false))
+      dispatch(clearMessages())
+      return true
+    } else if (message.text.toLowerCase() === 'no') {
+      dispatch(addUserMessage(message, false))
+      say('Ok')
+      context.previous = ''
+      return true
+    }
+  } else if (context.previous === 'reset') {
+    if (message.text.toLowerCase() === 'yes') {
+      dispatch(addUserMessage(message, false))
+      dispatch(clearCredentials())
+      dispatch(clearMessages())
+      return true
+    } else if (message.text.toLowerCase() === 'no') {
+      dispatch(addUserMessage(message, false))
+      say('Ok')
+      context.previous = ''
+      return true
+    }
+  }
+  if (message.text === '/clear') {
+    dispatch(addUserMessage(message, false))
+    say('Do you really want to clean all messages?')
+    context.previous = 'clear'
+    return true
+  }
+
+  if (
+    message.text === '/leave' ||
+    message.text === '/quit' ||
+    message.text === '/reset'
+  ) {
+    dispatch(addUserMessage(message, false))
+    say('Do you really want to reset everything?')
+    context.previous = 'reset'
+    return true
+  }
+
+  return false
+}
+
 export const processUserMessage = message => (dispatch, getState) => {
   if (stage === READY_FOR_DISCUSSION) {
-    dispatch(addUserMessage(message, true))
+    if (!dispatch(processCommand(message))) {
+      dispatch(addUserMessage(message, true))
+    }
   } else {
     dispatch(addUserMessage(message))
     if (nextUserMessageCallback) {

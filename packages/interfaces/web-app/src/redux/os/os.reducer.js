@@ -1,4 +1,4 @@
-import { SET_MEMORY, SET_STAGE } from './os.actions.js'
+import { SET_MEMORY } from './os.actions.js'
 
 const initState = {
   memory: {},

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Route } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 // import Detail from 'components/pages/Detail'
 import Welcome from 'components/pages/Welcome'
 import Discussion from 'components/pages/Discussion'
+import { isStarted, setStarted } from 'redux/credentials'
 
 import style from './App.module.scss'
 
@@ -49,10 +51,14 @@ export default ({ history }) => {
   //     history.push('/welcome')
   //   }
   // }, [])
-  const [started, start] = useState(true)
+  const started = useSelector(isStarted)
+  const dispatch = useDispatch()
+
+  const onStart = () => dispatch(setStarted(true))
+
   return (
     <div className={style.App}>
-      {started ? <Discussion /> : <Welcome onStart={start} />}
+      {started ? <Discussion /> : <Welcome onStart={onStart} />}
     </div>
   )
 }
