@@ -23,6 +23,7 @@ export const connect = (token, secret, uri = 'http://localhost:3004') =>
     }, TIMEOUT)
 
     socket.on('started', () => {
+      console.log('started')
       clearInterval(waitForStarted)
 
       if (savedCallback) {

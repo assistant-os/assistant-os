@@ -57,7 +57,6 @@ export const handleStage = () => (dispatch, getState) => {
       }
       say('Please provide me the url of a virtual assistant to connect to.')
       return onNextUserMessage(({ text }) => {
-        console.log('next message')
         if (text.match(/http(s|):\/\/[A-Za-z0-9.\-_:/]+/)) {
           dispatch(setHost(text))
           say('Ok thank you.')
@@ -116,6 +115,7 @@ const processCommand = message => (dispatch, getState) => {
     if (message.text.toLowerCase() === 'yes') {
       dispatch(addUserMessage(message, false))
       dispatch(clearMessages())
+      stage = WELCOME
       return true
     } else if (message.text.toLowerCase() === 'no') {
       dispatch(addUserMessage(message, false))
@@ -162,36 +162,13 @@ export const processUserMessage = message => (dispatch, getState) => {
     if (!dispatch(processCommand(message))) {
       dispatch(addUserMessage(message, true))
     }
-  } else {
+  } else if (!dispatch(processCommand(message))) {
     dispatch(addUserMessage(message))
     if (nextUserMessageCallback) {
       nextUserMessageCallback(message)
     }
   }
 }
-
-// const tryConnection = () => (dispatch, getState) => {
-//   const state = getState()
-//   if (!getHost(state)) {
-//     dispatch(
-//       addMessage(
-//         'other',
-//         'Please provide me the url of a virtual assistant to connect to.',
-//         'text'
-//       )
-//     )
-//   } else if (!getToken(state)) {
-//     dispatch(
-//       addMessage(
-//         'other',
-//         'Please provide me the token of the assistant.',
-//         'text'
-//       )
-//     )
-//   } else {
-//     dispatch(init(getHost(state), getToken(state)))
-//   }
-// }
 
 export const SET_MEMORY = 'SET_MEMORY'
 export const setMemory = memory => ({

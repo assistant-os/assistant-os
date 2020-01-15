@@ -4,7 +4,6 @@ import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
 
 import credentials, { uri as credentialsUri } from './credentials'
-import discussion, { uri as discussionUri } from './discussion'
 import os, { uri as osUri } from './os'
 import messages, { uri as messagesUri } from './messages'
 
@@ -15,7 +14,6 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   [credentialsUri]: credentials,
-  [discussionUri]: discussion,
   [osUri]: os,
   [messagesUri]: messages,
 })

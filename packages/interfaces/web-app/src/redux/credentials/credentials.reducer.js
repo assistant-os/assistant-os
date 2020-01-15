@@ -9,8 +9,8 @@ import {
 
 const initState = {
   token: 'fsgfdgfdglfdkglfd',
-  host: 'http://localhost:3004',
-  secret: 'KSqPilkl3FD2IyWgyEALbAQeKNnFIIRa',
+  host: '',
+  secret: '',
   online: false,
   started: false,
 }
