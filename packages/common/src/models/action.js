@@ -1,30 +1,17 @@
 import EventEmitter from 'events'
 import { parse } from 'natural-script'
 
-import Context from '../utils/context'
-import CallToAction from './call-to-action'
-
-const match = (text, condition, userId, message) => {
-  if (typeof condition === 'string') {
-    return parse(text, condition)
-  } else if (typeof condition === 'function') {
-    return condition(text, userId, message)
-  } else if (Array.isArray(condition)) {
-    const promises = condition.map(c => match(text, c, userId, message))
-    return Promise.all(promises).then(matches =>
-      matches.reduce((acc, current) => acc && current, true)
-    )
-  }
-  return Promise.resolve(true)
-}
+import SubAction from './subaction'
 
 export default class Action extends EventEmitter {
   constructor(name, actions = []) {
     super()
     this.name = name
-    this.globalContext = {}
 
-    this.actions = actions
+    this.subActions = actions
+
+    this.globalContext = {}
+    this.foundActionsCache = {}
     this.onStart = () => {}
     this.onStop = () => {}
   }
@@ -37,81 +24,60 @@ export default class Action extends EventEmitter {
     this.onStop()
   }
 
-  if(status) {
-    return new CallToAction(status, callToAction =>
-      this.actions.push(callToAction)
-    )
+  when(condition) {
+    const subAction = new SubAction()
+    subAction.when(condition)
+    this.subActions.push(subAction)
+    return subAction
   }
 
-  add(actionName = '') {
-    const callToAction = new CallToAction(null, callToAction =>
-      this.actions.push(callToAction)
-    )
-    callToAction.name = actionName
-    return callToAction
-  }
-
-  when(condition, priority = 1) {
-    const callToAction = this.add()
-    callToAction.when(condition)
-    callToAction.withPriority(priority)
-    return callToAction
-  }
-
-  async findAction(message, userId) {
+  async findAction(message) {
     if (!message.text) {
       return null
     }
 
-    const context = this.getContext(message)
+    const hasStatus = status =>
+      status === null ||
+      (message.userId in this.globalContext &&
+        this.globalContext[message.userId].status === status)
 
-    for (const action of this.actions) {
-      const results = await match(
-        message.text,
-        action.conditions,
-        userId,
-        message
-      )
-      if (context.hasStatus(action.status) && results) {
-        return {
-          action,
-          results,
-          context,
-          text: message.text,
-          message,
-        }
+    const availableActions = this.subActions.filter(a => hasStatus(a.status))
+
+    for (const action of availableActions) {
+      const isMatching = await action.match(message)
+      if (isMatching) {
+        this.foundActionsCache[message.id] = { action, isMatching }
+        return { isMatching, action }
       }
     }
     return null
   }
 
-  async evaluateProbability(message, userId) {
-    return this.findAction(message, userId).then(found => {
-      const probability = found
-        ? typeof found.action.probability === 'function'
-          ? found.action.probability(found)
-          : found.action.probability
-        : 0
-      return probability
-    })
+  async evaluateProbability(message) {
+    return this.findAction(message).then(action => action.proability)
   }
 
-  async respond(message, userId) {
-    if (!message.text) {
-      return
+  async apply(message) {
+    const action =
+      message.id in this.foundActionsCache
+        ? this.foundActionsCache[message.id].action
+        : await this.findAction(message)
+
+    const answer = text => {
+      this.sendMessage({
+        text,
+        userId: message.userId,
+        previousMessage: message.id,
+      })
     }
 
-    const found = await this.findAction(message, userId)
-
-    if (found) {
-      const { action, context, results, text } = found
-
-      action.callback({ ...results, message, context, userId, text })
+    const setStatus = status => {
+      this.globalContext[message.userId] = { status }
     }
-  }
 
-  getContext(message, userId = null) {
-    return new Context(this, userId, message)
+    if (action) {
+      action.callback({ message, answer, setStatus })
+    }
   }
 
   sendMessage(message, meta = {}) {

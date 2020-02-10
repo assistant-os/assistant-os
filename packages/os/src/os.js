@@ -1,32 +1,13 @@
 import { logger, Users, Action } from '@assistant-os/common'
-import Slack from '@assistant-os/slack'
-import Http from '@assistant-os/http'
-import Hello from '@assistant-os/hello'
-import Oups from '@assistant-os/oups'
-import Emails from '@assistant-os/emails'
-import Contracts from '@assistant-os/contracts'
-import Movies from '@assistant-os/movies'
-import Memory from '@assistant-os/memory'
-import Timelog from '@assistant-os/timelog'
+import * as threads from './threads'
 
 export default class Assistant {
-  constructor({
-    name = 'Unknown',
-    timeout = 15000 /* maximum accepted delay for a response by actions */,
-  } = {}) {
+  constructor({ name = 'Unknown', timeout = 15000 } = {}) {
     this.identity = { name }
     this.timeout = timeout
 
-    this.adapters = [/*new Slack(),*/ new Http()]
+    this.adapters = []
     this.actions = []
-
-    this.addAction(Hello)
-    this.addAction(Oups)
-    this.addAction(Emails)
-    this.addAction(Contracts)
-    this.addAction(Movies)
-    this.addAction(Memory)
-    this.addAction(Timelog)
 
     this.threads = {}
 
@@ -45,7 +26,7 @@ export default class Assistant {
     this.actions.push(instance)
   }
 
-  storeMetaMessage(message, userId, adapter) {
+  storeMessage(message, userId, adapter) {
     this.threads[message.id] = { userId, message, adapterName: adapter.name }
   }
 
@@ -66,29 +47,11 @@ export default class Assistant {
     return this.adapters[0]
   }
 
-  findMetaMessage(message) {
-    if (message.previousMessage) {
-      const { userId, adapterName } = this.threads[message.previousMessage]
-      const adapter = this.adapters.find(a => a.name === adapterName)
-      return { userId, adapter }
-    }
-
-    if (message.userId) {
-      const adapter = this.findLastAdapterUsed(message.userId)
-      return { userId: message.userId, adapter }
-    }
-
-    return {}
-  }
-
   async chooseAction(message, userId) {
     const actions = [...this.actions] // we use copy just in case actions change during the request
     const probabilities = await Promise.all(
       actions.map(m => m.evaluateProbability(message, userId))
     )
-
-    const adapter = this.findLastAdapterUsed(userId)
-    adapter.sendAction(userId, { type: 'typing' })
 
     const bestModuleIndex = probabilities.reduce(
       (bestProbabilityIndex, probability, index) => {
@@ -102,39 +65,45 @@ export default class Assistant {
     return this.actions[bestModuleIndex]
   }
 
-  installAdapter(adapter) {
-    adapter.on('message', async ({ userId, ...message }) => {
-      this.storeMetaMessage(message, userId, adapter)
-      this.threads[message.id] = { userId, message, adapterName: adapter.name }
-      const action = await this.chooseAction(message, userId)
+  onMessageReceivedFromAdapter(adapter) {
+    return async message => {
+      threads.add(message, adapter)
+
+      adapter.sendAction(message.userId, { type: 'typing' })
+
+      const action = await this.chooseAction(message)
       this.actions
         .filter(a => a.name !== action.name)
-        .map(a => a.forgetStatus(userId))
-      action.respond(message, userId)
-    })
+        .forEach(a => a.forgetStatus(message.userId))
+      action.apply(message)
+    }
   }
 
-  installModule(action) {
-    action.on('message', message => {
-      const { adapter, userId } = this.findMetaMessage(message)
-      if (adapter && userId) {
-        this.lastAdaptersUsed[userId] = adapter.name
-        adapter.sendMessage(userId, message)
-      } else {
-        logger.error('Impossible to send the message', { adapter, userId })
-      }
-    })
+  onMessageReceivedFromAction(message) {
+    const adapter = threads.findBestAdapter(message)
+
+    if (adapter) {
+      adapter.sendMessage(message)
+    } else {
+      logger.error('Impossible to send the message', { adapter, message })
+    }
+  }
+
+  installAction(action) {
+    action.on('message', this.onMessageReceivedFromAction)
+  }
+
+  installAdapter(adapter) {
+    adapter.on('message', this.onMessageReceivedFromAdapter(adapter))
   }
 
   async start() {
     this.adapters.forEach(a => this.installAdapter(a))
-    this.actions.forEach(m => this.installModule(m))
+    this.actions.forEach(m => this.installAction(m))
 
     await Promise.all(this.adapters.map(adapter => adapter.start()))
     await Promise.all(this.actions.map(module => module.start()))
     logger.info(`started ${this.identity.name}`)
-
-    // this.adapters[0].sendMessage('friedrit', Message.fix({ text: 'Ready' }))
   }
 
   stop() {

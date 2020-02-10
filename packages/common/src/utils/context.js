@@ -1,11 +1,8 @@
 import * as Message from './message'
 
 export default class Context {
-  constructor(module, userId, message = {}) {
-    this.globalContext = module.globalContext
-    this.userId = userId
-    this.message = message
-    this.module = module
+  constructor() {
+    this.contextByUser = {}
   }
 
   hasStatus(status) {

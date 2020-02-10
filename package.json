@@ -60,7 +60,17 @@
   },
   "homepage": "https://github.com/assistant-os/assistant-os#readme",
   "dependencies": {
-    "@assistant-os/os": "^0.3.2"
+    "@assistant-os/os": "^0.3.2",
+    "@assistant-os/emails": "^1.0.0",
+    "@assistant-os/common": "^0.3.2",
+    "@assistant-os/slack": "^1.0.0",
+    "@assistant-os/http": "^1.0.0",
+    "@assistant-os/hello": "^0.3.2",
+    "@assistant-os/oups": "^1.0.0",
+    "@assistant-os/contracts": "^1.0.0",
+    "@assistant-os/movies": "^1.0.0",
+    "@assistant-os/memory": "^1.0.0",
+    "@assistant-os/timelog": "^1.0.0"
   },
   "devDependencies": {
     "@assistant-os/config": "^0.3.2",

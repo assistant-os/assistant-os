@@ -1,8 +1,9 @@
 import { parse } from 'natural-script'
 
-export default class CallToAction {
+export default class SubAction {
   constructor() {
     this.conditions = []
+    this.status = null
     this.callback = () => {
       console.error('callback not defined')
     }
@@ -11,13 +12,14 @@ export default class CallToAction {
     this.name = ''
   }
 
-  if(status) {
+  while(status) {
     this.status = status
     return this
   }
 
   withPriority(priority) {
     this.probability = priority
+    return this
   }
 
   when(condition) {
@@ -32,7 +34,6 @@ export default class CallToAction {
 
   then(callback) {
     this.callback = callback
-    this.attach(this)
     return this
   }
 

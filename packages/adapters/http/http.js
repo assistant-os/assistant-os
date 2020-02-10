@@ -3,51 +3,54 @@ import uuidv1 from 'uuid/v1'
 
 import { Adapter, logger } from '@assistant-os/common'
 
-import Sockets from './sockets'
+import * as sockets from './sockets'
+import * as credentials from './credantials'
 
 const TIMEOUT = 5000
 
 export default class Http extends Adapter {
   constructor() {
     super('http')
+
+    this.secret = ''
   }
 
-  secure(callback) {
-    return ({ secret, token, ...data }) => {
-      if (secret === process.env.ADAPTER_HTTP_SECRET) {
+  when(socket, eventName, callback) {
+    socket.on(eventName, ({ secret, token, ...data }) => {
+      console.log('on' + eventName, secret, this.secret)
+      if (secret === this.secret) {
         const user = this.users.findOrCreateByAdapter(token)
-        console.log('token', token, user.adapter.id)
         callback && callback(user, data)
       }
-    }
+    })
   }
 
-  start() {
-    return new Promise(resolve => {
-      this.io = new Server(process.env.ADAPTER_HTTP_PORT)
+  async start() {
+    return new Promise(async resolve => {
+      credentials.setup()
+      this.secret = await credentials.getSecret()
+      this.port = process.env.ADAPTER_HTTP_PORT
+
+      this.io = new Server(this.port)
+
+      logger.info(`starting sever on ws://localhost:${this.port}`)
 
       this.io.on('connection', socket => {
-        socket.on(
-          'start',
-          this.secure(user => {
-            console.log('start', user.adapter.id)
-            Sockets.add(user, socket)
-            clearInterval(waitForStart)
-            socket.emit('started')
-          })
-        )
+        console.log('connection')
+        this.when(socket, 'start', user => {
+          console.log('start')
+          sockets.add(socket, user)
+          clearTimeout(waitForStart)
+          socket.emit('started')
+        })
 
-        socket.on(
-          'message',
-          this.secure((user, message) => {
-            console.log('message', message, user.adapter.id)
-            this.emit('message', {
-              userId: user.id,
-              id: uuidv1(),
-              ...message,
-            })
+        this.when(socket, 'message', (user, data) => {
+          this.emit('message', {
+            userId: user.id,
+            id: uuidv1(),
+            ...data,
           })
-        )
+        })
 
         const waitForStart = setTimeout(() => socket.disconnect(), TIMEOUT)
       })
@@ -57,10 +60,11 @@ export default class Http extends Adapter {
 
   stop() {}
 
-  async sendMessage(userId, message) {
-    const user = this.users.findById(userId)
-    if (Sockets.get(user)) {
-      Sockets.get(user).emit('message', message)
+  async sendMessage(message) {
+    const user = this.users.findById(message.userId)
+    const socket = sockets.find(user)
+    if (socket) {
+      socket.emit('message', message)
     } else {
       logger.error('impossible to send message on http')
     }

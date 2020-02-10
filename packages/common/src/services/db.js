@@ -1,8 +1,15 @@
 import low from 'lowdb'
+import fs from 'fs'
 import path from 'path'
 import FileSync from 'lowdb/adapters/FileSync'
 
-const adapter = new FileSync(path.join(__dirname, '../../../../data/db.json'))
+const dataFolder = path.join(__dirname, '../../../../data')
+
+if (!fs.existsSync(dataFolder)) {
+  fs.mkdirSync(dataFolder)
+}
+
+const adapter = new FileSync(path.join(dataFolder, 'db.json'))
 const db = low(adapter)
 
 // https://www.npmjs.com/package/lowdb
