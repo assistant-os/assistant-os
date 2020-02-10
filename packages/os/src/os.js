@@ -61,10 +61,9 @@ export default class Assistant {
   chooseAction(message) {
     const promises = this.actions.map(a => a.evaluateProbability(message))
 
-    return Promise.all(promises).then(probabilities => {
-      const action = this.findActionWithBestProbability(probabilities)
-      return action
-    })
+    return Promise.all(promises).then(probabilities =>
+      this.findActionWithBestProbability(probabilities)
+    )
   }
 
   forgetStatusForOtherActions(chosenAction, userId) {

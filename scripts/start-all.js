@@ -15,7 +15,7 @@ dotenv.config()
 const os = new Os()
 
 os.addAction(Hello)
-// os.addAction(Oups)
+os.addAction(Oups)
 // os.addAction(Emails)
 // os.addAction(Contracts)
 // os.addAction(Movies)

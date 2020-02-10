@@ -55,14 +55,11 @@ export default class Action extends EventEmitter {
 
     for (const action of availableActions) {
       const isMatching = await action.match(message)
-      console.log('isMatching', isMatching)
       if (isMatching) {
         this.cache[message.id] = { action, query: isMatching }
-        console.log('before return', action)
         return true
       }
     }
-    console.log('here')
     return null
   }
 
@@ -73,8 +70,10 @@ export default class Action extends EventEmitter {
   }
 
   async apply(message) {
-    console.log('apply')
-    const action = this.cache[message.id].action
+    const action =
+      message.id in this.cache
+        ? this.cache[message.id].action
+        : await this.findAction(message)
 
     if (!action) {
       return
