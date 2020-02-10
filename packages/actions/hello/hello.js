@@ -1,51 +1,46 @@
-import { Action, getASynonym, Message, Users } from '@assistant-os/common'
+import { Action, getASynonym, Users } from '@assistant-os/common'
 
 const READY_TO_SET_NAME = 'ready-to-set-name'
 const READY_TO_CONFIRM = 'ready-to-confirm'
 
 const action = new Action('hello')
 
-// const users = new Users()
+const users = new Users()
+
+// action.when(READY_TO_SET_NAME).then(({ message, answer, setStatus }) => {
+//   answer(`So you confirm your name is "${message.text}"?`)
+//   setStatus(READY_TO_CONFIRM, { name: message.text })
+// })
 
 // action
-//   .when(null)
-//   .if(READY_TO_SET_NAME)
-//   .then(({ context, text }) => {
-//     context.sendTextMessage(`So you confirm your name is "${text}"?`)
-//     context.setStatus(READY_TO_CONFIRM, { name: text })
+//   .if('yes')
+//   .when(READY_TO_CONFIRM)
+//   .then(({ context, message, answer, setStatus }) => {
+//     answer(`${getASynonym('ok')}!`)
+//     users.update(message.userId, { name: context.name })
+//     setStatus(null)
 //   })
 
 // action
-//   .when(Message.isCloseToWord('yes'))
-//   .if(READY_TO_CONFIRM)
-//   .then(({ context, userId }) => {
-//     context.sendTextMessage(`${getASynonym('ok')}!`)
-//     users.update(userId, { name: context.get('name') })
-//     context.setDefaultStatus()
+//   .if('no')
+//   .when(READY_TO_CONFIRM)
+//   .then(({ setStatus, answer }) => {
+//     answer(`${getASynonym('ok')}, try again. What is your name?`)
+//     setStatus(READY_TO_SET_NAME)
 //   })
 
-// action
-//   .when(Message.isCloseToWord('no'))
-//   .if(READY_TO_CONFIRM)
-//   .then(({ context }) => {
-//     context.sendTextMessage(
-//       `${getASynonym('ok')}, try again. What is your name?`
-//     )
-//     context.setStatus(READY_TO_SET_NAME)
-//   })
+action.if('~hello').then(async ({ message, answer, setStatus }) => {
+  let user = users.findById(message.userId)
 
-action.when('hello').then(({ answer }) => {
-  answer('Yo')
-  // let user = users.findById(userId)
-  // const helloSynonym = getASynonym('hello')
-  // if (user.name === 'unknown') {
-  //   context.sendTextMessage(`${helloSynonym}!`)
-  //   await new Promise(resolve => setTimeout(() => resolve(), 1000))
-  //   context.sendTextMessage('What is your name?')
-  //   context.setStatus(READY_TO_SET_NAME)
-  // } else {
-  //   context.sendTextMessage(`${helloSynonym} ${user.name}!`)
-  // }
+  const helloSynonym = getASynonym('hello')
+  if (user.name === 'unknown') {
+    answer(helloSynonym)
+    await new Promise(resolve => setTimeout(() => resolve(), 1000))
+    answer('what is your name?')
+    setStatus(READY_TO_SET_NAME)
+  } else {
+    answer(`${helloSynonym} ${user.name}!`)
+  }
 })
 
 export default action

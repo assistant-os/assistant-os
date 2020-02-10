@@ -17,7 +17,6 @@ export default class Http extends Adapter {
 
   when(socket, eventName, callback) {
     socket.on(eventName, ({ secret, token, ...data }) => {
-      console.log('on' + eventName, secret, this.secret)
       if (secret === this.secret) {
         const user = this.users.findOrCreateByAdapter(token)
         callback && callback(user, data)
@@ -36,9 +35,7 @@ export default class Http extends Adapter {
       logger.info(`starting sever on ws://localhost:${this.port}`)
 
       this.io.on('connection', socket => {
-        console.log('connection')
         this.when(socket, 'start', user => {
-          console.log('start')
           sockets.add(socket, user)
           clearTimeout(waitForStart)
           socket.emit('started')

@@ -31,7 +31,7 @@
       "dist/",
       "logs/"
     ],
-    "delay": "10000"
+    "delay": "1000"
   },
   "repository": {
     "type": "git",

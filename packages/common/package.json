@@ -16,7 +16,7 @@
     "thesaurus": "^0.0.1",
     "uuid": "^3.3.3",
     "winston": "^3.2.1",
-    "natural-script": "^0.5.8"
+    "natural-script": "^1.0.2"
   },
   "gitHead": "f7201f8d12087aff9c723558f31df50e5287e38a"
 }

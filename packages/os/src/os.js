@@ -47,35 +47,44 @@ export default class Assistant {
     return this.adapters[0]
   }
 
-  async chooseAction(message, userId) {
-    const actions = [...this.actions] // we use copy just in case actions change during the request
-    const probabilities = await Promise.all(
-      actions.map(m => m.evaluateProbability(message, userId))
-    )
-
+  findActionWithBestProbability(probabilities) {
     const bestModuleIndex = probabilities.reduce(
-      (bestProbabilityIndex, probability, index) => {
-        if (probability > probabilities[bestProbabilityIndex]) {
-          return index
-        }
-        return bestProbabilityIndex
-      },
+      (bestProbabilityIndex, probability, index) =>
+        probability > probabilities[bestProbabilityIndex]
+          ? index
+          : bestProbabilityIndex,
       0
     )
-    return this.actions[bestModuleIndex]
+    return this.actions[bestModuleIndex].name
+  }
+
+  chooseAction(message) {
+    const promises = this.actions.map(a => a.evaluateProbability(message))
+
+    return Promise.all(promises).then(probabilities => {
+      const action = this.findActionWithBestProbability(probabilities)
+      return action
+    })
+  }
+
+  forgetStatusForOtherActions(chosenAction, userId) {
+    this.actions
+      .filter(a => a.name !== chosenAction.name)
+      .forEach(a => a.forgetStatus(userId))
   }
 
   onMessageReceivedFromAdapter(adapter) {
-    return async message => {
+    return message => {
       threads.add(message, adapter)
 
       adapter.sendAction(message.userId, { type: 'typing' })
 
-      const action = await this.chooseAction(message)
-      this.actions
-        .filter(a => a.name !== action.name)
-        .forEach(a => a.forgetStatus(message.userId))
-      action.apply(message)
+      this.chooseAction(message).then(actionName => {
+        const action = this.actions.find(a => a.name === actionName)
+        // this.forgetStatusForOtherActions(actionName, message.userId)
+
+        action.apply(message)
+      })
     }
   }
 
