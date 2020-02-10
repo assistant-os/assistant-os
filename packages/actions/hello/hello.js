@@ -7,27 +7,27 @@ const action = new Action('hello')
 
 const users = new Users()
 
-// action.when(READY_TO_SET_NAME).then(({ message, answer, setStatus }) => {
-//   answer(`So you confirm your name is "${message.text}"?`)
-//   setStatus(READY_TO_CONFIRM, { name: message.text })
-// })
+action.when(READY_TO_SET_NAME).then(({ message, answer, setStatus }) => {
+  answer(`So you confirm your name is "${message.text}"?`)
+  setStatus(READY_TO_CONFIRM, { name: message.text })
+})
 
-// action
-//   .if('yes')
-//   .when(READY_TO_CONFIRM)
-//   .then(({ context, message, answer, setStatus }) => {
-//     answer(`${getASynonym('ok')}!`)
-//     users.update(message.userId, { name: context.name })
-//     setStatus(null)
-//   })
+action
+  .if('yes')
+  .when(READY_TO_CONFIRM)
+  .then(({ context, message, answer, setStatus }) => {
+    answer(`${getASynonym('ok')}!`)
+    users.update(message.userId, { name: context.name })
+    setStatus(null)
+  })
 
-// action
-//   .if('no')
-//   .when(READY_TO_CONFIRM)
-//   .then(({ setStatus, answer }) => {
-//     answer(`${getASynonym('ok')}, try again. What is your name?`)
-//     setStatus(READY_TO_SET_NAME)
-//   })
+action
+  .if('no')
+  .when(READY_TO_CONFIRM)
+  .then(({ setStatus, answer }) => {
+    answer(`${getASynonym('ok')}, try again. What is your name?`)
+    setStatus(READY_TO_SET_NAME)
+  })
 
 action.if('~hello').then(async ({ message, answer, setStatus }) => {
   let user = users.findById(message.userId)

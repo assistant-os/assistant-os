@@ -1,17 +1,12 @@
-import { logger, Users, Action } from '@assistant-os/common'
+import { logger, Users, Action, identity } from '@assistant-os/common'
 import * as threads from './threads'
 
 export default class Assistant {
-  constructor({ name = 'Unknown', timeout = 15000 } = {}) {
-    this.identity = { name }
-    this.timeout = timeout
-
+  constructor() {
     this.adapters = []
     this.actions = []
 
     this.threads = {}
-
-    this.lastAdaptersUsed = {} // TODO save if in data base
     this.users = new Users()
   }
 
@@ -109,12 +104,14 @@ export default class Assistant {
     this.adapters.forEach(a => this.installAdapter(a))
     this.actions.forEach(m => this.installAction(m))
 
+    await identity.start()
+
     await Promise.all(this.adapters.map(adapter => adapter.start()))
     await Promise.all(this.actions.map(module => module.start()))
-    logger.info(`started ${this.identity.name}`)
+    logger.info(`started ${identity.getName()}`)
   }
 
   stop() {
-    logger.info(`stopped ${this.identity.name}`)
+    logger.info(`stopped ${identity.getName()}`)
   }
 }
