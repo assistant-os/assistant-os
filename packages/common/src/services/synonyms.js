@@ -2,7 +2,7 @@ import thesaurus from 'thesaurus'
 
 import db from './db'
 
-const TABLE_NAME = 'hello'
+const TABLE_NAME = 'synonyms'
 
 const initializeTable = () => {
   if (

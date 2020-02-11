@@ -16,16 +16,16 @@ export default class Action extends EventEmitter {
 
     this.globalContext = {}
     this.cache = {}
-    this.onStart = () => {}
-    this.onStop = () => {}
+    this.onStart = () => Promise.resolve()
+    this.onStop = () => Promise.resolve()
   }
 
-  start() {
-    this.onStart()
+  async start() {
+    return this.onStart()
   }
 
-  stop() {
-    this.onStop()
+  async stop() {
+    return this.onStop()
   }
 
   if(...args) {
