@@ -19,3 +19,10 @@ export const getName = () =>
   db()
     .get(`${TABLE_NAME}.name`)
     .value()
+
+export const setName = name =>
+  Promise.resolve(
+    db()
+      .set(`${TABLE_NAME}.name`, name)
+      .write()
+  )

@@ -40,14 +40,11 @@ export const update = ({ key, value, userId }) =>
     .assign({ key, userId, value })
     .write()
 
-export const getValue = (key, userId) => {
-  console.log('key', key, userId)
-
-  return db()
+export const getValue = (key, userId) =>
+  db()
     .get(TABLE_NAME)
     .find({ key, userId })
     .value().value
-}
 
 export const has = (key, userId) =>
   Boolean(

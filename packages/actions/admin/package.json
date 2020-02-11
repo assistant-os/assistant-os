@@ -1,0 +1,9 @@
+{
+  "name": "@assistant-os/admin",
+  "version": "1.0.0",
+  "main": "admin.js",
+  "license": "MIT",
+  "dependencies": {
+    "@assistant-os/common": "^0.3.2"
+  }
+}

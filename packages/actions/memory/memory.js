@@ -23,10 +23,8 @@ action.if('rm {word:key}').then(({ message, params, answer }) => {
   }
 })
 
-const isInMemory = message => {
-  console.log('message', message)
-  return Promise.resolve(memories.has(message.text, message.userId))
-}
+const isInMemory = message =>
+  Promise.resolve(memories.has(message.text, message.userId))
 
 action
   .if('{word:key}')

@@ -8,6 +8,9 @@ import Oups from '@assistant-os/oups'
 // import Contracts from '@assistant-os/contracts'
 // import Movies from '@assistant-os/movies'
 import Memory from '@assistant-os/memory'
+import consciousness from '@assistant-os/consciousness'
+import admin from '@assistant-os/admin'
+
 // import Timelog from '@assistant-os/timelog'
 
 dotenv.config()
@@ -20,6 +23,8 @@ os.addAction(Oups)
 // os.addAction(Contracts)
 // os.addAction(Movies)
 os.addAction(Memory)
+os.addAction(consciousness)
+os.addAction(admin)
 // os.addAction(Timelog)
 
 os.adapters = [new Http()]
