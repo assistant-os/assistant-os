@@ -7,6 +7,7 @@ export default class SubAction {
     this.callback = () => {}
     this.probability = 0.5
     this.name = ''
+    this.cache = {}
   }
 
   if(condition) {
@@ -36,7 +37,15 @@ export default class SubAction {
 
   matchOne(message, condition) {
     if (message.text && typeof condition === 'string') {
-      return parse(message.text, condition)
+      const result = parse(message.text, condition)
+      this.cache[message.id] = {
+        ...this.cache[message.id],
+        ...result,
+      }
+      return result
+    }
+    if (typeof condition === 'function') {
+      return condition(message, this.cache[message.id])
     }
     return Promise.resolve(false)
   }

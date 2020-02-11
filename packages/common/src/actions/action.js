@@ -1,7 +1,11 @@
 import EventEmitter from 'events'
 
 import SubAction from './subaction'
-import { improveTextMessage } from './messages'
+import {
+  improveTextMessage,
+  hasPrefixCommand,
+  removePrefixCommand,
+} from './messages'
 
 export default class Action extends EventEmitter {
   constructor(name, actions = []) {
@@ -56,7 +60,7 @@ export default class Action extends EventEmitter {
     for (const action of availableActions) {
       const isMatching = await action.match(message)
       if (isMatching) {
-        this.cache[message.id] = { action, query: isMatching }
+        this.cache[message.id] = { action, params: isMatching }
         return true
       }
     }
@@ -64,6 +68,11 @@ export default class Action extends EventEmitter {
   }
 
   evaluateProbability(message) {
+    if (hasPrefixCommand(message, this.name)) {
+      return this.findAction(removePrefixCommand(message, this.name)).then(
+        found => (found ? 1 : 0)
+      )
+    }
     return this.findAction(message).then(found =>
       found ? this.cache[message.id].action.probability : 0
     )
@@ -93,8 +102,19 @@ export default class Action extends EventEmitter {
 
     const context = this.globalContext[message.userId]
 
-    const query = message.id in this.cache ? this.cache[message.id].query : {}
-    action.callback({ message, answer, setStatus, context, query })
+    const params = message.id in this.cache ? this.cache[message.id].params : {}
+
+    const cleanedMessage = hasPrefixCommand(message, this.name)
+      ? removePrefixCommand(message, this.name)
+      : message
+
+    action.callback({
+      message: cleanedMessage,
+      answer,
+      setStatus,
+      context,
+      params,
+    })
   }
 
   sendMessage(message) {

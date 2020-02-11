@@ -75,7 +75,7 @@ export default class Assistant {
 
       this.chooseAction(message).then(actionName => {
         const action = this.actions.find(a => a.name === actionName)
-        // this.forgetStatusForOtherActions(actionName, message.userId)
+        this.forgetStatusForOtherActions(actionName, message.userId)
 
         action.apply(message)
       })

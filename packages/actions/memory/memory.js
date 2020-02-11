@@ -1,37 +1,38 @@
 import { Action } from '@assistant-os/common'
 
-import * as Memories from './memories'
+import * as memories from './memories'
 
 const action = new Action('memory')
 
-action.onStart = Memories.initializeTable
+action.onStart = memories.initializeTable
+
+action.if('save {word:key} {.*:value}').then(({ message, params, answer }) => {
+  const { key, value } = params
+  memories.add(key, value, message.userId)
+  answer(`Ok I saved "${key}" with value "${value}".`)
+})
+
+action.if('rm {word:key}').then(({ message, params, answer }) => {
+  const { key } = params
+
+  if (memories.has(key, message.userId)) {
+    memories.remove(key, message.userId)
+    answer(`Ok I removed "${key}".`)
+  } else {
+    answer(`Sorry it didn't remember "${key}" yet.`)
+  }
+})
+
+const isInMemory = message => {
+  console.log('message', message)
+  return Promise.resolve(memories.has(message.text, message.userId))
+}
 
 action
-  .add('save-key-value')
-  .when('save {word:key} {.*:value}')
-  .then(({ key, value, context, userId }) => {
-    Memories.add(key, value, userId)
-    context.sendTextMessage(`Ok I saved "${key}".`)
-  })
-
-action
-  .add('remove-key-value')
-  .when('rm {word:key}')
-  .then(({ key, context, userId }) => {
-    if (Memories.has(key, userId)) {
-      Memories.remove(key, userId)
-      context.sendTextMessage(`Ok I removed "${key}".`)
-    } else {
-      context.sendTextMessage(`Sorry it didn't remember "${key}" yet.`)
-    }
-  })
-
-action
-  .add('get-key-value')
-  .when('{word:key}')
-  .and(Memories.has)
-  .then(({ text, context, userId }) => {
-    context.sendTextMessage(Memories.get(text, userId).value, {
+  .if('{word:key}')
+  .and(isInMemory)
+  .then(({ message, answer }) => {
+    answer(memories.getValue(message.text, message.userId), {
       straight: true,
     })
   })
