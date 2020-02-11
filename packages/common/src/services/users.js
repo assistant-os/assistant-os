@@ -4,6 +4,8 @@ import db from './db'
 
 const TABLE_NAME = 'users'
 
+const DEFAULT_NAME = 'unknown'
+
 if (
   db() &&
   !db()
@@ -20,7 +22,7 @@ const addUser = (adapterName, adapterUserId, meta = {}) =>
     .get(TABLE_NAME)
     .push({
       id: uuidv1(),
-      name: 'unknown',
+      name: DEFAULT_NAME,
       token: uuidv1(),
       adapters: {
         [adapterName]: {
@@ -81,6 +83,8 @@ const findUserById = (id, adapterName = null) => {
 export default class Users {
   static findOrCreateByAdapter = findOrCreateUserByAdapter
   static findById = findUserById
+
+  static DEFAULT_NAME = DEFAULT_NAME
 
   constructor(adapterName = null) {
     this.adapterName = adapterName

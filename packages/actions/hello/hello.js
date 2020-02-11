@@ -31,20 +31,34 @@ action
 
 const wait = delay => new Promise(resolve => setTimeout(() => resolve(), delay))
 
-action.if('~hello').then(async ({ message, answer, setStatus }) => {
-  let user = users.findById(message.userId)
+const knowUser = message =>
+  Promise.resolve(users.findById(message.userId).name !== Users.DEFAULT_NAME)
 
-  const helloSynonym = getASynonym('hello')
-  if (user.name === 'unknown') {
+const dontKnowUser = message =>
+  Promise.resolve(users.findById(message.userId).name === Users.DEFAULT_NAME)
+
+action
+  .if('~hello')
+  .and(knowUser)
+  .then(async ({ message, answer }) => {
+    let user = users.findById(message.userId)
+    const helloSynonym = getASynonym('hello')
+
+    answer(`${helloSynonym} ${user.name}!`)
+  })
+
+action
+  .if('~hello')
+  .and(dontKnowUser)
+  .then(async ({ answer, setStatus }) => {
+    const helloSynonym = getASynonym('hello')
+
     answer(helloSynonym)
     await wait(1000)
     answer(`my name is ${identity.getName()}`)
     await wait(1000)
     answer('what is your name?')
     setStatus(READY_TO_SET_NAME)
-  } else {
-    answer(`${helloSynonym} ${user.name}!`)
-  }
-})
+  })
 
 export default action
