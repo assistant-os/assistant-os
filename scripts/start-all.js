@@ -10,8 +10,7 @@ import Oups from '@assistant-os/oups'
 import Memory from '@assistant-os/memory'
 import consciousness from '@assistant-os/consciousness'
 import admin from '@assistant-os/admin'
-
-// import Timelog from '@assistant-os/timelog'
+import timelog from '@assistant-os/timelog'
 
 dotenv.config()
 
@@ -25,7 +24,7 @@ os.addAction(Oups)
 os.addAction(Memory)
 os.addAction(consciousness)
 os.addAction(admin)
-// os.addAction(Timelog)
+os.addAction(timelog)
 
 os.adapters = [new Http()]
 

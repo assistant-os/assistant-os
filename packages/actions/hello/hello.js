@@ -1,4 +1,4 @@
-import { Action, getASynonym, Users } from '@assistant-os/common'
+import { Action, getASynonym, Users, identity } from '@assistant-os/common'
 
 const READY_TO_SET_NAME = 'ready-to-set-name'
 const READY_TO_CONFIRM = 'ready-to-confirm'
@@ -29,13 +29,17 @@ action
     setStatus(READY_TO_SET_NAME)
   })
 
+const wait = delay => new Promise(resolve => setTimeout(() => resolve(), delay))
+
 action.if('~hello').then(async ({ message, answer, setStatus }) => {
   let user = users.findById(message.userId)
 
   const helloSynonym = getASynonym('hello')
   if (user.name === 'unknown') {
     answer(helloSynonym)
-    await new Promise(resolve => setTimeout(() => resolve(), 1000))
+    await wait(1000)
+    answer(`my name is ${identity.getName()}`)
+    await wait(1000)
     answer('what is your name?')
     setStatus(READY_TO_SET_NAME)
   } else {
