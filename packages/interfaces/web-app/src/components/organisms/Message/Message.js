@@ -7,9 +7,7 @@ import ListMessage from 'components/atoms/ListMessage'
 import style from './Message.module.scss'
 
 const Message = ({ className, message, index }) => {
-  const { text } = message
-
-  const Component = text ? TextMessage : ListMessage
+  const Component = 'text' in message ? TextMessage : ListMessage
 
   return (
     <div className={`${style.Message} ${className}`}>

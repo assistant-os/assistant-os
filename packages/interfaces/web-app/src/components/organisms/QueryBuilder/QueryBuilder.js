@@ -14,10 +14,13 @@ const QueryBuilder = () => {
   const dispatch = useDispatch()
 
   const onSubmit = event => {
-    const message = { text: query }
-    dispatch(processUserMessage(message))
+    if (query !== '') {
+      const message = { text: query }
 
-    setQuery('')
+      dispatch(processUserMessage(message))
+
+      setQuery('')
+    }
 
     event.stopPropagation()
     event.preventDefault()

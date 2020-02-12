@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 // import Detail from 'components/pages/Detail'
 import Welcome from 'components/pages/Welcome'
@@ -42,7 +43,7 @@ import style from './App.module.scss'
 
 // export default App
 
-export default ({ history }) => {
+const App = ({ history }) => {
   // useEffect(() => {
   //   if (started) {
   //     history.push('/chat')
@@ -62,3 +63,5 @@ export default ({ history }) => {
     </div>
   )
 }
+
+export default withRouter(App)

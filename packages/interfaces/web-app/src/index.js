@@ -13,7 +13,7 @@ import * as serviceWorker from './serviceWorker'
 const { store, persistor } = configureStore()
 
 const Load = Loadable({
-  loader: () => import('components/App.container.js'),
+  loader: () => import('components/App'),
   loading: () => <div />,
 })
 
