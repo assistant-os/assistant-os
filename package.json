@@ -5,11 +5,11 @@
   "main": "src/assistant.js",
   "private": true,
   "scripts": {
-    "postinstall": "yarn bootstrap",
+    "postinstall": "yarn bootstrap && yarn --cwd packages/interfaces/web-app ",
     "bootstrap": "lerna bootstrap",
     "start": "babel-node --config-file ./.babelrc.js scripts/start-all.js",
     "start:watch": "nodemon --watch packages --exec yarn start",
-    "web": "cd packages/interfaces/web-app ; yarn start",
+    "web": "yarn --cwd packages/interfaces/web-app start",
     "cli": "npx babel-node --config-file ./.babelrc.js packages/interfaces/cli/cli.js",
     "cli:watch": "nodemon --exec yarn cli",
     "build": "webpack --config webpack.config.js",
