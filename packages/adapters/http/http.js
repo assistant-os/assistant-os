@@ -9,10 +9,15 @@ import * as credentials from './credantials'
 const TIMEOUT = 5000
 
 export default class Http extends Adapter {
+  static instance = null
+  static getInstance() {
+    return Adapter.instance
+  }
   constructor() {
     super('http')
 
     this.secret = ''
+    Adapter.instance = this
   }
 
   when(socket, eventName, callback) {
@@ -36,6 +41,7 @@ export default class Http extends Adapter {
 
       this.io.on('connection', socket => {
         this.when(socket, 'start', user => {
+          console.log('started')
           sockets.add(socket, user)
           clearTimeout(waitForStart)
           socket.emit('started')
@@ -63,7 +69,7 @@ export default class Http extends Adapter {
     if (socket) {
       socket.emit('message', message)
     } else {
-      logger.error('impossible to send message on http')
+      logger.error('impossible to send message on http', { message })
     }
   }
 }

@@ -4,6 +4,7 @@
   "main": "admin.js",
   "license": "MIT",
   "dependencies": {
-    "@assistant-os/common": "^0.3.2"
+    "@assistant-os/common": "^0.3.2",
+    "@assistant-os/http": "^1.0.0"
   }
 }

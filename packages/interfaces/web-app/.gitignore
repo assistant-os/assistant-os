@@ -24,4 +24,4 @@ yarn-error.log*
 
 .tmp
 
-.env
+.env.development
