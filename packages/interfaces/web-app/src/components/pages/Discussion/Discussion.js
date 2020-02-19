@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import PropTypes from 'prop-types'
 import Message from 'components/organisms/Message'
 
-import QueryBuilder from 'components/organisms/QueryBuilder'
+import QueryBuilder from 'components/molecules/QueryBuilder'
 
 import { getMessages } from 'redux/messages'
 import { handleStage } from 'redux/os'
