@@ -1,1 +1,0 @@
-const rules = require('./rules');
