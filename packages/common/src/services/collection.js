@@ -4,6 +4,7 @@ export default class Collection {
   constructor(name, initState) {
     this.name = name
     this.initState = initState
+    this.db = db
   }
 
   async start() {
@@ -24,5 +25,9 @@ export default class Collection {
       .get(this.name)
       .push(entry)
       .write()
+  }
+
+  db() {
+    return db().get(this.name)
   }
 }

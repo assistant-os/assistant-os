@@ -75,7 +75,6 @@
     "@assistant-os/consciousness": "^1.0.0"
   },
   "devDependencies": {
-    "@assistant-os/config": "^0.3.2",
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.2.2",
     "@babel/node": "^7.2.2",

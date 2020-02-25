@@ -8,6 +8,7 @@ export default class SubAction {
     this.probability = 0.5
     this.name = ''
     this.cache = {}
+    this.autoCompletion = done => done(null)
   }
 
   if(condition) {
@@ -48,6 +49,10 @@ export default class SubAction {
       return condition(message, this.cache[message.id])
     }
     return Promise.resolve(false)
+  }
+
+  autoComplete(autoCompletion) {
+    this.autoCompletion = autoCompletion
   }
 
   match(message) {

@@ -4,6 +4,8 @@
   "main": "timelog.js",
   "license": "MIT",
   "dependencies": {
-    "@assistant-os/common": "^0.3.2"
+    "@assistant-os/common": "^0.3.2",
+    "sequelize": "^5.21.4",
+    "sqlite3": "^4.1.1"
   }
 }
