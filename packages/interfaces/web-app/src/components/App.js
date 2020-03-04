@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
 // import Detail from 'components/pages/Detail'
-import Welcome from 'components/pages/Welcome'
-import Discussion from 'components/pages/Discussion'
+// import Welcome from 'components/pages/Welcome'
+// import Discussion from 'components/pages/Discussion'
+import Search from 'components/pages/Search'
 import { isStarted, setStarted } from 'redux/credentials'
 
 import style from './App.module.scss'
@@ -59,7 +60,8 @@ const App = ({ history }) => {
 
   return (
     <div className={style.App}>
-      {started ? <Discussion /> : <Welcome onStart={onStart} />}
+      <Search />
+      {/* started ? <Discussion /> : <Welcome onStart={onStart} /> */}
     </div>
   )
 }

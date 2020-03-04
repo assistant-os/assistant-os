@@ -1,5 +1,10 @@
 $background: black;
+$backgroundHue1: lighten($background, 15%);
+$backgroundHue2: lighten($background, 20%);
+
 $foreground: white;
+$foregroundHue1: darken($foreground, 50%);
+$foregroundHue2: darken($foreground, 80%);
 
 $paddingHorizontal: 15px;
 $paddingVertical: 7px;
@@ -42,3 +47,6 @@ $maxWidth: 800px;
   -webkit-focus-ring-color: white;
   outline: none;
 }
+
+$padding: 0.6rem;
+$borderRadius: 0.3rem;
