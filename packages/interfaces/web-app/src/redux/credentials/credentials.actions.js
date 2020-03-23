@@ -1,3 +1,6 @@
+import { generateRandom } from 'utils/random'
+import { getToken } from './credentials.selectors'
+
 export const SET_TOKEN = 'SET_TOKEN'
 export const setToken = token => ({
   type: SET_TOKEN,
@@ -42,3 +45,43 @@ export const setStarted = started => ({
     started,
   },
 })
+
+export const SET_AUTHENTICATED = 'SET_AUTHENTICATED'
+const setAuthenticated = isAuthenticated => ({
+  type: SET_AUTHENTICATED,
+  payload: {
+    isAuthenticated,
+  },
+})
+
+function getURL(href) {
+  var match = href.match(
+    /^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/
+  )
+  return (
+    match && {
+      href: href,
+      protocol: match[1],
+      host: match[2],
+      hostname: match[3],
+      port: match[4],
+      pathname: match[5],
+      search: match[6],
+      hash: match[7],
+    }
+  )
+}
+
+export const login = link => (dispatch, getState) => {
+  const url = getURL(link)
+
+  console.log('url', url)
+
+  dispatch(setHost(link))
+
+  if (!getToken(getState())) {
+    dispatch(setToken(generateRandom()))
+  }
+
+  dispatch(setAuthenticated(true))
+}

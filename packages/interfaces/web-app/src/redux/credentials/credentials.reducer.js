@@ -5,6 +5,7 @@ import {
   CLEAR_CREDENTIALS,
   SET_ONLINE,
   SET_STARTED,
+  SET_AUTHENTICATED,
 } from './credentials.actions.js'
 
 const initState = {
@@ -13,6 +14,7 @@ const initState = {
   secret: '',
   online: false,
   started: false,
+  isAuthenticated: false,
 }
 
 const reducer = (state = initState, action) => {
@@ -41,6 +43,11 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         started: action.payload.started,
+      }
+    case SET_AUTHENTICATED:
+      return {
+        ...state,
+        isAuthenticated: action.payload.isAuthenticated,
       }
     case CLEAR_CREDENTIALS:
       return initState

@@ -1,0 +1,32 @@
+@import '~styles/index.scss';
+
+.primary {
+  display: inline-block;
+  background: transparent;
+  outline: none;
+
+  font-size: 1.3em;
+
+  @include disableDefaultButtonStyle;
+
+  background-color: white;
+  border-radius: $borderRadius;
+  color: black;
+  padding: 0.35rem 1.25rem;
+
+  @media (hover: hover) {
+    &:hover {
+      opacity: 0.7;
+    }
+
+    &:active {
+      opacity: 0.5;
+    }
+  }
+
+  @media (hover: none) {
+    &:hover:active {
+      opacity: 0.5;
+    }
+  }
+}

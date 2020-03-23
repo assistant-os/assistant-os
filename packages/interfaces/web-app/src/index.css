@@ -21,6 +21,10 @@ code {
   font-family: 'Courier New', monospace;
 }
 
+input {
+  font-family: Jost, sans-serif;
+}
+
 #root {
   height: 100%;
 }

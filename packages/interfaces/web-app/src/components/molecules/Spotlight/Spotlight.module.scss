@@ -1,0 +1,48 @@
+@import '~styles/index.scss';
+
+.Spotlight {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $padding;
+
+  border-radius: $borderRadius;
+  background-color: $backgroundHue1;
+
+  box-sizing: border-box;
+
+  .input {
+    outline: none;
+    border: 0;
+    font-size: 1.3em;
+    background: transparent;
+    font-family: Jost, sans-serif;
+    font-weight: 300;
+    color: inherit;
+    flex: 1 1 auto;
+  }
+
+  .submit {
+    @include disableDefaultButtonStyle;
+
+    padding: $paddingVertical $paddingHorizontal $paddingVertical 0;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 0.5rem;
+
+    &.disabled {
+      opacity: 0.1;
+      cursor: default;
+    }
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+    stroke: white;
+    margin-left: 1rem;
+  }
+}

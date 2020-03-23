@@ -1,0 +1,45 @@
+@import '~styles/index.scss';
+
+.SearchResult {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: $padding;
+  text-align: left;
+
+  color: $foregroundHue1;
+
+  font-size: 1.2rem;
+  font-weight: 300;
+  cursor: pointer;
+
+  & + & {
+    border-bottom: 1px solid $foregroundHue2;
+  }
+
+  // &:hover {
+  //   background-color: $backgroundHue2;
+  // }
+
+  &.active,
+  &:active,
+  &:hover {
+    color: $foreground;
+  }
+
+  .label {
+    flex: 1 1 auto;
+
+    b {
+      font-weight: 500;
+      color: $foreground;
+    }
+  }
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    fill: currentColor;
+  }
+}

@@ -1,0 +1,66 @@
+@import '~styles/index.scss';
+
+.Login {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: $maxWidth;
+  margin: auto;
+  user-select: none;
+  position: relative;
+}
+
+$width: 2rem;
+
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+
+  &::before,
+  &::after {
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    bottom: 0;
+    content: ' ';
+    display: block;
+    width: $width;
+
+    background: rgb(0, 0, 0);
+  }
+
+  &::before {
+    left: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
+
+  &::after {
+    right: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 1) 100%
+    );
+  }
+}
+
+.input {
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+.submit {
+  position: fixed;
+  bottom: 3rem;
+}

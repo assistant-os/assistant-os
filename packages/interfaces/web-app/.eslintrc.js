@@ -12,5 +12,16 @@ module.exports = {
     'no-unused-vars': [2, { vars: 'all', args: 'none' }],
     'comma-spacing': 'error',
     'comma-dangle': ['error', 'always-multiline'],
+    // 'import/no-unresolved': 'error',
+  },
+  settings: {
+    react: {
+      version: 'detect',
+    },
+    'import/resolver': {
+      node: {
+        paths: ['src'],
+      },
+    },
   },
 }

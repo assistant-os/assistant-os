@@ -41,7 +41,6 @@ export default class Http extends Adapter {
 
       this.io.on('connection', socket => {
         this.when(socket, 'start', user => {
-          console.log('started')
           sockets.add(socket, user)
           clearTimeout(waitForStart)
           socket.emit('started')
