@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { format, differenceInSeconds } from 'date-fns'
+import { ipcRenderer } from 'electron'
 
 import style from './DetailsTimelog.style'
 
@@ -23,6 +24,7 @@ const formatDuration = duration => {
 export default ({ action }) => {
   const [duration, setDuration] = useState(0)
   const interval = useRef(null)
+  const [data, setData] = useState(null)
 
   const updateDuration = () => {
     const diff = differenceInSeconds(
@@ -32,44 +34,46 @@ export default ({ action }) => {
     setDuration(diff)
   }
 
-  console.log('action', action)
-
   useEffect(() => {
-    console.log('coucou', action.payload.workTime)
-    if (!action.payload.workTime || !action.payload.workTime.startedAt) {
-      return
-    }
+    if (action.payload.workTime && action.payload.workTime.startedAt) {
+      if (interval.current) {
+        clearInterval(interval.current)
+      }
 
-    if (interval.current) {
-      clearInterval(interval.current)
+      updateDuration()
+      interval.current = setInterval(updateDuration, 200)
     }
-
-    updateDuration()
-    interval.current = setInterval(updateDuration, 200)
+    setData(null)
+    ipcRenderer.send('get-data', { action, request: { type: 'get-timing' } })
   }, [action.id])
 
-  useEffect(() => () => clearInterval(interval.current), [])
+  useEffect(() => {
+    ipcRenderer.on('set-data', (event, data) => setData(data))
+    ipcRenderer.send('get-data', { action, request: { type: 'get-timing' } })
+
+    return () => clearInterval(interval.current)
+  }, [])
 
   return (
     <div className={style.Project}>
       <h1 className={style.title}>{action.payload.project.name}</h1>
       <div className={style.timing}>
         {action.payload.workTime.startedAt ? (
-          <div className={style.session}>
+          <div className={style.line}>
             <span className={style.label}>session:</span>
             {formatDuration(duration)}
           </div>
         ) : null}
-        {action.payload.workTime.daily ? (
-          <div className={style.session}>
-            <span className={style.label}>day:</span>
-            {formatDuration(action.payload.workTime.daily * 60 + duration)}
+        {data && data.daily ? (
+          <div className={style.line}>
+            <span className={style.label}>today:</span>
+            {formatDuration(data.daily * 60 + duration)}
           </div>
         ) : null}
-        {action.payload.workTime.weekly ? (
-          <div className={style.session}>
+        {data && data.weekly ? (
+          <div className={style.line}>
             <span className={style.label}>week:</span>
-            {formatDuration(action.payload.workTime.weekly * 60 + duration)}
+            {formatDuration(data.weekly * 60 + duration)}
           </div>
         ) : null}
       </div>

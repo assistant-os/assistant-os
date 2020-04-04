@@ -19,14 +19,18 @@ export const getAvailableActions = async query => {
     subLabel: 'copy in clipboard',
     section: 'memory',
     priority: 4,
-    icon: 'brain',
+    icon: 'database',
   }))
 
   const match = query.match(/([a-zA-Z0-9\s_\-]+)(=?)(.*)/)
 
   logger.info({ match })
 
-  if (match && !memories.find(({ key }) => key === match[1])) {
+  if (
+    query.length > 3 &&
+    match &&
+    !memories.find(({ key }) => key === match[1])
+  ) {
     actions.push({
       type: 'save-memory',
       id: 'save-memory',
@@ -34,7 +38,7 @@ export const getAvailableActions = async query => {
       subLabel: 'save',
       section: 'memory',
       priority: 8,
-      icon: 'brain',
+      icon: 'database',
     })
   }
 
@@ -49,5 +53,6 @@ export const executionAction = async ({ action, query, close, keep }) => {
   } else if (action.type === 'get-memory') {
     const { value } = await memoryService.getByExactKeyAndUserId(userId, query)
     clipboard.writeText(value)
+    close()
   }
 }

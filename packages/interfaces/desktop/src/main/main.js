@@ -15,6 +15,7 @@ import {
 
 import * as db from './services/db'
 import modules, { init } from './actions'
+import logger from './utils/logger'
 
 db.init().then(init)
 
@@ -93,12 +94,24 @@ ipcMain.on('query-change', async (event, { query }) => {
 })
 
 ipcMain.on('query-execute', (event, { query, action }) => {
-  modules[action.section].executionAction({
-    action,
-    query,
-    close,
-    keep: () => keep(event, query),
-  })
+  modules[action.section] &&
+    modules[action.section].executionAction({
+      action,
+      query,
+      close,
+      keep: () => keep(event, query),
+    })
+})
+
+ipcMain.on('get-data', async (event, { action, request }) => {
+  if (
+    modules[action.section] &&
+    typeof modules[action.section].getData === 'function'
+  ) {
+    logger.info({ request })
+    const data = await modules[action.section].getData({ action, request })
+    event.reply('set-data', data)
+  }
 })
 
 ipcMain.on('close', (event, { query }) => {

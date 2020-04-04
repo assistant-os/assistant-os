@@ -31,6 +31,10 @@ export default () => {
   const [active, setActive] = useState(null)
   const [choices, setChoices] = useState([])
 
+  const setNewActive = newActive => {
+    setActive(newActive)
+  }
+
   const focus = () => input.current.focus()
 
   useEffect(() => {
@@ -54,13 +58,13 @@ export default () => {
   const onKeyDown = event => {
     if (event.key === 'ArrowUp') {
       if (active > 0) {
-        setActive(active - 1)
+        setNewActive(active - 1)
       }
 
       event.preventDefault()
     } else if (event.key === 'ArrowDown') {
       if (active < choices.length - 1) {
-        setActive(active + 1)
+        setNewActive(active + 1)
       }
 
       event.preventDefault()
@@ -86,7 +90,7 @@ export default () => {
   }
 
   const onClick = newActive => {
-    setActive(active)
+    setNewActive(newActive)
     input.current.focus()
   }
 

@@ -25,7 +25,6 @@ export const getAvailableActions = async query => {
         workTime: {
           startedAt: currentWork.startedAt,
           currentDateTime: new Date(),
-          ...(await workTime.getTimingByProject(currentWork.project.id)),
         },
       },
     })
@@ -35,10 +34,6 @@ export const getAvailableActions = async query => {
     userId,
     query
   )).filter(p => !currentWork || currentWork.project.id !== p.id)
-
-  const workTimes = await Promise.all(
-    projects.map(p => workTime.getTimingByProject(p.id))
-  )
 
   return [
     ...actions,
@@ -55,7 +50,7 @@ export const getAvailableActions = async query => {
           id: p.id,
           name: p.name,
         },
-        workTime: workTimes[index],
+        workTime: {},
       },
     })),
   ].filter(a => Boolean(a))
@@ -69,4 +64,15 @@ export const executionAction = async ({ action, query, close, keep }) => {
     await workTime.stop(action.payload.project.id, userId)
     keep()
   }
+}
+
+export const getData = async ({ request, action }) => {
+  if (request.type === 'get-timing') {
+    return {
+      id: action.id,
+      ...(await workTime.getTimingByProject(action.payload.project.id)),
+    }
+  }
+
+  return null
 }

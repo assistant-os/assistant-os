@@ -107,8 +107,6 @@ export const getTimingByProject = async projectId => {
     ],
   })
 
-  logger.info({ workTimes, monday })
-
   const weekly = workTimes.reduce(sumDuration, 0)
 
   const daily = workTimes

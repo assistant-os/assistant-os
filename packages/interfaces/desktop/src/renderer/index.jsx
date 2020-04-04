@@ -31,7 +31,7 @@ import ReactDOM from 'react-dom'
 
 import './index.scss'
 
-import Spotlight from './components/molecules/Spotlight'
+import Spotlight from './components/organisms/Spotlight'
 
 ReactDOM.render(
   <div>

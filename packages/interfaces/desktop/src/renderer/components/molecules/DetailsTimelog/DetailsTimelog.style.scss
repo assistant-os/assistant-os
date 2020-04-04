@@ -14,11 +14,16 @@
   font-weight: 300;
   padding: 0.5rem 0;
   text-align: left;
-  min-width: 50%;
+  // width: 10rem;
 }
+
+// .line {
+//   display: flex;
+// }
 
 .label {
   display: inline-block;
-  padding-right: 0.2rem;
+  padding-right: 0.4rem;
   color: #aaafae;
+  // flex: 1 1 auto;
 }

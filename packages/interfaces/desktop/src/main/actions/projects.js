@@ -10,7 +10,7 @@ export const getAll = () => projects.getByUserId(userId)
 
 export const getAvailableActions = query =>
   projects.getOneByUserIdAndExactName(userId, query).then(project =>
-    project || query.includes('=')
+    project || query.includes('=') || query.length < 4
       ? []
       : [
           {
@@ -20,7 +20,7 @@ export const getAvailableActions = query =>
             subLabel: 'create project',
             section: 'projects',
             priority: 10,
-            icon: 'add',
+            icon: 'folder',
           },
         ]
   )
