@@ -25,8 +25,8 @@ if (require('electron-squirrel-startup')) {
   app.quit()
 }
 
-app.dock.hide()
-Menu.setApplicationMenu(false)
+// app.dock.hide()
+// Menu.setApplicationMenu(false)
 
 let tray = null
 
@@ -35,6 +35,14 @@ let spotlight = null
 const close = () => {
   if (spotlight) {
     spotlight.hide()
+  }
+}
+
+const toggle = () => {
+  if (spotlight && spotlight.isVisible()) {
+    close()
+  } else {
+    openSpotlight()
   }
 }
 
@@ -71,12 +79,13 @@ const openSpotlight = () => {
 }
 
 const changeSpotlightSize = big => {
+  logger.info({ big })
   if (big) {
+    spotlight.setMinimumSize(width, 400)
     spotlight.setSize(width, 400, true)
-    spotlight.setMinimumSize(width, 200, true)
   } else {
+    spotlight.setMinimumSize(width, height)
     spotlight.setSize(width, height, true)
-    spotlight.setMinimumSize(width, height, true)
   }
 }
 
@@ -140,11 +149,10 @@ app.on('ready', () => {
   })
 
   const contextMenu = Menu.buildFromTemplate([openSpotlightItem, quitItem])
-  tray.setToolTip('Ceci est mon application.')
-  tray.setTitle(' 10:00')
+  tray.setToolTip('Assistant-OS')
   tray.setContextMenu(contextMenu)
 
-  const ret = globalShortcut.register('Ctrl+Space', openSpotlight)
+  const ret = globalShortcut.register('Ctrl+Space', toggle)
 
   if (!ret) {
     console.log('enregistrement échoué')
