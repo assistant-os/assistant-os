@@ -1,3 +1,5 @@
+const babel = require('./.babelrc')
+
 module.exports = [
   // Add support for native node modules
   {
@@ -12,6 +14,13 @@ module.exports = [
       options: {
         outputAssetBase: 'native_modules',
       },
+    },
+  },
+  {
+    test: /\.jsx?$/,
+    use: {
+      loader: 'babel-loader',
+      options: babel,
     },
   },
   // Put your webpack loader rules in this array.  This is where you would put
@@ -30,4 +39,4 @@ module.exports = [
    *   }]
    * }
    */
-];
+]

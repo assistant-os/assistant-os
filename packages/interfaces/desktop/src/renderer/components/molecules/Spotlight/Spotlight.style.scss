@@ -1,0 +1,116 @@
+.Spotlight {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+
+  height: 100vh;
+
+  .search {
+    height: 58px;
+    flex: 0 0 58px;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    position: relative;
+  }
+
+  .inputContainer {
+    flex: 1 1 auto;
+    position: relative;
+  }
+
+  .inputPlaceholder {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+
+    flex: 1 1 auto;
+    font-size: 1.6rem;
+    outline: none;
+    // padding-left: 3.5rem;
+    background: transparent;
+    border: 0;
+    color: darken(#a9adb0, 20%);
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 300;
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+
+  .input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    font-size: 1.6rem;
+    outline: none;
+    // padding-left: 3.5rem;
+    background: transparent;
+    border: 0;
+    color: white;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 300;
+    width: 100%;
+
+    box-sizing: border-box;
+  }
+
+  .iconContainer {
+    // position: absolute;
+    $padding: 1rem;
+    // top: $padding;
+    // left: $padding;
+    // bottom: $padding;
+
+    padding: 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+  }
+
+  // .iconContainerRight {
+  //   position: absolute;
+  //   $padding: 1rem;
+  //   right: $padding;
+  //   left: $padding;
+  //   bottom: $padding;
+
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  // }
+
+  .icon {
+    $width: 1.7rem;
+    width: $width;
+    height: $width;
+    svg {
+      color: #a9adb0;
+    }
+  }
+
+  $border: #515256;
+
+  .choices {
+    flex: 1 1 auto;
+    border-top: 1px solid $border;
+    display: flex;
+
+    align-items: stretch;
+  }
+
+  .list {
+    border-right: 1px solid $border;
+    flex: 4;
+  }
+
+  .details {
+    flex: 6;
+  }
+}

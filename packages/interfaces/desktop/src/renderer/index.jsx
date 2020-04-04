@@ -26,6 +26,16 @@
  * ```
  */
 
-import './index.css';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-console.log('👋 This message is being logged by "renderer.js", included via webpack');
+import './index.scss'
+
+import Spotlight from './components/molecules/Spotlight'
+
+ReactDOM.render(
+  <div>
+    <Spotlight />
+  </div>,
+  document.getElementById('app-root')
+)

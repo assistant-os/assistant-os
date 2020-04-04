@@ -1,0 +1,41 @@
+.ListItem {
+  padding: 0.3rem 1.5rem;
+
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: center;
+
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-weight: 400;
+  font-size: 0.85rem;
+  font-family: 'Source Sans Pro', sans-serif;
+  color: white;
+  text-align: left;
+
+  &.active {
+    background: #0b68d7;
+  }
+
+  .help {
+    color: #aaafae;
+  }
+
+  .label {
+    display: inline-block;
+    text-overflow: ellipsis;
+    max-width: 7rem;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .icon {
+    color: inherit;
+    $width: 0.9rem;
+    width: $width;
+    height: $width;
+    margin-right: 0.5rem;
+  }
+}
