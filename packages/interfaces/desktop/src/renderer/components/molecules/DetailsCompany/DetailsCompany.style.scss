@@ -1,0 +1,50 @@
+.Company {
+  text-align: center;
+}
+
+.timing {
+  font-size: 0.95rem;
+  font-weight: 300;
+  padding: 0.5rem 0;
+  text-align: left;
+  font-weight: 400;
+}
+
+.line {
+  padding: 0.1rem 0;
+  display: flex;
+}
+.label {
+  display: block;
+  padding-right: 0.4rem;
+  color: #aaafae;
+  // flex: 1 1 auto;
+}
+
+.value {
+  display: flex;
+  ::selection {
+    background: #0b68d7;
+    color: white;
+  }
+  cursor: copy;
+}
+
+.pinButton {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+
+  color: #aaafae;
+  transition: 0.2s linear color;
+  &:hover {
+    color: white;
+  }
+}
+
+.pin {
+  $width: 1.1rem;
+  width: $width;
+  height: $width;
+}

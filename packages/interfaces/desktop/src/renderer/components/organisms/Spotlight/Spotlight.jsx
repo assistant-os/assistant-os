@@ -44,9 +44,7 @@ export default () => {
       setChoices(arg)
     })
 
-    ipcRenderer.on('query', () => {
-      setQuery()
-    })
+    ipcRenderer.on('query-clear', () => setQuery(''))
   }, [])
 
   const onQueryChange = event => {

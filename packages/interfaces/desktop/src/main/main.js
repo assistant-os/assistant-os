@@ -103,7 +103,10 @@ const keep = async (event, query) => {
   changeSpotlightSize(actions.length > 0)
 }
 
+let clear = () => {}
+
 ipcMain.on('query-change', async (event, { query }) => {
+  clear = () => event.reply('query-clear')
   await keep(event, query)
 })
 
@@ -113,6 +116,7 @@ ipcMain.on('query-execute', (event, { query, action }) => {
       action,
       query,
       close,
+      clear,
       keep: () => keep(event, query),
     })
 })

@@ -17,6 +17,7 @@ export const getAvailableActions = async query => {
       section: 'timelog',
       priority: 1,
       icon: 'time',
+      detail: 'get-timing',
       payload: {
         project: {
           id: currentWork.project.id,
@@ -45,6 +46,7 @@ export const getAvailableActions = async query => {
       section: 'timelog',
       priority: 2,
       icon: 'time',
+      detail: 'get-timing',
       payload: {
         project: {
           id: p.id,

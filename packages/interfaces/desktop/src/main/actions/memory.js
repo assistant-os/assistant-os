@@ -45,14 +45,22 @@ export const getAvailableActions = async query => {
   return actions
 }
 
-export const executionAction = async ({ action, query, close, keep }) => {
+export const executionAction = async ({
+  action,
+  query,
+  close,
+  clear,
+  keep,
+}) => {
   if (action.type === 'save-memory') {
     const match = query.match(/([a-zA-Z0-9\s_\-]+)(=?)(.*)/)
     await memoryService.add(match[1], match[3], userId)
+    clear()
     close()
   } else if (action.type === 'get-memory') {
     const { value } = await memoryService.getByExactKeyAndUserId(userId, query)
     clipboard.writeText(value)
+    clear()
     close()
   }
 }

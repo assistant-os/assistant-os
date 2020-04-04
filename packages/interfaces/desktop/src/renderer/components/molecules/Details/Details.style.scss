@@ -1,8 +1,12 @@
 .Details {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   justify-content: center;
 
   font-family: 'Source Sans Pro', sans-serif;
   color: white;
+
+  box-sizing: border-box;
+  padding: 2rem;
 }

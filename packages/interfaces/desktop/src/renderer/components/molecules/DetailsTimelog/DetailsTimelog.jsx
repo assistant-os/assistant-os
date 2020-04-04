@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { format, differenceInSeconds } from 'date-fns'
 import { ipcRenderer } from 'electron'
 
+import DetailsTitle from '@/components/atoms/DetailsTitle'
+
 import style from './DetailsTimelog.style'
 
 const formatDuration = duration => {
@@ -21,10 +23,9 @@ const formatDuration = duration => {
   return hours + ':' + minutes
 }
 
-export default ({ action }) => {
+export default ({ action, details }) => {
   const [duration, setDuration] = useState(0)
   const interval = useRef(null)
-  const [data, setData] = useState(null)
 
   const updateDuration = () => {
     const diff = differenceInSeconds(
@@ -43,37 +44,38 @@ export default ({ action }) => {
       updateDuration()
       interval.current = setInterval(updateDuration, 200)
     }
-    setData(null)
-    ipcRenderer.send('get-data', { action, request: { type: 'get-timing' } })
   }, [action.id])
 
-  useEffect(() => {
-    ipcRenderer.on('set-data', (event, data) => setData(data))
-    ipcRenderer.send('get-data', { action, request: { type: 'get-timing' } })
+  useEffect(() => () => clearInterval(interval.current), [])
 
-    return () => clearInterval(interval.current)
-  }, [])
+  if (!details) {
+    return null
+  }
 
   return (
     <div className={style.Project}>
-      <h1 className={style.title}>{action.payload.project.name}</h1>
+      <DetailsTitle>{action.payload.project.name}</DetailsTitle>
       <div className={style.timing}>
         {action.payload.workTime.startedAt ? (
           <div className={style.line}>
-            <span className={style.label}>session:</span>
-            {formatDuration(duration)}
+            <span className={style.label}>session</span>
+            <span className={style.value}>{formatDuration(duration)}</span>
           </div>
         ) : null}
-        {data && data.daily ? (
+        {details && details.daily ? (
           <div className={style.line}>
-            <span className={style.label}>today:</span>
-            {formatDuration(data.daily * 60 + duration)}
+            <span className={style.label}>today</span>
+            <span className={style.value}>
+              {formatDuration(details.daily * 60 + duration)}
+            </span>
           </div>
         ) : null}
-        {data && data.weekly ? (
+        {details && details.weekly ? (
           <div className={style.line}>
-            <span className={style.label}>week:</span>
-            {formatDuration(data.weekly * 60 + duration)}
+            <span className={style.label}>week</span>
+            <span className={style.value}>
+              {formatDuration(details.weekly * 60 + duration)}
+            </span>
           </div>
         ) : null}
       </div>
