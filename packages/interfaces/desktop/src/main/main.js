@@ -25,14 +25,16 @@ if (require('electron-squirrel-startup')) {
   app.quit()
 }
 
+app.dock.hide()
+Menu.setApplicationMenu(false)
+
 let tray = null
 
 let spotlight = null
 
 const close = () => {
   if (spotlight) {
-    spotlight.close()
-    spotlight = null
+    spotlight.hide()
   }
 }
 
@@ -42,7 +44,10 @@ const height = 58
 const width = 670
 
 const openSpotlight = () => {
-  close()
+  if (spotlight) {
+    spotlight.show()
+    return
+  }
   spotlight = new BrowserWindow({
     width,
     maxWidth: width,
