@@ -24,8 +24,6 @@ export const getAvailableActions = async query => {
 
   const match = query.match(/([a-zA-Z0-9\s_\-]+)(=?)(.*)/)
 
-  logger.info({ match })
-
   if (
     query.length > 3 &&
     match &&
@@ -37,7 +35,7 @@ export const getAvailableActions = async query => {
       label: `${query}${match[2] ? '' : '='}${match[3] ? '' : '<data>'}`,
       subLabel: 'save',
       section: 'memory',
-      priority: 8,
+      priority: match[2] ? 3 : 8,
       icon: 'database',
     })
   }

@@ -48,31 +48,27 @@ export default ({ action, details }) => {
 
   useEffect(() => () => clearInterval(interval.current), [])
 
-  if (!details) {
-    return null
-  }
-
   return (
     <div className={style.Project}>
       <DetailsTitle>{action.payload.project.name}</DetailsTitle>
       <div className={style.timing}>
         {action.payload.workTime.startedAt ? (
           <div className={style.line}>
-            <span className={style.label}>session</span>
+            <span className={style.label}>Session</span>
             <span className={style.value}>{formatDuration(duration)}</span>
           </div>
         ) : null}
-        {details && details.daily ? (
+        {details.daily ? (
           <div className={style.line}>
-            <span className={style.label}>today</span>
+            <span className={style.label}>Today</span>
             <span className={style.value}>
               {formatDuration(details.daily * 60 + duration)}
             </span>
           </div>
         ) : null}
-        {details && details.weekly ? (
+        {details.weekly ? (
           <div className={style.line}>
-            <span className={style.label}>week</span>
+            <span className={style.label}>Week</span>
             <span className={style.value}>
               {formatDuration(details.weekly * 60 + duration)}
             </span>

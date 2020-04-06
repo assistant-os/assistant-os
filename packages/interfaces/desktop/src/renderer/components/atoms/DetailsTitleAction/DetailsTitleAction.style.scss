@@ -1,0 +1,18 @@
+.button {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+
+  color: #aaafae;
+  transition: 0.2s linear color;
+  &:hover {
+    color: white;
+  }
+}
+
+.icon {
+  $width: 1.4rem;
+  width: $width;
+  height: $width;
+}

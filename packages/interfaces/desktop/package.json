@@ -95,6 +95,7 @@
     "svg-inline-loader": "^0.8.2"
   },
   "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
     "core-js": "^3.6.4",
     "date-fns": "^2.11.1",
     "electron-squirrel-startup": "^1.0.0",

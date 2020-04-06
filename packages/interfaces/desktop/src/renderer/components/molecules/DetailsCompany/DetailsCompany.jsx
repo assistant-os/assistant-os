@@ -4,8 +4,11 @@ import { ipcRenderer, shell } from 'electron'
 
 import AutoCopy from '@/components/atoms/AutoCopy'
 import DetailsTitle from '@/components/atoms/DetailsTitle'
+import DetailsTitleAction from '@/components/atoms/DetailsTitleAction'
+
 import Icon from '@/components/atoms/Icon'
 import mapsIcon from '@/assets/pin'
+import linkIcon from '@/assets/link'
 import style from './DetailsCompany.style'
 
 const toFirstLetterUpperCase = s => {
@@ -21,8 +24,12 @@ const toFirstLetterUpperCase = s => {
 }
 
 export default ({ action, details }) => {
-  if (!details) {
-    return null
+  if (details.no) {
+    return (
+      <div className={style.Company}>
+        <div className={style.noCompanyFound}>No company found</div>
+      </div>
+    )
   }
 
   const onGoogleMapClick = () => {
@@ -39,15 +46,10 @@ export default ({ action, details }) => {
         <div className={style.line}>
           <span className={style.label}>Address:</span>
           <span className={style.value}>
-            <AutoCopy>
-              {toFirstLetterUpperCase(details.address)} mdfkm fld;sk fkdls;
-              kflds;k
-            </AutoCopy>
+            <AutoCopy>{toFirstLetterUpperCase(details.address)}</AutoCopy>
           </span>
 
-          {/*<button className={style.pinButton} onClick={onGoogleMapClick}>
-            <Icon className={style.pin} src={mapsIcon} />
-          </button>*/}
+          {}
         </div>
         <div className={style.line}>
           <span className={style.label}>Creation date:</span>
@@ -64,6 +66,18 @@ export default ({ action, details }) => {
               </span>
             </div>
           ))}
+      </div>
+      <div className={style.links}>
+        <DetailsTitleAction
+          icon={linkIcon}
+          href={details.link}
+          title="Open legal information"
+        />
+        <DetailsTitleAction
+          icon={mapsIcon}
+          href={`https://maps.google.com/?q=${encodeURI(details.address)}`}
+          title="Open Google Maps"
+        />
       </div>
     </div>
   )

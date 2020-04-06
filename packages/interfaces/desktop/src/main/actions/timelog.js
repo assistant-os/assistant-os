@@ -1,6 +1,8 @@
 import * as projectService from '../services/project.service'
 import * as workTime from '../services/worktime.service'
 
+import logger from '../utils/logger'
+
 export const init = () => workTime.init()
 
 const userId = 'userId'
@@ -70,9 +72,11 @@ export const executionAction = async ({ action, query, close, keep }) => {
 
 export const getData = async ({ request, action }) => {
   if (request.type === 'get-timing') {
+    const data = await workTime.getTimingByProject(action.payload.project.id)
+    logger.info({ data })
     return {
       id: action.id,
-      ...(await workTime.getTimingByProject(action.payload.project.id)),
+      ...data,
     }
   }
 

@@ -126,7 +126,6 @@ ipcMain.on('get-data', async (event, { action, request }) => {
     modules[action.section] &&
     typeof modules[action.section].getData === 'function'
   ) {
-    logger.info({ request })
     const data = await modules[action.section].getData({ action, request })
     event.reply('set-data', data)
   }

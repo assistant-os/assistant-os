@@ -47,11 +47,12 @@ export default () => {
     ipcRenderer.on('query-clear', () => setQuery(''))
   }, [])
 
-  const onQueryChange = event => {
-    const { value } = event.target
+  const changeQuery = value => {
     setQuery(value)
     ipcRenderer.send('query-change', { query: value })
   }
+
+  const onQueryChange = event => changeQuery(event.target.value)
 
   const onKeyDown = event => {
     if (event.key === 'ArrowUp') {
@@ -76,13 +77,15 @@ export default () => {
       event.preventDefault()
     } else if (event.key === 'Escape') {
       if (query) {
-        setQuery('')
-        ipcRenderer.send('query-change', { query: '' })
+        changeQuery('')
       } else {
         ipcRenderer.send('close', { query })
       }
       event.preventDefault()
     } else if (event.key === 'Tab') {
+      if (active !== null) {
+        changeQuery(choices[active].label)
+      }
       event.preventDefault()
     }
   }

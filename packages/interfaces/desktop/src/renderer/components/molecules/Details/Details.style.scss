@@ -1,12 +1,66 @@
 .Details {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: center;
+  position: relative;
+  overflow: auto;
 
   font-family: 'Source Sans Pro', sans-serif;
   color: white;
 
   box-sizing: border-box;
+}
+
+.loaderContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
   padding: 2rem;
+
+  align-items: center;
+  justify-content: center;
+}
+
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  $width: 1.5rem;
+  width: $width;
+  height: $width;
+
+  $duration: 4s;
+
+  -webkit-animation: rotating $duration linear infinite;
+  -moz-animation: rotating $duration linear infinite;
+  -ms-animation: rotating $duration linear infinite;
+  -o-animation: rotating $duration linear infinite;
+  animation: rotating $duration linear infinite;
 }
