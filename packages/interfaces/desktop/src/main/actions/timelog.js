@@ -1,15 +1,21 @@
+import { promises as fs } from 'fs'
+import path from 'path'
+import { format } from 'date-fns'
+
 import * as projectService from '../services/project.service'
-import * as workTime from '../services/worktime.service'
+import * as WorkTime from '../services/worktime.service'
 
 import logger from '../utils/logger'
 
-export const init = () => workTime.init()
+const csvFilename = path.join(__dirname, '../../.data/timelog.csv')
+
+export const init = () => WorkTime.init()
 
 const userId = 'userId'
 
 export const getAvailableActions = async query => {
   const actions = []
-  const currentWork = await workTime.getLastStartedProjectByName(query, userId)
+  const currentWork = await WorkTime.getLastStartedProjectByName(query, userId)
   if (currentWork) {
     actions.push({
       type: 'stop-project',
@@ -33,7 +39,7 @@ export const getAvailableActions = async query => {
     })
   }
 
-  const projects = (await workTime.getProjectsByUserIdAndCloseName(
+  const projects = (await WorkTime.getProjectsByUserIdAndCloseName(
     userId,
     query
   )).filter(p => !currentWork || currentWork.project.id !== p.id)
@@ -62,17 +68,29 @@ export const getAvailableActions = async query => {
 
 export const executionAction = async ({ action, query, close, keep }) => {
   if (action.type === 'start-project') {
-    await workTime.start(action.payload.project.id, userId)
+    await WorkTime.start(action.payload.project.id, userId)
     keep()
   } else if (action.type === 'stop-project') {
-    await workTime.stop(action.payload.project.id, userId)
+    const workTime = await WorkTime.stop(action.payload.project.id, userId)
+
+    logger.info({ workTime })
+
+    if (workTime) {
+      const data = [
+        format(workTime.startedAt, 'dd/MM/yyyy'),
+        format(workTime.startedAt, 'HH:mm'),
+        format(workTime.stoppedAt, 'HH:mm'),
+        action.label,
+      ]
+      await fs.appendFile(csvFilename, data.join(','))
+    }
     keep()
   }
 }
 
 export const getData = async ({ request, action }) => {
   if (request.type === 'get-timing') {
-    const data = await workTime.getTimingByProject(action.payload.project.id)
+    const data = await WorkTime.getTimingByProject(action.payload.project.id)
     logger.info({ data })
     return {
       id: action.id,

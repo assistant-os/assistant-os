@@ -159,7 +159,11 @@ export const stop = async (projectId, userId) => {
   if (workTime) {
     workTime.stoppedAt = new Date()
     await workTime.save()
+
+    return workTime
   }
+
+  return null
 }
 
 // export const stop = project =>
