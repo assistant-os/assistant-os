@@ -127,7 +127,7 @@ ipcMain.on('get-data', async (event, { action, request }) => {
     typeof modules[action.section].getData === 'function'
   ) {
     const data = await modules[action.section].getData({ action, request })
-    event.reply('set-data', data)
+    event.reply('set-data', { action, data })
   }
 })
 
@@ -139,7 +139,7 @@ ipcMain.on('close', (event, { query }) => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  tray = new Tray(path.join(__dirname, '../assets/icon.png'))
+  tray = new Tray(path.join(__dirname, '../assets/iconTemplate.png'))
 
   const openSpotlightItem = new MenuItem({
     label: 'Open Spotlight',
@@ -156,6 +156,9 @@ app.on('ready', () => {
   tray.setContextMenu(contextMenu)
 
   const ret = globalShortcut.register('Ctrl+Space', toggle)
+
+  openSpotlight()
+  close()
 
   if (!ret) {
     console.log('enregistrement échoué')

@@ -30,7 +30,12 @@ export default ({ className, action }) => {
   }, [action.id])
 
   useEffect(() => {
-    ipcRenderer.on('set-data', (event, data) => setDetails(data))
+    ipcRenderer.on('set-data', (event, { data, action: processedAction }) => {
+      if (action.id === processedAction.id) {
+        setDetails(data)
+        console.log('details', data)
+      }
+    })
     ipcRenderer.send('get-data', { action, request: { type: action.detail } })
   }, [])
 

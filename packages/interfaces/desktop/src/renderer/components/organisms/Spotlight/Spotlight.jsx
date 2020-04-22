@@ -42,6 +42,7 @@ export default () => {
     ipcRenderer.on('actions', (event, arg) => {
       setActive(arg.length > 0 ? 0 : null)
       setChoices(arg)
+      console.log('arg', arg)
     })
 
     ipcRenderer.on('query-clear', () => setQuery(''))

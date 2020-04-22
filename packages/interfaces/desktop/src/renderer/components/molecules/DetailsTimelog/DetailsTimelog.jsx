@@ -48,6 +48,8 @@ export default ({ action, details }) => {
 
   useEffect(() => () => clearInterval(interval.current), [])
 
+  console.log('details', details, action.payload)
+
   return (
     <div className={style.Project}>
       <DetailsTitle>{action.payload.project.name}</DetailsTitle>

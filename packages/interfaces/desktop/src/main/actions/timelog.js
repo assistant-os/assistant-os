@@ -82,7 +82,7 @@ export const executionAction = async ({ action, query, close, keep }) => {
         format(workTime.stoppedAt, 'HH:mm'),
         action.label,
       ]
-      await fs.appendFile(csvFilename, data.join(','))
+      await fs.appendFile(csvFilename, data.join(',\n'))
     }
     keep()
   }
