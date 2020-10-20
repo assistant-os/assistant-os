@@ -2,6 +2,8 @@ import path from 'path'
 import winston from 'winston'
 import fs from 'fs'
 
+import config from '../utils/config'
+
 const filename = path.resolve(__dirname, '../../../../data/combined.log')
 const dirname = path.dirname(filename)
 
@@ -15,6 +17,7 @@ try {
 }
 
 const logger = winston.createLogger({
+  level: 'verbose',
   transports: [
     new winston.transports.Console(),
     new winston.transports.File({
@@ -31,6 +34,19 @@ logger.plug = emitter => {
 
   emitter.on('error', message => {
     logger.error(message)
+  })
+}
+
+logger.start = () => {
+  logger.configure({
+    level: config.get('LEVEL') || 'info',
+    transports: [
+      new winston.transports.Console(),
+      new winston.transports.File({
+        timestamp: true,
+        filename,
+      }),
+    ],
   })
 }
 

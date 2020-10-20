@@ -1,0 +1,19 @@
+{
+  "name": "@assistant-os/home-os",
+  "version": "0.0.1",
+  "description": "A proxy",
+  "main": "src/home-os.js",
+  "license": "MIT",
+  "files": [],
+  "dependencies": {
+    "@assistant-os/chat": "0.0.1",
+    "@assistant-os/common": "^0.3.2",
+    "@assistant-os/domains-home": "0.0.1",
+    "@assistant-os/proxy-external": "^0.0.1",
+    "@assistant-os/proxy-hub": "0.0.1",
+    "@assistant-os/slack": "^1.0.0",
+    "@assistant-os/timelog": "^1.0.0",
+    "gherkin": "^9.0.0",
+    "gherkin-parser": "^1.0.1"
+  }
+}

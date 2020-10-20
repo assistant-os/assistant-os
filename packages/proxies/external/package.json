@@ -1,0 +1,13 @@
+{
+  "name": "@assistant-os/proxy-external",
+  "version": "0.0.1",
+  "description": "A proxy",
+  "main": "index.js",
+  "license": "MIT",
+  "files": [],
+  "dependencies": {
+    "express": "^4.17.1",
+    "ngrok": "^3.2.7",
+    "@assistant-os/common": "0.3.2"
+  }
+}

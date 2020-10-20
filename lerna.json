@@ -4,7 +4,10 @@
     "packages/**/*",
     "packages/adapters/*",
     "packages/actions/*",
-    "packages/services/*"
+    "packages/services/*",
+    "packages/proxies/*",
+    "packages/domains/*",
+    "packages/projects/*"
   ],
   "npmClient": "yarn",
   "version": "0.3.2",

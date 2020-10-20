@@ -12,6 +12,7 @@ module.exports = {
   target: 'node',
   entry: {
     app: ['@babel/polyfill', path.join(__dirname, 'scripts/start-all.js')],
+    home: ['@babel/polyfill', path.join(__dirname, 'script/home.js')],
   },
   output: {
     path: path.join(__dirname, 'dist'),

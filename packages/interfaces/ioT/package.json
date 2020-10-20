@@ -1,0 +1,28 @@
+{
+  "name": "@assistant-os/iot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start:light": "node src/scripts/light.js",
+    "watch": "node src/scripts/watch.js",
+    "usb": "node src/computer/usb.js",
+    "light": "node src/scripts/light-for-work.js",
+    "hour": "node src/computer/hour.js"
+  },
+  "dependencies": {
+    "@google-cloud/speech": "^4.1.1",
+    "axios": "^0.19.2",
+    "config": "^3.3.1",
+    "dotenv": "^8.2.0",
+    "moment": "^2.27.0",
+    "nconf": "^0.10.0",
+    "netatmo": "^2.3.0",
+    "ngrok": "^3.2.7",
+    "node-hue-api": "^4.0.7",
+    "qs": "^6.9.4",
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.9",
+    "usb": "^1.6.3"
+  }
+}

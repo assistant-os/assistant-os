@@ -8,6 +8,7 @@
     "postinstall": "yarn bootstrap && yarn --cwd packages/interfaces/web-app ",
     "bootstrap": "lerna bootstrap",
     "start": "babel-node --config-file ./.babelrc.js scripts/start-all.js",
+    "home": "babel-node --config-file ./.babelrc.js scripts/home.js",
     "start:watch": "nodemon --watch packages --exec yarn start",
     "web": "yarn --cwd packages/interfaces/web-app start",
     "desktop": "yarn --cwd packages/interfaces/desktop start",
@@ -23,7 +24,8 @@
     "format:fix": "prettier --write '**/*.js'",
     "release": "standard-version",
     "docker:build": "docker-compose build",
-    "docker:start": "docker-compose up"
+    "docker:start": "docker-compose up",
+    "test": "jest"
   },
   "nodemonConfig": {
     "ignore": [
@@ -53,7 +55,10 @@
     "packages/*",
     "packages/adapters/*",
     "packages/actions/*",
-    "packages/services/*"
+    "packages/services/*",
+    "packages/proxies/*",
+    "packages/domains/*",
+    "packages/projects/*"
   ],
   "husky": {
     "hooks": {
@@ -62,19 +67,18 @@
   },
   "homepage": "https://github.com/assistant-os/assistant-os#readme",
   "dependencies": {
-    "@assistant-os/os": "^0.3.2",
     "@assistant-os/admin": "^1.0.0",
-    "@assistant-os/emails": "^1.0.0",
     "@assistant-os/common": "^0.3.2",
-    "@assistant-os/slack": "^1.0.0",
-    "@assistant-os/http": "^1.0.0",
-    "@assistant-os/hello": "^0.3.2",
-    "@assistant-os/oups": "^1.0.0",
+    "@assistant-os/consciousness": "^1.0.0",
     "@assistant-os/contracts": "^1.0.0",
-    "@assistant-os/movies": "^1.0.0",
+    "@assistant-os/emails": "^1.0.0",
+    "@assistant-os/hello": "^0.3.2",
+    "@assistant-os/home-os": "0.0.1",
+    "@assistant-os/http": "^1.0.0",
     "@assistant-os/memory": "^1.0.0",
-    "@assistant-os/timelog": "^1.0.0",
-    "@assistant-os/consciousness": "^1.0.0"
+    "@assistant-os/movies": "^1.0.0",
+    "@assistant-os/os": "^0.3.2",
+    "@assistant-os/oups": "^1.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
@@ -84,21 +88,24 @@
     "@babel/plugin-proposal-export-default-from": "^7.2.0",
     "@babel/plugin-proposal-export-namespace-from": "^7.5.2",
     "@babel/plugin-proposal-object-rest-spread": "^7.3.2",
-    "@babel/plugin-transform-runtime": "^7.6.2",
+    "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.3.1",
     "@commitlint/cli": "^8.1.0",
     "@commitlint/config-conventional": "^8.0.0",
     "@commitlint/travis-cli": "^8.0.0",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^26.5.2",
     "babel-loader": "^8.0.5",
     "chai": "^4.2.0",
     "chalk": "^2.4.2",
     "dotenv": "^6.2.0",
     "eslint": "^5.12.1",
     "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-jest": "^24.1.0",
     "eslint-plugin-node": "^9.1.0",
     "husky": "^3.0.0",
+    "jest": "^26.5.2",
     "lerna": "^3.13.1",
     "mocha": "^5.2.0",
     "nodemon": "^1.19.4",
