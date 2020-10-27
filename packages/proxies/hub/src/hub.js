@@ -1,19 +1,14 @@
 import EventEmitter from 'events'
 
-import hue from './hue'
-
 class Hub extends EventEmitter {
   constructor() {
     super()
 
-    this.adapters = [hue]
-
+    this.adapters = []
     this.home = null
   }
 
   async start() {
-    this.home = await hue.start()
-
     this.adapters.forEach(adapter => {
       adapter.on('detect-person-in-room', ({ room, isPresent }) => {
         this.home.detectPersonInRoom(room, isPresent)

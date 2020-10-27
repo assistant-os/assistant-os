@@ -39,7 +39,7 @@ logger.plug = emitter => {
 
 logger.start = () => {
   logger.configure({
-    level: config.get('LEVEL') || 'info',
+    level: config.get('verbose') ? 'verbose' : config.get('LEVEL') || 'info',
     transports: [
       new winston.transports.Console(),
       new winston.transports.File({

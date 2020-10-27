@@ -1,0 +1,12 @@
+{
+  "name": "@assistant-os/adapter-netatmo",
+  "version": "1.0.0",
+  "main": "netatmo.js",
+  "license": "MIT",
+  "dependencies": {
+    "@assistant-os/common": "^0.3.2",
+    "axios": "^0.20.0",
+    "qs": "^6.9.4",
+    "spotify-web-api-node": "^5.0.0"
+  }
+}

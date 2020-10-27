@@ -1,0 +1,13 @@
+{
+  "name": "@assistant-os/adapter-hue",
+  "version": "0.0.1",
+  "description": "Manage hue devices",
+  "main": "hue.js",
+  "license": "MIT",
+  "files": [],
+  "dependencies": {
+    "node-hue-api": "^4.0.9",
+    "@assistant-os/common": "0.3.2",
+    "@assistant-os/domains-home": "0.0.1"
+  }
+}

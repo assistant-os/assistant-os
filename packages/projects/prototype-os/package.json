@@ -1,0 +1,14 @@
+{
+  "name": "@assistant-os/prototype-os",
+  "version": "0.0.1",
+  "description": "A proxy",
+  "main": "prototype.js",
+  "license": "MIT",
+  "files": [],
+  "dependencies": {
+    "@assistant-os/common": "^0.3.2",
+    "@assistant-os/adapter-spotify": "^1.0.0",
+    "@assistant-os/adapter-netatmo": "^1.0.0"
+
+  }
+}

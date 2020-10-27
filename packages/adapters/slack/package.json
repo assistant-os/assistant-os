@@ -1,5 +1,5 @@
 {
-  "name": "@assistant-os/slack",
+  "name": "@assistant-os/adapter-slack",
   "version": "1.0.0",
   "main": "slack.js",
   "license": "MIT",

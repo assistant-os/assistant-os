@@ -1,0 +1,10 @@
+{
+  "name": "@assistant-os/adapter-spotify",
+  "version": "1.0.0",
+  "main": "spotify.js",
+  "license": "MIT",
+  "dependencies": {
+    "@assistant-os/common": "^0.3.2",
+    "spotify-web-api-node": "^5.0.0"
+  }
+}

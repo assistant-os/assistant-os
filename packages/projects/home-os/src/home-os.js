@@ -1,7 +1,8 @@
 import externalProxy from '@assistant-os/proxy-external'
 import { logger, config } from '@assistant-os/common'
-import slack from '@assistant-os/slack'
-import chat from '@assistant-os/chat'
+import slack from '@assistant-os/adapter-slack'
+import hue from '@assistant-os/adapter-hue'
+import chat from '@assistant-os/service-chat'
 import hub from '@assistant-os/proxy-hub'
 
 import presence from './presence'
@@ -22,7 +23,11 @@ const start = async () => {
     chat.adapters = [slack]
     await chat.start()
 
+    await hue.start()
+    hub.home = hue.home
+    hub.adapters = [hue]
     await hub.start()
+
     await presence.start()
 
     presence.on('event', ({ when }) => {

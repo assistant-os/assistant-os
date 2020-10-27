@@ -15,7 +15,10 @@ nconf.start = async () => {
 
   const configFilename = path.join(__dirname, '../../../../config.json')
 
-  nconf.env().file(configFilename)
+  nconf
+    .argv()
+    .env()
+    .file(configFilename)
 }
 
 export default nconf

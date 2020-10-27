@@ -46,7 +46,7 @@ const createUser = async ipAddress => {
 }
 
 const HUE_MOTION = 'Hue motion '
-const isMotionDetector = sensor => sensor.name.includes(HUE_MOTION)
+const isMotionDetector = sensor => sensor.type === 'ZLLPresence'
 
 class Hue extends EventEmitter {
   interval = null
@@ -84,16 +84,17 @@ class Hue extends EventEmitter {
       .createLocal(ipAddress)
       .connect(config.get('hue_username'))
 
+    logger.verbose('hue communication started')
+
     if (this.interval) {
       clearInterval(this.interval)
     }
 
+    this.home = await this.defineHome()
+
     this.interval = setInterval(() => {
       this.checkSensors()
     }, parseInt(config.get('HUE_HUE_INTERVAL')) || 1000)
-
-    this.home = await this.defineHome()
-    return this.home
   }
 
   async switchLight(roomName, on = true) {
@@ -176,10 +177,20 @@ class Hue extends EventEmitter {
     sensors.forEach(sensor => {
       if (isMotionDetector(sensor)) {
         const { name, presence, lastupdated } = sensor
-        const roomName = name.replace(HUE_MOTION, '')
+        const roomName = name
+          .replace(HUE_MOTION, '')
+          .replace(/[0-9]+/, '')
+          .trim()
         const room = this.home.findRoomByName(roomName)
 
         if (presence && this.statusChanged(sensor)) {
+          logger.verbose('detect-person-in-room', {
+            sensor: {
+              name: sensor.name,
+              lastupdated: sensor.lastupdated,
+              type: sensor.type,
+            },
+          })
           this.emit('detect-person-in-room', { room })
         }
 
