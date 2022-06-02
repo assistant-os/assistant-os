@@ -2,6 +2,7 @@ import externalProxy from '@assistant-os/proxy-external'
 import { logger, config } from '@assistant-os/common'
 import slack from '@assistant-os/adapter-slack'
 import hue from '@assistant-os/adapter-hue'
+import netatmo from '@assistant-os/adapter-netatmo'
 import chat from '@assistant-os/service-chat'
 import hub from '@assistant-os/proxy-hub'
 
@@ -24,8 +25,8 @@ const start = async () => {
     await chat.start()
 
     await hue.start()
-    hub.home = hue.home
-    hub.adapters = [hue]
+    await netatmo.start()
+    hub.adapters = [hue, netatmo]
     await hub.start()
 
     await presence.start()
@@ -34,7 +35,7 @@ const start = async () => {
       const scenario = scenarios.findOneWhen(when)
 
       if (scenario) {
-        logger.verbose('event', { when, then: scenario.then })
+        logger.verbose('event', scenario)
         hub.execute(scenario.then)
       }
     })

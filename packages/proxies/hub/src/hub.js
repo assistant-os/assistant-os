@@ -1,4 +1,6 @@
 import EventEmitter from 'events'
+import { Home, Room } from '@assistant-os/domains-home'
+import { config, logger } from '@assistant-os/common'
 
 class Hub extends EventEmitter {
   constructor() {
@@ -8,14 +10,39 @@ class Hub extends EventEmitter {
     this.home = null
   }
 
+  async setupHome({ home }) {
+    if (home) {
+      const { name, location, rooms } = home
+      if (name) {
+        this.home.name = name
+      }
+
+      if (location) {
+        this.home.location = location
+      }
+
+      if (rooms) {
+        rooms.forEach(r => {
+          const room = new Room(r.name)
+          this.home.add(room)
+        })
+      }
+    }
+  }
+
   async start() {
-    this.adapters.forEach(adapter => {
-      adapter.on('detect-person-in-room', ({ room, isPresent }) => {
-        this.home.detectPersonInRoom(room, isPresent)
+    this.home = new Home()
+
+    const promises = this.adapters.map(async adapter => {
+      adapter.on('detect-person-in-room', ({ roomName }) => {
+        const room = this.home.findRoomByName(roomName)
+        this.home.detectPersonInRoom(room)
       })
+
+      this.setupHome(await adapter.homeInfo())
     })
 
-    return this.home
+    return Promise.all(promises)
   }
 
   async execute(query) {

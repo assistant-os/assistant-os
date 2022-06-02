@@ -1,7 +1,6 @@
 import EventEmitter from 'events'
 import { v3 } from 'node-hue-api'
 import { config, logger } from '@assistant-os/common'
-import { Home, Room } from '@assistant-os/domains-home'
 
 const {
   api: hueApi,
@@ -52,20 +51,17 @@ class Hue extends EventEmitter {
   interval = null
   sensorsStates = {}
 
-  home = null
-
-  async defineHome() {
+  async homeInfo() {
     const bridge = await this.api.configuration.getConfiguration()
 
     const rooms = await this.api.groups.getRooms()
 
-    const home = new Home(bridge.name)
-
-    rooms.forEach(r => {
-      home.add(new Room(r.name))
-    })
-
-    return home
+    return {
+      home: {
+        name: bridge.name,
+        rooms,
+      },
+    }
   }
 
   async start() {
@@ -90,8 +86,6 @@ class Hue extends EventEmitter {
       clearInterval(this.interval)
     }
 
-    this.home = await this.defineHome()
-
     this.interval = setInterval(() => {
       this.checkSensors()
     }, parseInt(config.get('HUE_HUE_INTERVAL')) || 1000)
@@ -101,8 +95,6 @@ class Hue extends EventEmitter {
     const groups = await this.api.groups.getGroupByName(roomName)
 
     if (groups.length > 0) {
-      // logger.verbose('hue execute', { roomName, on })
-
       const newLightState = new GroupLightState().on(on)
 
       const room = groups[0]
@@ -125,8 +117,6 @@ class Hue extends EventEmitter {
     const scenes = await this.api.scenes.getSceneByName(sceneName)
 
     if (groups.length > 0 && scenes.length > 0) {
-      // logger.verbose('hue execute', { roomName, sceneName })
-
       const scene = scenes[0]
 
       const newLightState = new GroupLightState().scene(scene.id)
@@ -181,7 +171,6 @@ class Hue extends EventEmitter {
           .replace(HUE_MOTION, '')
           .replace(/[0-9]+/, '')
           .trim()
-        const room = this.home.findRoomByName(roomName)
 
         if (presence && this.statusChanged(sensor)) {
           logger.verbose('detect-person-in-room', {
@@ -189,9 +178,10 @@ class Hue extends EventEmitter {
               name: sensor.name,
               lastupdated: sensor.lastupdated,
               type: sensor.type,
+              roomName,
             },
           })
-          this.emit('detect-person-in-room', { room })
+          this.emit('detect-person-in-room', { roomName })
         }
 
         this.sensorsStates[sensor.id] = {

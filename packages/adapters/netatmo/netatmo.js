@@ -17,6 +17,30 @@ class Netamo extends EventEmitter {
   access_token = ''
   status = null
 
+  async homeInfo() {
+    return instance
+      .get('/gethomedata', { params: { access_token: this.access_token } })
+      .then(({ data }) => {
+        const home = data.body.homes.find(
+          home => home.name === config.get('HOME_NAME')
+        )
+
+        if (home) {
+          return {
+            home: {
+              ...home,
+              location: home.place,
+            },
+          }
+        } else {
+          logger.error('impossible to find home', {
+            homes: data.body.homes,
+          })
+          return null
+        }
+      })
+  }
+
   start() {
     const auth = {
       client_id: config.get('NETAMO_CLIENT_ID'),
@@ -36,24 +60,25 @@ class Netamo extends EventEmitter {
       .then(({ data }) => {
         this.access_token = data.access_token
       })
-      .then(() => {
-        return instance
-          .get('/gethomedata', { params: { access_token: this.access_token } })
-          .then(({ data }) => {
-            const home = data.body.homes.find(
-              home => home.name === config.get('HOME_NAME')
-            )
+    // .then(() => {
+    //   return instance
+    //     .get('/gethomedata', { params: { access_token: this.access_token } })
+    //     .then(({ data }) => {
+    //       const home = data.body.homes.find(
+    //         home => home.name === config.get('HOME_NAME')
+    //       )
 
-            if (home) {
-              this.status = home
-            } else {
-              logger.error('impossible to find home', {
-                homes: data.body.homes,
-              })
-            }
-          })
-      })
+    //       if (home) {
+    //         this.status = home
+    //       } else {
+    //         logger.error('impossible to find home', {
+    //           homes: data.body.homes,
+    //         })
+    //       }
+    //     })
+    // })
   }
+  async execute() {}
 }
 
 export default new Netamo()

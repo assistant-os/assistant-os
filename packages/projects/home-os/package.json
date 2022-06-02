@@ -13,6 +13,7 @@
     "@assistant-os/proxy-hub": "0.0.1",
     "@assistant-os/adapter-slack": "^1.0.0",
     "@assistant-os/adapter-hue": "^0.0.1",
+    "@assistant-os/adapter-netatmo": "^0.0.1",
     "@assistant-os/timelog": "^1.0.0",
     "gherkin": "^9.0.0",
     "gherkin-parser": "^1.0.1"

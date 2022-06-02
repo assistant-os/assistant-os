@@ -9,12 +9,14 @@ const start = async () => {
 
   logger.info('prototype ready')
 
+  const { home } = await netatmo.homeInfo()
+
   logger.info('home', {
-    name: netatmo.status.name,
-    people: netatmo.status.persons
+    name: home.name,
+    people: home.persons
       .filter(p => p.pseudo)
       .map(p => ({ pseudo: p.pseudo, outOfSight: p.out_of_sight })),
-    cameras: netatmo.status.cameras.length,
+    cameras: home.cameras.length,
   })
 
   // try {

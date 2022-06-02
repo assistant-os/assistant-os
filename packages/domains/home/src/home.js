@@ -2,7 +2,7 @@ import Identifier from './identifier'
 import Room from './room'
 
 export default class Home extends Identifier {
-  constructor(name, location) {
+  constructor(name = '', location = '') {
     super(name)
     this.location = location
     this.occupants = 0
@@ -26,6 +26,7 @@ export default class Home extends Identifier {
     return {
       name: this.name,
       occupants: this.occupants,
+      location: this.location,
       rooms: this.rooms.map(r => r.toJson()),
     }
   }
